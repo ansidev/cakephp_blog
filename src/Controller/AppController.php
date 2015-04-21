@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\Event;
 
 /**
  * Application Controller
@@ -38,5 +39,13 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
+    }
+
+    public function beforeRender(Event $event)
+    {
+        parent::beforeRender($event);
+        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
+            $this->layout = 'dashboard';
+        }
     }
 }
