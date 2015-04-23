@@ -15,8 +15,12 @@ class PostsController extends AppController
      */
     public function index()
     {
+        $this->layout = 'dashboard';
         $this->paginate = [
-            'contain' => ['ParentPosts', 'Users']
+            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments'],
+            'conditions' => [
+                'Posts.parent_id' => 0
+            ]
         ];
         $this->set('posts', $this->paginate($this->Posts));
         $this->set('_serialize', ['posts']);
@@ -44,13 +48,21 @@ class PostsController extends AppController
      */
     public function view($id = null)
     {
+        $this->layout = 'front_page';
         $post = $this->Posts->get($id, [
             'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts']
         ]);
+//        $associated_post = $this->Posts->find('threaded', [
+//            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
+//            'conditions' => ['Posts.id' => $id]
+//        ])->toArray();
+
+        $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
+        $this->set(compact('categories'));
+        $this->set(compact('associated_post'));
         $this->set('post', $post);
         $this->set('_serialize', ['post']);
     }
-
     /**
      * Add method
      *
