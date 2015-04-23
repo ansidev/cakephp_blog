@@ -42,7 +42,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
+<body class="container-fluid" style="padding-left: 0; padding-right: 0">
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -51,7 +51,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <?= $this->Html->link(__('Blog'), ['action' => 'index'], ['class' => 'navbar-brand']) ?>
+        <?= $this->Html->link(__('Blog'), '/', ['class' => 'navbar-brand']) ?>
     </div>
     <!-- /.navbar-header -->
 
@@ -298,13 +298,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <!-- /.sidebar-collapse -->
 </div>
 <!-- /.navbar-static-side -->
-<div class="container" id="page-wrapper">
+<div id="page-wrapper" style="padding-top: 20px">
 
     <div class="row">
         <?= $this->Flash->render() ?>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col">
             <?= $this->fetch('content') ?>
         </div>
     </div>
