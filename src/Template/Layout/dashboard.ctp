@@ -287,7 +287,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 </div>
                 <!-- /input-group -->
             </li>
-            <?= $this->element('admin_sidebar') ?>
+            <?php if (!empty($this->request->params['prefix']) && ($this->request->params['prefix'] === 'admin')) {
+                echo $this->element('admin_sidebar');
+            } else {
+                echo $this->element('user_sidebar');
+            }
+            ?>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
