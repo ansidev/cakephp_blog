@@ -51,7 +51,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <?= $this->Html->link(__('Blog'), ['action' => 'index'], ['class' => 'navbar-brand']) ?>
+        <?= $this->Html->link(__('Blog'), '/', ['class' => 'navbar-brand']) ?>
     </div>
     <!-- /.navbar-header -->
 
