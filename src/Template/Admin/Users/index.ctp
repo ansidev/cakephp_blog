@@ -60,10 +60,4 @@
     <!-- /.row -->
 </div>
 <!-- /#users -->
-<script>
-    $(document).ready(function () {
-        $('#user-table').DataTable({
-            responsive: true
-        });
-    });
-</script>
+<?= $this->Js->dataTable('#user-table', ['responsive' => true])?>
