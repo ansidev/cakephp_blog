@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Users Controller
@@ -11,6 +12,15 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        // Allow users to register and logout.
+        // You should not add the "login" action to allow list. Doing so would
+        // cause problems with normal functioning of AuthComponent.
+        $this->Auth->allow(['register', 'logout']);
+    }
+
     /**
      * Index method
      *
@@ -18,11 +28,15 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->layout = 'dashboard';
         $this->paginate = [
             'contain' => ['Roles']
         ];
         $this->set('users', $this->paginate($this->Users));
         $this->set('_serialize', ['users']);
+        $this->loadModel('Posts');
+        $post = $this->Posts->newEntity();
+        $this->set(compact('post'));
     }
 
     /**
@@ -34,12 +48,32 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        $id = $this->Auth->User('id');
         $this->layout = 'front_view';
         $user = $this->Users->get($id, [
             'contain' => ['Roles', 'Comments', 'Posts']
         ]);
         $this->set('user', $user);
         $this->set('_serialize', ['user']);
+    }
+
+    public function login()
+    {
+        $this->layout = 'form';
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+                $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>', ['escape' => false]));
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error(__('Thông tin đăng nhập không đúng. Bạn vui lòng đăng nhập lại!'));
+        }
+    }
+
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
     }
 
     /**
