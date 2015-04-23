@@ -34,6 +34,7 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        $this->layout = 'front_view';
         $user = $this->Users->get($id, [
             'contain' => ['Roles', 'Comments', 'Posts']
         ]);
@@ -42,11 +43,11 @@ class UsersController extends AppController
     }
 
     /**
-     * Add method
+     * Register method
      *
-     * @return void Redirects on successful add, renders view otherwise.
+     * @return void Redirects on successful register, renders view otherwise.
      */
-    public function add()
+    public function register()
     {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
@@ -72,6 +73,7 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+//        $id = $this->Auth->User['id'];
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
