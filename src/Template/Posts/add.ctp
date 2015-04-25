@@ -1,29 +1,15 @@
-<div class="actions columns large-2 medium-3">
-    <h3><?= __('Actions') ?></h3>
-    <ul class="side-nav">
-        <li><?= $this->Html->link(__('List Posts'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Comments'), ['controller' => 'Comments', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Comment'), ['controller' => 'Comments', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Categories'), ['controller' => 'Categories', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Tags'), ['controller' => 'Tags', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Tag'), ['controller' => 'Tags', 'action' => 'add']) ?> </li>
-    </ul>
-</div>
-<div class="posts form large-10 medium-9 columns">
+<div class="posts form  large-10 medium-9 columns">
     <?= $this->Form->create($post); ?>
     <fieldset>
-        <legend><?= __('Add Post') ?></legend>
-        <?php
-            echo $this->Form->input('title');
-            echo $this->Form->input('body');
-            echo $this->Form->input('status');
-            echo $this->Form->input('categories._ids', ['options' => $categories]);
-            echo $this->Form->input('tags._ids', ['options' => $tags]);
-        ?>
+        <legend><?= __('Tạo bài viết mới') ?></legend>
+        <?= $this->Form->input('title', ['label' => 'Tiêu đề bài viết']); ?>
+        <?= $this->Form->input('slug', ['label' => 'Slug']); ?>
+        <?= $this->Form->input('textarea', ['label' => 'Nội dung bài viết', 'type' => 'textarea', 'id' => 'body', 'class' => 'ckeditor', 'rows' => '10', 'cols' => '30']); ?>
+        <?= $this->Form->input('categories._ids', ['label' => 'Chủ đề', 'options' => $categories]); ?>
+        <?= $this->Form->input('tags._ids', ['label' => 'Tag', 'options' => $tags]); ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Chỉnh sửa bài viết'), ['class' => 'btn btn-primary'] ) ?>
     <?= $this->Form->end() ?>
+
 </div>
+<?= $this->Html->script('ckeditor/ckeditor'); ?>;
