@@ -64,8 +64,8 @@ class AppController extends Controller
         if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
             $this->layout = 'dashboard';
             $user_id = $this->request->session()->read('User.id');
-            if (!empty($user)) {
-                if ($this->isAdmin($user)) {
+            if (!empty($user_id)) {
+                if ($this->isAdmin($user_id)) {
                     return $this->redirect('/admin/users');
                 }
             }
@@ -73,6 +73,23 @@ class AppController extends Controller
         }
     }
 
+    /**
+     * Ham kiem tra co nguoi dung dang nhap hay chua.
+     * @return bool true if user logged in, false if no logged in user.
+     */
+    public function isLoggedIn() {
+        $user_id = $this->request->session()->read('User.id');
+        if (!empty($user)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Ham kiem tra mot user co phai la administrator khong.
+     * @param $user User can kiem tra
+     * @return bool
+     */
     public function isAdmin($user)
     {
         // Admin can access every action
@@ -82,6 +99,11 @@ class AppController extends Controller
         return false;
     }
 
+    /**
+     * Ham kiem tra user co quyen truy cap action khong.
+     * @param null $user
+     * @return bool
+     */
     public function isAuthorized($user = null)
     {
         // Any registered user can access public functions
