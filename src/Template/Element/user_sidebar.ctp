@@ -1,4 +1,11 @@
 <li>
+    <?= $this->Html->link(__('<i class="fa fa-book fa-fw"></i> Quản lý tài khoản <span class="fa arrow"></span>'), ['controller' => 'Posts', 'action' => 'index'], ['escape' => false]) ?>
+    <ul class="nav nav-second-level">
+        <li><?= $this->Html->link(__('Thông tin'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
+    </ul>
+    <!-- /.nav-second-level -->
+</li>
+<li>
     <?= $this->Html->link(__('<i class="fa fa-book fa-fw"></i> Quản lý bài viết<span class="fa arrow"></span>'), ['controller' => 'Posts', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
         <li><?= $this->Html->link(__('Danh sách bài viết'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
@@ -6,6 +13,7 @@
     </ul>
     <!-- /.nav-second-level -->
 </li>
+
 <li>
     <?= $this->Html->link(__('<i class="fa fa-coffee fa-fw"></i> Quản lý chủ đề<span class="fa arrow"></span>'), ['controller' => 'Categories', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
