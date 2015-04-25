@@ -8,6 +8,8 @@ namespace App\Controller;
  */
 class PostsController extends AppController
 {
+    public $helpers = ['Post'];
+
     /**
      * Index method
      *
@@ -19,7 +21,8 @@ class PostsController extends AppController
         $this->paginate = [
             'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments'],
             'conditions' => [
-                'Posts.parent_id' => 0
+                'Posts.parent_id' => 0,
+                'Posts.user_id' => $this->Auth->User('id'),
             ]
         ];
         $this->set('posts', $this->paginate($this->Posts));
@@ -31,7 +34,10 @@ class PostsController extends AppController
         $this->layout = 'front_page';
         $this->paginate = [
             'contain' => ['ParentPosts', 'Users'],
-            'conditions' => ['Posts.parent_id' => 0]
+            'conditions' => [
+                'Posts.parent_id' => 0,
+                'Posts.status' => 3,
+            ]
         ];
         $this->set('posts', $this->paginate($this->Posts));
         $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
@@ -50,19 +56,23 @@ class PostsController extends AppController
     {
         $this->layout = 'front_page';
         $post = $this->Posts->get($id, [
-            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts']
+            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
+//            'conditions' => ['Posts.status' => 3]
         ]);
 //        $associated_post = $this->Posts->find('threaded', [
 //            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
 //            'conditions' => ['Posts.id' => $id]
 //        ])->toArray();
-
+//        if (empty($post)) {
+//            return $this->redirect(['action' => 'display']);
+//        }
         $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
         $this->set(compact('categories'));
         $this->set(compact('associated_post'));
         $this->set('post', $post);
         $this->set('_serialize', ['post']);
     }
+
     /**
      * Add method
      *
@@ -72,7 +82,10 @@ class PostsController extends AppController
     {
         $post = $this->Posts->newEntity();
         if ($this->request->is('post')) {
-            $post = $this->Posts->patchEntity($post, $this->request->data);
+            $data = $this->request->data;
+            $data['slug'] = $this->Post->toSlug($data['title']);
+            $data['user_id'] = $this->Auth->User('id');
+            $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
                 $this->Flash->success('The post has been saved.');
                 return $this->redirect(['action' => 'index']);
@@ -86,6 +99,30 @@ class PostsController extends AppController
         $tags = $this->Posts->Tags->find('list', ['limit' => 200]);
         $this->set(compact('post', 'parentPosts', 'users', 'categories', 'tags'));
         $this->set('_serialize', ['post']);
+    }
+
+    /**
+     * Quick post method
+     *
+     * @return void Redirects on successful add, renders view otherwise.
+     */
+    public function quick_post()
+    {
+        $post = $this->Posts->newEntity();
+        if ($this->request->is('post')) {
+            $data = $this->request->data;
+            $data['status'] = 1;
+            $data['user_id'] = $this->Auth->user('id');
+            $data['user_id'] = $this->Auth->user('id');
+
+            $post = $this->Posts->patchEntity($post, $data);
+            if ($this->Posts->save($post)) {
+                $this->Flash->success('Bài viết đã được chuyển đến quản trị viên để duyệt đăng!');
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thực hiện lại việc đăng bài!');
+            }
+        }
     }
 
     /**
@@ -103,10 +140,10 @@ class PostsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $post = $this->Posts->patchEntity($post, $this->request->data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success('The post has been saved.');
+                $this->Flash->success('Bài viết đã được lưu lại.');
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error('The post could not be saved. Please, try again.');
+                $this->Flash->error('Đã có lỗi xảy ra. Bạn vui lòng thử lại.');
             }
         }
         $parentPosts = $this->Posts->ParentPosts->find('list', ['limit' => 200]);
