@@ -39,13 +39,70 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'loginRedirect' => [
+                'controller' => 'Users',
+                'action' => 'index'
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                'action' => 'login',
+                'admin' => false
+//                'home'
+            ],
+            'authError' => 'Đăng nhập để đến trang quản trị'
+        ]);
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['display']);
+        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
+            $this->layout = 'dashboard';
+            $user_id = $this->request->session()->read('User.id');
+            if (!empty($user)) {
+                if ($this->isAdmin($user)) {
+                    return $this->redirect('/admin/users');
+                }
+            }
+
+        }
+    }
+
+    public function isAdmin($user)
+    {
+        // Admin can access every action
+        if (!empty($user['roles_id']) && $user['roles_id'] === 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public function isAuthorized($user = null)
+    {
+        // Any registered user can access public functions
+        if (empty($this->request->params['prefix'])) {
+            return true;
+        }
+
+        // Only admins can access admin functions
+        if ($this->request->params['prefix'] === 'admin') {
+            return (bool)($this->isAdmin($user));
+        }
+
+        // Default deny
+        return false;
     }
 
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
-        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
-            $this->layout = 'dashboard';
-        }
+//        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
+//            $this->layout = 'dashboard';
+//        }
     }
 }
