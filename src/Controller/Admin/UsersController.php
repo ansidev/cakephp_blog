@@ -108,4 +108,28 @@ class UsersController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    public function login()
+    {
+        $this->layout = 'form';
+        if ($this->request->session()->read('User.id')) {
+            return $this->redirect('/admin/users');
+        }
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+                $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>', ['escape' => false]));
+                return $this->redirect($this->Auth->redirectUrl('/admin/users'));
+            }
+            $this->Flash->error(__('Thông tin đăng nhập không đúng. Bạn vui lòng đăng nhập lại!'));
+        }
+    }
+
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
+    }
+
+
 }
