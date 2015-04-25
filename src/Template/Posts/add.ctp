@@ -17,14 +17,9 @@
     <fieldset>
         <legend><?= __('Add Post') ?></legend>
         <?php
-            echo $this->Form->input('parent_id');
-            echo $this->Form->input('user_id', ['options' => $users]);
             echo $this->Form->input('title');
-            echo $this->Form->input('slug');
             echo $this->Form->input('body');
             echo $this->Form->input('status');
-            echo $this->Form->input('created_at');
-            echo $this->Form->input('updated_at');
             echo $this->Form->input('categories._ids', ['options' => $categories]);
             echo $this->Form->input('tags._ids', ['options' => $tags]);
         ?>

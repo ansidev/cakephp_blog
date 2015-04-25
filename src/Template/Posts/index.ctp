@@ -18,14 +18,14 @@
                         <table class="table table-striped table-bordered table-hover" id="post-table">
                             <thead>
                             <tr>
-                                <th><?= $this->Paginator->sort('id') ?></th>
-                                <th><?= $this->Paginator->sort('title') ?></th>
-                                <th><?= $this->Paginator->sort('category', 'Chủ đề') ?></th>
-                                <th><?= $this->Paginator->sort('tag') ?></th>
-                                <th><?= $this->Paginator->sort('comment') ?></th>
-                                <th><?= $this->Paginator->sort('status') ?></th>
-                                <th><?= $this->Paginator->sort('created_at') ?></th>
-                                <th class="actions"><?= __('Actions') ?></th>
+                                <th><?= __('ID') ?></th>
+                                <th><?= __('Tiêu đề') ?></th>
+                                <th><?= __('Chủ đề') ?></th>
+                                <th><?= __('Tag') ?></th>
+                                <th><?= __('Bình luận') ?></th>
+                                <th><?= __('Trạng thái') ?></th>
+                                <th><?= __('Ngày tạo') ?></th>
+                                <th class="actions"><?= __('Hành động') ?></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -68,9 +68,14 @@
                                     <td><?= $this->Post->statusToString($post->status) ?></td>
                                     <td><?= h($post->created_at) ?></td>
                                     <td class="actions">
-                                        <?= $this->Html->link(__('View'), ['action' => 'view', $post->id], ['class' => 'btn btn-primary']) ?>
-                                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $post->id], ['class' => 'btn btn-success']) ?>
-                                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $post->id], ['class' => 'btn btn-danger', 'confirm' => __('Bạn có muốn xóa bài viết {0}?', $post->title)]) ?>
+                                        <div class="dropdown">
+                                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-haspopup="true" aria-expanded="false">Hành động <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
+                                                <li><?= $this->Html->link(__('Xem'), ['action' => 'view', $post->id]) ?></li>
+                                                <li><?= $this->Html->link(__('Sửa'), ['action' => 'edit', $post->id]) ?></li>
+                                                <li><?= $this->Form->postLink(__('Xóa'), ['action' => 'delete', $post->id], ['confirm' => __('Bạn có muốn xóa bài viết {0}?', $post->title)]) ?></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
 

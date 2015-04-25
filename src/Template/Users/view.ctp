@@ -82,7 +82,7 @@
 <!-- /.row -->
 </div>
 <!-- /#users -->
-<?= $this->Js->dataTable('#user-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#post-table', ['responsive' => true]) ?>
 <div class="related row">
     <div class="column large-12">
         <h4 class="subheader"><?= __('Related Comments') ?></h4>
@@ -114,50 +114,6 @@
                             <?= $this->Html->link(__('Edit'), ['controller' => 'Comments', 'action' => 'edit', $comments->id]) ?>
 
                             <?= $this->Form->postLink(__('Delete'), ['controller' => 'Comments', 'action' => 'delete', $comments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comments->id)]) ?>
-
-                        </td>
-                    </tr>
-
-                <?php endforeach; ?>
-            </table>
-        <?php endif; ?>
-    </div>
-</div>
-<div class="related row">
-    <div class="column large-12">
-        <h4 class="subheader"><?= __('Related Posts') ?></h4>
-        <?php if (!empty($user->posts)): ?>
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <th><?= __('Parent Id') ?></th>
-                    <th><?= __('User Id') ?></th>
-                    <th><?= __('Title') ?></th>
-                    <th><?= __('Slug') ?></th>
-                    <th><?= __('Body') ?></th>
-                    <th><?= __('Status') ?></th>
-                    <th><?= __('Created At') ?></th>
-                    <th><?= __('Updated At') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-                <?php foreach ($user->posts as $posts): ?>
-                    <tr>
-                        <td><?= h($posts->id) ?></td>
-                        <td><?= h($posts->parent_id) ?></td>
-                        <td><?= h($posts->user_id) ?></td>
-                        <td><?= h($posts->title) ?></td>
-                        <td><?= h($posts->slug) ?></td>
-                        <td><?= h($posts->body) ?></td>
-                        <td><?= h($posts->status) ?></td>
-                        <td><?= h($posts->created_at) ?></td>
-                        <td><?= h($posts->updated_at) ?></td>
-
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['controller' => 'Posts', 'action' => 'view', $posts->id]) ?>
-
-                            <?= $this->Html->link(__('Edit'), ['controller' => 'Posts', 'action' => 'edit', $posts->id]) ?>
-
-                            <?= $this->Form->postLink(__('Delete'), ['controller' => 'Posts', 'action' => 'delete', $posts->id], ['confirm' => __('Are you sure you want to delete # {0}?', $posts->id)]) ?>
 
                         </td>
                     </tr>
