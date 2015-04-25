@@ -65,6 +65,9 @@ class UsersController extends AppController
             if ($user) {
                 $this->Auth->setUser($user);
                 $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>', ['escape' => false]));
+                if ($this->isAdmin($user)) {
+                    return $this->redirect('/admin/users');
+                }
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Thông tin đăng nhập không đúng. Bạn vui lòng đăng nhập lại!'));
