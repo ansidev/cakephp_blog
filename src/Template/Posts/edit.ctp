@@ -1,4 +1,7 @@
-<div class="actions columns large-2 medium-3">
+<?php echo $this->Html->script('ckeditor/ckeditor') ?>;
+
+
+<!-- <div class="actions columns large-2 medium-3">
     <h3><?= __('Actions') ?></h3>
     <ul class="side-nav">
         <li><?= $this->Form->postLink(
@@ -17,18 +20,20 @@
         <li><?= $this->Html->link(__('List Tags'), ['controller' => 'Tags', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Tag'), ['controller' => 'Tags', 'action' => 'add']) ?> </li>
     </ul>
-</div>
-<div class="posts form large-10 medium-9 columns">
+</div> -->
+<div class="posts form  large-10 medium-9 columns">
     <?= $this->Form->create($post); ?>
     <fieldset>
         <legend><?= __('Edit Post') ?></legend>
         <?php
-            echo $this->Form->input('parent_id');
-            echo $this->Form->input('user_id', ['options' => $users]);
+            
+           // echo $this->Form->input('parent_id');
+            //echo $this->Form->input('user_id', ['options' => $users]);
             echo $this->Form->input('title');
             echo $this->Form->input('slug');
-            echo $this->Form->input('body');
-            echo $this->Form->input('status');
+         ?>
+        <textarea class="ckeditor" cols="30" id="body" name="body" rows="10"></textarea>
+        <?php
             echo $this->Form->input('created_at');
             echo $this->Form->input('updated_at');
             echo $this->Form->input('categories._ids', ['options' => $categories]);
@@ -37,4 +42,6 @@
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
+    
 </div>
+       
