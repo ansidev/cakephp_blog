@@ -45,14 +45,14 @@ class AppController extends Controller
                 'action' => 'index'
             ],
             'loginAction' => [
-                'controller' => 'Users',
-                'action' => 'login'
-            ],
-            'logoutRedirect' => [
+                'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'login',
-                'admin' => false
-//                'home'
+            ],
+            'logoutRedirect' => [
+                'prefix' => false,
+                'controller' => 'Users',
+                'action' => 'login'
             ],
             'authError' => 'Đăng nhập để đến trang quản trị'
         ]);
@@ -61,23 +61,14 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['display']);
-        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
-            $this->layout = 'dashboard';
-            $user_id = $this->request->session()->read('User.id');
-            if (!empty($user_id)) {
-                if ($this->isAdmin($user_id)) {
-                    return $this->redirect('/admin/users');
-                }
-            }
-
-        }
     }
 
     /**
      * Ham kiem tra co nguoi dung dang nhap hay chua.
      * @return bool true if user logged in, false if no logged in user.
      */
-    public function isLoggedIn() {
+    public function isLoggedIn()
+    {
         $user_id = $this->request->session()->read('User.id');
         if (!empty($user)) {
             return true;

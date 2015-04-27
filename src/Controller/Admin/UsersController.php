@@ -2,6 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Users Controller
@@ -10,6 +11,28 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['display']);
+        if (strcmp($this->request->params['action'], 'login') !== 0) {
+            $this->layout = 'dashboard';
+            $user = $this->Auth->User();
+            if (!empty($user)) {
+                if ($this->isAdmin($user)) {
+                    if (!in_array($this->request->params['action'], ['index', 'logout'])) {
+                        return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']);
+                    }
+                } else {
+                    $this->Flash->error('Vui lòng đăng nhập bằng tài khoản quản trị!');
+                    return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'login']);
+                }
+            } else {
+                $this->Flash->error('Bạn chưa đăng nhập');
+                return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'login']);
+            }
+        }
+    }
+
 
     /**
      * Index method
@@ -112,17 +135,17 @@ class UsersController extends AppController
     public function login()
     {
         $this->layout = 'form';
-        if ($this->request->session()->read('User.id')) {
-            return $this->redirect('/admin/users');
-        }
+//        if ($this->request->session()->read('User.id')) {
+//            return $this->redirect('/admin/users');
+//        }
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>', ['escape' => false]));
-                return $this->redirect($this->Auth->redirectUrl('/admin/users'));
+                $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>'));
+                return $this->redirect($this->Auth->redirectUrl(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']));
             }
-            $this->Flash->error(__('Thông tin đăng nhập không đúng. Bạn vui lòng đăng nhập lại!'));
+            $this->Flash->error(__('Thông tin đăng nhập không đúng. <br> Bạn vui lòng đăng nhập lại!'));
         }
     }
 
