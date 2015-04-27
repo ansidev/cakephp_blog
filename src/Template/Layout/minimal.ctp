@@ -19,37 +19,22 @@ $cakeDescription = 'CakeBlog';
 <html>
 <head>
     <?= $this->Html->charset() ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
-
+    <?= $this->Html->css('bootstrap.css') ?>
+    <?= $this->Html->css('font-awesome.css') ?>
+    <?= $this->Html->script('jquery.js') ?>
+    <?= $this->Html->script('bootstrap.js') ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
-    <div id="container">
-        <div id="header">
-            <h1><?= $this->Html->link($cakeDescription, 'http://cakephp.org') ?></h1>
-        </div>
-        <div id="content">
-            <?= $this->Flash->render() ?>
-
-            <?= $this->fetch('content') ?>
-        </div>
-        <div id="footer">
-            <?= $this->Html->link(
-                    $this->Html->image('cake.power.gif', ['alt' => $cakeDescription, 'border' => '0']),
-                    'http://www.cakephp.org/',
-                    ['target' => '_blank', 'escape' => false]
-                )
-            ?>
-        </div>
-    </div>
+<body class="container">
+    <?= $this->fetch('content') ?>
 </body>
 </html>
