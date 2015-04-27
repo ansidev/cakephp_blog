@@ -70,7 +70,7 @@ class UsersController extends AppController
                 }
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->error(__('Thông tin đăng nhập không đúng. Bạn vui lòng đăng nhập lại!'));
+            $this->Flash->error(__('Thông tin đăng nhập không đúng. <br> Bạn vui lòng đăng nhập lại!'));
         }
     }
 
