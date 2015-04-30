@@ -1,12 +1,25 @@
 <div class="col-md-6">
     <div class="row col">
-        <div class="panel panel-default">
+        <div class="panel panel-red">
             <div class="panel-heading">
-                <strong>Hoạt động gần đây</strong>
+                <strong>Thông tin tài khoản</strong>
             </div>
             <div class="panel-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                <?php
+                $userInfo = [
+                    ['Username', h($user->username)],
+                    ['Email', h($user->email)],
+                    ['Họ và tên', h($user->full_name)]
+                ];
+                if ($user->has('role')) {
+                    $userInfo[] = ['Role', h($user->role->name)];
+                }
+                $userInfo = array_merge($userInfo, [
+                    ['Ngày tạo', h($user->created_at)],
+                    ['Cập nhật lần cuối', h($user->updated_at)]
+                ]);
+                echo $this->MyHtml->createUserInfo($userInfo);
+                ?>
             </div>
         </div>
         <!-- /.col-md-6 -->
@@ -50,9 +63,9 @@
 </div>
 <div class="col-md-6">
     <div class="row col">
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>Quick post</strong>
+                <strong>Đăng bài nhanh - <?= $this->Html->link('Đến trang đầy đủ', ['controller' => 'Posts', 'action' => 'write']) ?></strong>
             </div>
             <div class="panel-body">
                 <?php
@@ -60,8 +73,8 @@
                     'url' => ['controller' => 'Posts', 'action' => 'quick_post']
                 ]);
                 echo $this->Form->input('title');
-                echo $this->Form->input('body');
-                echo $this->Form->button(__('Quick post'), ['class' => 'pull-right btn btn-primary']);
+                echo $this->Form->input('body', ['class' => 'form-control']);
+                echo $this->Form->button(__('Đăng bài'), ['class' => 'pull-right btn btn-primary']);
                 echo $this->Form->end();
                 ?>
             </div>
@@ -69,67 +82,131 @@
         <!-- /.col-md-6 -->
     </div>
 </div>
-<div class="col-lg-6">
+<div class="col-md-12">
     <div class="panel panel-yellow">
         <div class="panel-heading">
-            Yellow Panel
+            Bài đã viết
         </div>
         <div class="panel-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-        </div>
-        <div class="panel-footer">
-            Panel Footer
-        </div>
-    </div>
-    <!-- /.col-lg-6 -->
-</div>
-</div>
-<div class="users index large-10 medium-9 columns">
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-        <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('username') ?></th>
-            <th><?= $this->Paginator->sort('email') ?></th>
-            <th><?= $this->Paginator->sort('full_name') ?></th>
-            <th><?= $this->Paginator->sort('roles_id') ?></th>
-            <th><?= $this->Paginator->sort('created_at') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= h($user->username) ?></td>
-                <td><?= h($user->email) ?></td>
-                <td><?= h($user->full_name) ?></td>
-                <td>
-                    <?= $user->has('role') ? $this->Html->link($user->role->name, ['controller' => 'Roles', 'action' => 'view', $user->role->id]) : '' ?>
-                </td>
-                <td><?= h($user->created_at) ?></td>
-                <td class="actions">
-                    <div class="dropdown">
-                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-haspopup="true" aria-expanded="false">Hành động <span class="caret"></span></button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <li><?= $this->Html->link(__('Xem'), ['action' => 'view', $post->id]) ?></li>
-                            <li><?= $this->Html->link(__('Sửa'), ['action' => 'edit', $post->id]) ?></li>
-                            <li><?= $this->Form->postLink(__('Xóa'), ['action' => 'delete', $post->id], ['confirm' => __('Bạn có muốn xóa bài viết {0}?', $post->title)]) ?></li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
+            <div class="dataTable_wrapper">
+                <?php if (!empty($user->posts)): ?>
+                    <table class="table table-striped table-bordered table-hover" id="post-table">
+                        <thead>
+                        <tr>
+                            <th><?= __('ID') ?></th>
+                            <th><?= __('Tiêu đề') ?></th>
+                            <th><?= __('Chủ đề') ?></th>
+                            <th><?= __('Tag') ?></th>
+                            <th><?= __('Bình luận') ?></th>
+                            <th><?= __('Trạng thái') ?></th>
+                            <th><?= __('Ngày viết') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php $post_ids = []; ?>
+                        <?php foreach ($user->posts as $post): ?>
+                            <?php $post_ids[] = $post->id; ?>
+                            <tr>
+                                <td><?= $this->Number->format($post->id) ?></td>
+                                <td><?= h($post->title) ?></td>
+                                <td><?= $this->Post->getCategories($post->id); ?></td>
+                                <td><?= $this->Post->getTags($post->id); ?></td>
+                                <td><?= $this->Post->getCommentsCount($post->id); ?></td>
+                                <td><?= $this->Post->statusToString($post->status); ?></td>
+                                <td><?= h($post->created_at) ?></td>
+                            </tr>
 
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
     </div>
+    <!-- /.col-md-12 -->
 </div>
+<div class="col-md-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Các bình luận của bạn
+        </div>
+        <div class="panel-body">
+            <div class="dataTable_wrapper">
+                <?php if (!empty($user->comments)): ?>
+                    <table class="table table-striped table-bordered table-hover" id="your-comment-table">
+                        <thead>
+                        <tr>
+                            <th><?= __('ID') ?></th>
+                            <th><?= __('Nội dung') ?></th>
+                            <th><?= __('Bài viết') ?></th>
+                            <th><?= __('Trạng thái') ?></th>
+                            <th><?= __('Ngày viết') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($user->comments as $comment): ?>
+                            <tr>
+                                <td><?= h($comment->id) ?></td>
+                                <td><?= h($comment->body) ?></td>
+                                <td><?= $this->Post->getTitle($comment->post_id) ?></td>
+                                <td><?= $this->Comment->statusToString($comment->status) ?></td>
+                                <td><?= h($comment->created_at) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+    </div>
+    <!-- /.col-md-12 -->
+</div>
+<div class="col-md-12">
+    <div class="panel panel-green">
+        <div class="panel-heading">
+            Bình luận cho các bài viết của bạn
+        </div>
+        <div class="panel-body">
+            <div class="dataTable_wrapper">
+                <?php if (!empty($user->posts)): ?>
+                    <table class="table table-striped table-bordered table-hover" id="post-table">
+                        <thead>
+                        <tr>
+                            <th><?= __('ID') ?></th>
+                            <th><?= __('Tiêu đề') ?></th>
+                            <th><?= __('Chủ đề') ?></th>
+                            <th><?= __('Tag') ?></th>
+                            <th><?= __('Bình luận') ?></th>
+                            <th><?= __('Trạng thái') ?></th>
+                            <th><?= __('Ngày viết') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php $post_ids = []; ?>
+                        <?php foreach ($user->posts as $post): ?>
+                            <?php $post_ids[] = $post->id; ?>
+                            <tr>
+                                <td><?= $this->Number->format($post->id) ?></td>
+                                <td><?= h($post->title) ?></td>
+                                <td><?= $this->Post->getCategories($post->id); ?></td>
+                                <td><?= $this->Post->getTags($post->id); ?></td>
+                                <td><?= $this->Post->getCommentsCount($post->id); ?></td>
+                                <td><?= $this->Post->statusToString($post->status); ?></td>
+                                <td><?= h($post->created_at) ?></td>
+                            </tr>
+
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+    </div>
+    <!-- /.col-md-12 -->
+</div>
+<?= $this->Js->dataTable('#post-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#your-comment-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#comment-table', ['responsive' => true]) ?>

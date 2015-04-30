@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
 use Cake\Event\Event;
 
 /**
@@ -32,6 +31,10 @@ class UsersController extends AppController
         $this->paginate = [
             'contain' => ['Roles']
         ];
+        $user = $this->Users->get($this->Auth->User('id'), [
+            'contain' => ['Roles', 'Comments', 'Posts']
+        ]);
+        $this->set('user', $user);
         $this->set('users', $this->paginate($this->Users));
         $this->set('_serialize', ['users']);
         $this->loadModel('Posts');
