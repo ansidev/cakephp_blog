@@ -32,38 +32,27 @@
                         <table class="table table-striped table-bordered table-hover" id="post-table">
                             <thead>
                             <tr>
-                                <th><?= $this->Paginator->sort('id') ?></th>
-                                <th><?= $this->Paginator->sort('title') ?></th>
-                                <th><?= $this->Paginator->sort('category', 'Chủ đề') ?></th>
-                                <th><?= $this->Paginator->sort('tag') ?></th>
-                                <th><?= $this->Paginator->sort('comment') ?></th>
-                                <th><?= $this->Paginator->sort('created_at') ?></th>
-                                <th class="actions"><?= __('Actions') ?></th>
+                                <th><?= __('ID') ?></th>
+                                <th><?= __('Tiêu đề') ?></th>
+                                <th><?= __('Chủ đề') ?></th>
+                                <th><?= __('Tag') ?></th>
+                                <th><?= __('Bình luận') ?></th>
+                                <th><?= __('Trạng thái') ?></th>
+                                <th><?= __('Ngày viết') ?></th>
                             </tr>
                             </thead>
                             <tbody>
+                            <?php $post_ids = []; ?>
                             <?php foreach ($user->posts as $post): ?>
+                                <?php $post_ids[] = $post->id; ?>
                                 <tr>
                                     <td><?= $this->Number->format($post->id) ?></td>
                                     <td><?= h($post->title) ?></td>
-                                    <td>
-                                        <?php echo $this->Post->getCategories($post->id);
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $this->Post->getTags($post->id);
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $this->Post->getCommentsCount($post->id);
-                                        ?>
-                                    </td>
+                                    <td><?= $this->Post->getCategories($post->id); ?></td>
+                                    <td><?= $this->Post->getTags($post->id); ?></td>
+                                    <td><?= $this->Post->getCommentsCount($post->id); ?></td>
+                                    <td><?= $this->Post->statusToString($post->status); ?></td>
                                     <td><?= h($post->created_at) ?></td>
-                                    <td class="actions">
-                                        <?= $this->Html->link(__('View'), ['controller'=> 'Posts', 'action' => 'view', $post->id], ['class' => 'btn btn-primary']) ?>
-                                        <?= $this->Html->link(__('Edit'), ['controller'=> 'Posts', 'action' => 'edit', $post->id], ['class' => 'btn btn-success']) ?>
-                                        <?= $this->Form->postLink(__('Delete'), ['controller'=> 'Posts', 'action' => 'delete', $post->id], ['class' => 'btn btn-danger', 'confirm' => __('Bạn có muốn xóa bài viết {0}?', $post->title)]) ?>
-                                    </td>
                                 </tr>
 
                             <?php endforeach; ?>
@@ -77,49 +66,95 @@
         </div>
         <!-- /.panel -->
     </div>
-    <!-- /.col-lg-12 -->
+    <!-- /.row -->
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Bình luận của bạn
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <?php if (!empty($user->comments)): ?>
+                        <table class="table table-striped table-bordered table-hover" id="your-comment-table">
+                            <thead>
+                            <tr>
+                                <th><?= __('ID') ?></th>
+                                <th><?= __('Nội dung') ?></th>
+                                <th><?= __('Bài viết') ?></th>
+                                <th><?= __('Trạng thái') ?></th>
+                                <th><?= __('Ngày viết') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($user->comments as $comment): ?>
+                                <tr>
+                                    <td><?= h($comment->id) ?></td>
+                                    <td><?= h($comment->body) ?></td>
+                                    <td><?= $this->Post->getTitle($comment->post_id) ?></td>
+                                    <td><?= $this->Comment->statusToString($comment->status) ?></td>
+                                    <td><?= h($comment->created_at) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Bình luận cho các bài viết của bạn
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="dataTable_wrapper">
+                    <?php if (!empty($post_ids)) {
+                        $all_comments = $this->Post->getComments($post_ids);
+                        if (!empty($all_comments)) {
+                            ?>
+                            <table class="table table-striped table-bordered table-hover" id="comment-table">
+                                <thead>
+                                <tr>
+                                    <th><?= __('ID') ?></th>
+                                    <th><?= __('Nội dung') ?></th>
+                                    <th><?= __('Bài viết') ?></th>
+                                    <th><?= __('Trạng thái') ?></th>
+                                    <th><?= __('Ngày viết') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($all_comments as $cm): ?>
+                                    <tr>
+                                        <td><?= h($cm->id) ?></td>
+                                        <td><?= h($cm->body) ?></td>
+                                        <td><?= $this->Post->getTitle($cm->post_id) ?></td>
+                                        <td><?= $this->Comment->statusToString($cm->status) ?></td>
+                                        <td><?= h($cm->created_at) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php }
+                    } ?>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.row -->
 </div>
 <!-- /.row -->
 </div>
 <!-- /#users -->
 <?= $this->Js->dataTable('#post-table', ['responsive' => true]) ?>
-<div class="related row">
-    <div class="column large-12">
-        <h4 class="subheader"><?= __('Related Comments') ?></h4>
-        <?php if (!empty($user->comments)): ?>
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <th><?= __('Body') ?></th>
-                    <th><?= __('User Id') ?></th>
-                    <th><?= __('Post Id') ?></th>
-                    <th><?= __('Status') ?></th>
-                    <th><?= __('Created At') ?></th>
-                    <th><?= __('Updated At') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-                <?php foreach ($user->comments as $comments): ?>
-                    <tr>
-                        <td><?= h($comments->id) ?></td>
-                        <td><?= h($comments->body) ?></td>
-                        <td><?= h($comments->user_id) ?></td>
-                        <td><?= h($comments->post_id) ?></td>
-                        <td><?= h($comments->status) ?></td>
-                        <td><?= h($comments->created_at) ?></td>
-                        <td><?= h($comments->updated_at) ?></td>
-
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['controller' => 'Comments', 'action' => 'view', $comments->id]) ?>
-
-                            <?= $this->Html->link(__('Edit'), ['controller' => 'Comments', 'action' => 'edit', $comments->id]) ?>
-
-                            <?= $this->Form->postLink(__('Delete'), ['controller' => 'Comments', 'action' => 'delete', $comments->id], ['confirm' => __('Are you sure you want to delete # {0}?', $comments->id)]) ?>
-
-                        </td>
-                    </tr>
-
-                <?php endforeach; ?>
-            </table>
-        <?php endif; ?>
-    </div>
-</div>
+<?= $this->Js->dataTable('#your-comment-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#comment-table', ['responsive' => true]) ?>
