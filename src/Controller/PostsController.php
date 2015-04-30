@@ -217,6 +217,26 @@ class PostsController extends AppController
     }
 
     /**
+     * Restore method
+     *
+     * @param string|null $id Post id.
+     * @return void Redirects to index.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function restore($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $post = $this->Posts->get($id);
+        $post->status = 1;
+        if ($this->Posts->save($post)) {
+            $this->Flash->success('Bài đăng đã được chuyển sang trạng thái chờ đăng!');
+        } else {
+            $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại!');
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+
+    /**
      * Permanent Delete method
      *
      * @param string|null $id Post id.
