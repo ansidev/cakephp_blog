@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `full_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(72) COLLATE utf8_unicode_ci NOT NULL,
-  `roles_id` int(10) unsigned NOT NULL DEFAULT '3',
+  `role_id` int(10) unsigned NOT NULL DEFAULT '3',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `full_name`, `password`, `roles_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `users` (`id`, `username`, `email`, `full_name`, `password`, `role_id`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@localhost.local', 'Administrator', '$2y$10$mAm8wAkoZvThj13ODxSlCuDtjgk9FEoUHjvRQG8jPipPLROgg2kd2', 1, '2015-04-18 09:18:00', '2015-04-18 09:18:00'),
 (2, 'user', 'user@localhost.local', 'User', '$2y$10$FU/ZtI89O4YY9dkocNeomuLa6i8vXdJvMo6POyfgLP2lHfDrHWL3K', 3, '2015-04-18 09:18:00', '2015-04-18 09:18:00');
 
@@ -310,7 +310,7 @@ ALTER TABLE `tags`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`,`email`), ADD KEY `us_role_key_idx` (`roles_id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`,`email`), ADD KEY `us_role_key_idx` (`role_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -393,7 +393,7 @@ ADD CONSTRAINT `rp_role_key` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) O
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-ADD CONSTRAINT `us_role_key` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `us_role_key` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
