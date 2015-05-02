@@ -84,7 +84,7 @@ class AppController extends Controller
     public function isAdmin($user)
     {
         // Admin can access every action
-        if (!empty($user['roles_id']) && $user['roles_id'] === 1) {
+        if (!empty($user['role_id']) && $user['role_id'] === 1) {
             return true;
         }
         return false;
