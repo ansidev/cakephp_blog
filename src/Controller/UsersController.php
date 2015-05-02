@@ -18,6 +18,12 @@ class UsersController extends AppController
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
         $this->Auth->allow(['register', 'logout']);
+        if (in_array($this->request->param('action'),['register', 'login'])) {
+            $this->layout = 'form';
+        }
+        if (in_array($this->request->param('action'),['index', 'edit'])) {
+            $this->layout = 'dashboard';
+        }
     }
 
     /**
@@ -27,7 +33,7 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->layout = 'dashboard';
+//        $this->layout = 'dashboard';
         $this->paginate = [
             'contain' => ['Roles']
         ];
@@ -49,7 +55,7 @@ class UsersController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view()
     {
         $id = $this->Auth->User('id');
         $this->layout = 'front_view';
@@ -62,7 +68,7 @@ class UsersController extends AppController
 
     public function login()
     {
-        $this->layout = 'form';
+//        $this->layout = 'form';
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
@@ -111,12 +117,10 @@ class UsersController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit()
     {
-//        $id = $this->Auth->User['id'];
-        $user = $this->Users->get($id, [
-            'contain' => []
-        ]);
+        $id = $this->Auth->User('id');
+        $user = $this->Users->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
