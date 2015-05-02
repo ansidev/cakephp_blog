@@ -3,7 +3,7 @@
     <ul class="side-nav">
         <li><?= $this->Html->link(__('List Categories'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
     </ul>
 </div>
 <div class="categories form large-10 medium-9 columns">
@@ -13,11 +13,8 @@
         <?php
             echo $this->Form->input('name');
             echo $this->Form->input('slug');
-            echo $this->Form->input('parent_id');
+            echo $this->Form->input('parent_id', ['options' => $parentCategories]);
             echo $this->Form->input('path');
-            echo $this->Form->input('created_at');
-            echo $this->Form->input('updated_at');
-            echo $this->Form->input('posts._ids', ['options' => $posts]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

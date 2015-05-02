@@ -13,7 +13,7 @@
         <li><?= $this->Html->link(__('List Comments'), ['controller' => 'Comments', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Comment'), ['controller' => 'Comments', 'action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
     </ul>
 </div>
 <div class="users form large-10 medium-9 columns">
@@ -25,7 +25,7 @@
             echo $this->Form->input('email');
             echo $this->Form->input('full_name');
             echo $this->Form->input('password');
-            echo $this->Form->input('roles_id', ['options' => $roles]);
+            echo $this->Form->input('role_id', ['options' => $roles]);
             echo $this->Form->input('created_at');
             echo $this->Form->input('updated_at');
         ?>

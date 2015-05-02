@@ -3,7 +3,7 @@
     <ul class="side-nav">
         <li><?= $this->Html->link(__('New Category'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
     </ul>
 </div>
 <div class="categories index large-10 medium-9 columns">
