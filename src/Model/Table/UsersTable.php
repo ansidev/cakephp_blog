@@ -25,7 +25,7 @@ class UsersTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
         $this->belongsTo('Roles', [
-            'foreignKey' => 'roles_id',
+            'foreignKey' => 'role_id',
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Comments', [
@@ -76,7 +76,7 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['username']));
         $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['roles_id'], 'Roles'));
+        $rules->add($rules->existsIn(['role_id'], 'Roles'));
         return $rules;
     }
 }
