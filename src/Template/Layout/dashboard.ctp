@@ -304,11 +304,20 @@ $cakeDescription = 'CakeBlog';
         <?= $this->Flash->render() ?>
     </div>
     <div class="row">
-        <div class="col-md-12 col">
+        <div class="col-md-12">
             <?= $this->fetch('content') ?>
         </div>
     </div>
+    <hr>
+    <!-- Footer -->
     <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; CakePHP Blog Team 2015</p>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
     </footer>
 </div>
 </body>
