@@ -1,7 +1,8 @@
 <li>
-    <?= $this->Html->link(__('<i class="fa fa-users fa-fw"></i> Quản lý người dùng<span class="fa arrow"></span>'), ['action' => 'index'], ['escape' => false]) ?>
+    <?= $this->Html->link(__('<i class="fa fa-users fa-fw"></i> Quản lý người dùng<span class="fa arrow"></span>'), ['controller' => 'Users', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
         <li><?= $this->Html->link(__('Danh sách người dùng'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Thông tin tài khoản'), ['controller' => 'Users', 'action' => 'view']) ?> </li>
         <li><?= $this->Html->link(__('Thêm người dùng mới'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
     <!-- /.nav-second-level -->
@@ -26,15 +27,15 @@
     <?= $this->Html->link(__('<i class="fa fa-book fa-fw"></i> Quản lý bài viết<span class="fa arrow"></span>'), ['controller' => 'Posts', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
         <li><?= $this->Html->link(__('Danh sách bài viết'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('Tạo bài viết mới'), ['controller' => 'Posts', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('Tạo bài viết mới'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
     </ul>
     <!-- /.nav-second-level -->
 </li>
 <li>
     <?= $this->Html->link(__('<i class="fa fa-coffee fa-fw"></i> Quản lý chủ đề<span class="fa arrow"></span>'), ['controller' => 'Categories', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
-        <li><?= $this->Html->link(__('Danh sách chủ đề'), ['Categories' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('Tạo chủ đề mới'), ['Categories' => 'Posts', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('Danh sách chủ đề'), ['controller' => 'Categories', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('Tạo chủ đề mới'), ['controller' => 'Categories', 'action' => 'add']) ?> </li>
     </ul>
     <!-- /.nav-second-level -->
 </li>
