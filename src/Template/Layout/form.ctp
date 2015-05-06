@@ -42,5 +42,16 @@ $cakeDescription = 'CakeBlog';
         </div>
     </div>
 </div>
+<hr>
+<!-- Footer -->
+<footer>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Copyright &copy; CakePHP Blog Team 2015</p>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</footer>
 </body>
 </html>
