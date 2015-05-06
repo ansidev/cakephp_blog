@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CakeBlog';
 ?>
 <!DOCTYPE html>
 <html>
@@ -304,12 +304,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->Flash->render() ?>
     </div>
     <div class="row">
-        <div class="col-md-12 col">
+        <div class="col-md-12">
             <?= $this->fetch('content') ?>
         </div>
     </div>
-    <footer>
-    </footer>
 </div>
+<?= $this->element('footer'); ?>
 </body>
 </html>

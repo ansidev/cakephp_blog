@@ -85,7 +85,7 @@ if (!Configure::read('debug')) {
  * Set server timezone to UTC. You can change it to another timezone of your
  * choice but using UTC makes time calculations / conversions easier.
  */
-date_default_timezone_set('UTC');
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /**
  * Configure the mbstring extension to use the correct encoding.

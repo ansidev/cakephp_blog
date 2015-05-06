@@ -7,7 +7,7 @@
             echo $this->Form->input('email');
             echo $this->Form->input('full_name');
             echo $this->Form->input('password');
-            echo $this->Form->input('roles_id', ['options' => $roles]);
+            echo $this->Form->input('role_id', ['options' => $roles]);
             echo $this->Form->input('created_at', ['type' => 'hidden']);
             echo $this->Form->input('updated_at', ['type' => 'hidden']);
         ?>

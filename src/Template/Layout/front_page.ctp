@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CakeBlog';
 ?>
 <!DOCTYPE html>
 <html>
@@ -310,7 +310,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
             <!-- Blog Categories Well -->
             <div class="well">
-                <h4>Blog Categories</h4>
+                <h4>Chủ đề</h4>
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -340,16 +340,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </div>
     <!-- /.row -->
 
-    <hr>
-    <!-- Footer -->
-    <footer>
-        <div class="row">
-            <div class="col-lg-12">
-                <p>Copyright &copy; CakePHP Blog Team 2015</p>
-            </div>
-            <!-- /.col-lg-12 -->
-        </div>
-        <!-- /.row -->
-    </footer>
+    <?= $this->element('footer'); ?>
 </body>
 </html>

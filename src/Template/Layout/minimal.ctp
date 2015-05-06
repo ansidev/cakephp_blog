@@ -34,16 +34,7 @@ $cakeDescription = 'CakeBlog';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
-<div class="container" style="padding-top: 70px">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <?= $this->fetch('content') ?>
-        </div>
-    </div>
-</div>
-<hr>
-<!-- Footer -->
-    <?= $this->element('footer'); ?>
+<body class="container">
+    <?= $this->fetch('content') ?>
 </body>
 </html>

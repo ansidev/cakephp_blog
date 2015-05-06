@@ -24,7 +24,7 @@ if (!Configure::read('debug')):
     throw new NotFoundException();
 endif;
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CakeBlog';
 ?>
 <!DOCTYPE html>
 <html>

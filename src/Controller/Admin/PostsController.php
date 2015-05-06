@@ -1,25 +1,15 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use Cake\Event\Event;
-
+use App\Controller\AppController;
 /**
- * Posts Controller
+ * Admin Posts Controller
  *
  * @property \App\Model\Table\PostsTable $Posts
  */
 class PostsController extends AppController
 {
     public $helpers = ['Post'];
-
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        // Allow users to register and logout.
-        // You should not add the "login" action to allow list. Doing so would
-        // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['read']);
-    }
 
     /**
      * Index method
@@ -85,42 +75,11 @@ class PostsController extends AppController
     }
 
     /**
-     * Read method
-     *
-     * @param string|null $id Post id.
-     * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function read($id = null)
-    {
-        $this->layout = 'front_page';
-        $post = $this->Posts->get($id, [
-            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
-            'conditions' => ['Posts.status' => 3]
-        ]);
-//        $post = $this->Posts->find('all', [
-//            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
-//            'conditions' => [
-//                'Posts.id' => $id,
-//                'Posts.status' => 3
-//            ]
-//        ])->toArray();
-//        if (empty($post)) {
-//            return $this->redirect(['action' => 'display']);
-//        }
-        $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
-        $this->set(compact('categories'));
-        $this->set(compact('associated_post'));
-        $this->set('post', $post);
-        $this->set('_serialize', ['post']);
-    }
-
-    /**
-     * Write new post method
+     * Add method
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function write()
+    public function add()
     {
         $post = $this->Posts->newEntity();
         if ($this->request->is('post')) {
@@ -144,7 +103,7 @@ class PostsController extends AppController
     }
 
     /**
-     * Đăng bài nhanh
+     * Quick post method
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
@@ -154,6 +113,7 @@ class PostsController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->data;
             $data['status'] = 1;
+            $data['user_id'] = $this->Auth->user('id');
             $data['user_id'] = $this->Auth->user('id');
 
             $post = $this->Posts->patchEntity($post, $data);
@@ -174,8 +134,7 @@ class PostsController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
-    {
-        $this->layout = 'dashboard';
+    {   $this->layout = 'dashboard';
         $post = $this->Posts->get($id, [
             'contain' => ['Categories', 'Tags']
         ]);
@@ -207,50 +166,10 @@ class PostsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $post = $this->Posts->get($id);
-        $post->status = 4;
-        if ($this->Posts->save($post)) {
-            $this->Flash->success('Bài đăng đã được chuyển vào thùng rác');
-        } else {
-            $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại!');
-        }
-        return $this->redirect(['action' => 'index']);
-    }
-
-    /**
-     * Restore method
-     *
-     * @param string|null $id Post id.
-     * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function restore($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $post = $this->Posts->get($id);
-        $post->status = 1;
-        if ($this->Posts->save($post)) {
-            $this->Flash->success('Bài đăng đã được chuyển sang trạng thái chờ đăng!');
-        } else {
-            $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại!');
-        }
-        return $this->redirect(['action' => 'index']);
-    }
-
-    /**
-     * Permanent Delete method
-     *
-     * @param string|null $id Post id.
-     * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function permanent_delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $post = $this->Posts->get($id);
         if ($this->Posts->delete($post)) {
-            $this->Flash->success('Bài đăng đã được xóa');
+            $this->Flash->success('The post has been deleted.');
         } else {
-            $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại!');
+            $this->Flash->error('The post could not be deleted. Please, try again.');
         }
         return $this->redirect(['action' => 'index']);
     }
