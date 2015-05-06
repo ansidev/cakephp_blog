@@ -25,7 +25,7 @@ class UsersController extends AppController
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
         $this->Auth->allow(['register', 'logout']);
-        if (in_array($this->request->param('action'), ['register', 'login'])) {
+        if (in_array($this->request->param('action'), ['register', 'login', 'update_info'])) {
             $this->layout = 'form';
         }
         if (in_array($this->request->param('action'), ['index', 'edit'])) {
@@ -138,13 +138,13 @@ class UsersController extends AppController
     }
 
     /**
-     * Edit method
+     * Update info method
      *
      * @param string|null $id User id.
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit()
+    public function update_info()
     {
         $id = $this->Auth->User('id');
         $user = $this->Users->get($id);
