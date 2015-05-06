@@ -13,22 +13,24 @@ class UsersController extends AppController
 {
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['display']);
-        if (strcmp($this->request->params['action'], 'login') !== 0) {
+        parent::beforeFilter($event);
+        if (in_array($this->request->params['action'], ['login', 'logout'])) {
+            $this->redirect(['prefix' => false, 'controller' => 'Users', 'action' => $this->request->params['action']]);
+        } else {
             $this->layout = 'dashboard';
             $user = $this->Auth->User();
             if (!empty($user)) {
                 if ($this->isAdmin($user)) {
-                    if (!in_array($this->request->params['action'], ['index', 'logout'])) {
-                        return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']);
+                    if (!in_array($this->request->params['action'], ['index'])) {
+                        return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => $this->request->params['action']]);
                     }
                 } else {
-                    $this->Flash->error('Vui lòng đăng nhập bằng tài khoản quản trị!');
-                    return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'login']);
+                    $this->Flash->error('Bạn không phải là quản trị viên! Vui lòng <a href="/users/logout">đăng nhập</a>  bằng tài khoản quản trị!');
+                    return $this->redirect(['prefix' => false, 'controller' => 'Users', 'action' => 'login']);
                 }
             } else {
                 $this->Flash->error('Bạn chưa đăng nhập');
-                return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'login']);
+                $this->redirect(['prefix' => false, 'controller' => 'Users', 'action' => 'login']);
             }
         }
     }
@@ -132,22 +134,22 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function login()
-    {
-        $this->layout = 'form';
+//    public function login()
+//    {
+//        $this->layout = 'form';
 //        if ($this->request->session()->read('User.id')) {
 //            return $this->redirect('/admin/users');
 //        }
-        if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
-                $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>'));
-                return $this->redirect($this->Auth->redirectUrl(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']));
-            }
-            $this->Flash->error(__('Thông tin đăng nhập không đúng. <br> Bạn vui lòng đăng nhập lại!'));
-        }
-    }
+//        if ($this->request->is('post')) {
+//            $user = $this->Auth->identify();
+//            if ($user) {
+//                $this->Auth->setUser($user);
+//                $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>'));
+//                return $this->redirect($this->Auth->redirectUrl(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']));
+//            }
+//            $this->Flash->error(__('Thông tin đăng nhập không đúng. <br> Bạn vui lòng đăng nhập lại!'));
+//        }
+//    }
 
     public function logout()
     {

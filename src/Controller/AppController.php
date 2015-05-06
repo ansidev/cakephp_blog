@@ -69,25 +69,13 @@ class AppController extends Controller
      */
     public function isLoggedIn()
     {
-        $user_id = $this->request->session()->read('User.id');
+//        $user_id = $this->request->session()->read('User.id');
+        $user = $this->Auth->User();
         if (!empty($user)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
-    }
-
-    /**
-     * Ham kiem tra mot user co phai la administrator khong.
-     * @param $user User can kiem tra
-     * @return bool
-     */
-    public function isAdmin($user)
-    {
-        // Admin can access every action
-        if (!empty($user['role_id']) && $user['role_id'] === 1) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -108,6 +96,20 @@ class AppController extends Controller
         }
 
         // Default deny
+        return false;
+    }
+
+    /**
+     * Ham kiem tra mot user co phai la administrator khong.
+     * @param $user User can kiem tra
+     * @return bool
+     */
+    public function isAdmin($user)
+    {
+        // Admin can access every action
+        if (!empty($user['role_id']) && $user['role_id'] === 1) {
+            return true;
+        }
         return false;
     }
 

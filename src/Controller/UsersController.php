@@ -14,15 +14,37 @@ class UsersController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
+        $user = $this->Auth->User();
+        if (!empty($user)) {
+            if ($this->isAdmin($user)) {
+                return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']);
+            }
+        }
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
         $this->Auth->allow(['register', 'logout']);
-        if (in_array($this->request->param('action'),['register', 'login'])) {
+        if (in_array($this->request->param('action'), ['register', 'login'])) {
             $this->layout = 'form';
         }
-        if (in_array($this->request->param('action'),['index', 'edit'])) {
+        if (in_array($this->request->param('action'), ['index', 'edit'])) {
             $this->layout = 'dashboard';
+        }
+        if (strcmp($this->request->params['action'], 'login') === 0) {
+            if (!empty($user)) {
+                return $this->_goToDashboard($user);
+            }
+        }
+    }
+
+    protected function _goToDashboard($user)
+    {
+//        debug($user); die;
+//        debug($this->isAdmin($user)); die;
+        if ($this->isAdmin($user)) {
+            return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']);
+        } else {
+            return $this->redirect($this->Auth->redirectUrl());
         }
     }
 
@@ -73,11 +95,8 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                $this->Flash->success(__('Chào bạn, <strong>' . $user["username"] . '</strong>', ['escape' => false]));
-                if ($this->isAdmin($user)) {
-                    return $this->redirect('/admin/users');
-                }
-                return $this->redirect($this->Auth->redirectUrl());
+                $this->Flash->success(__('Chào bạn, <strong>' . $user['username'] . '</strong>', ['escape' => false]));
+                return $this->_goToDashboard($user);
             }
             $this->Flash->error(__('Thông tin đăng nhập không đúng. <br> Bạn vui lòng đăng nhập lại!'));
         }
