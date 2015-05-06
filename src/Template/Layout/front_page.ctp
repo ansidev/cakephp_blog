@@ -310,7 +310,7 @@ $cakeDescription = 'CakeBlog';
 
             <!-- Blog Categories Well -->
             <div class="well">
-                <h4>Blog Categories</h4>
+                <h4>Chủ đề</h4>
 
                 <div class="row">
                     <div class="col-lg-12">
