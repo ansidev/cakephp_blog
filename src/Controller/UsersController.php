@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Auth\DefaultPasswordHasher;
 use Cake\Event\Event;
 use Cake\I18n\Time;
 
@@ -25,10 +26,10 @@ class UsersController extends AppController
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
         $this->Auth->allow(['register', 'logout']);
-        if (in_array($this->request->param('action'), ['register', 'login', 'update_info'])) {
+        if (in_array($this->request->param('action'), ['register', 'login'])) {
             $this->layout = 'form';
         }
-        if (in_array($this->request->param('action'), ['index', 'edit'])) {
+        if (in_array($this->request->param('action'), ['index', 'update_info'])) {
             $this->layout = 'dashboard';
         }
         if (strcmp($this->request->params['action'], 'login') === 0) {
@@ -132,7 +133,7 @@ class UsersController extends AppController
             }
 //        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
 //        $this->set(compact('user', 'roles'));
-        $this->set(compact('user'));
+            $this->set(compact('user'));
             $this->set('_serialize', ['user']);
         }
     }
@@ -149,16 +150,44 @@ class UsersController extends AppController
         $id = $this->Auth->User('id');
         $user = $this->Users->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
-            if ($this->Users->save($user)) {
-                $this->Flash->success('The user has been saved.');
-                return $this->redirect(['action' => 'index']);
+            $update_data = $this->request->data;
+            $new_password = $update_data['new_password'];
+            $confirm_password = $update_data['confirm_password'];
+            $dph = new DefaultPasswordHasher();
+            if (!$dph->check($update_data['current_password'], $user['password'])) {
+                $this->Flash->error('Mật khẩu của bạn không chính xác. <br> Vui lòng thực hiện lại!');
             } else {
-                $this->Flash->error('The user could not be saved. Please, try again.');
+                //Kiểm tra password mới
+                if (empty($new_password)) {
+                    if (!empty($confirm_password)) {
+                        $this->Flash->error('Bạn chưa nhập password mới.');
+                    }
+                } else {
+                    if (empty($confirm_password)) {
+                        $this->Flash->error('Bạn chưa xác nhận password mới.');
+                    } else {
+                        if (strcmp($new_password, $confirm_password) !== 0) {
+                            $this->Flash->error('Chuỗi xác nhận không trùng với password mới. <br> Vui lòng kiểm tra lại.');
+                        } else {
+                            $update_data['password'] = $dph->hash($update_data['new_password']);
+                            $update_data['updated_at'] = Time::now();
+                            $user = $this->Users->patchEntity($user, $update_data);
+                            if ($this->Users->save($user)) {
+                                $this->Flash->success('Thông tin của bạn đã được cập nhật!');
+                                return $this->redirect(['action' => 'index']);
+                            } else {
+                                $this->Flash->error('Cập nhật thông tin không thành công. Bạn vui lòng thử lại sau!');
+                            }
+                        }
+                    }
+                }
+
+
             }
         }
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'roles'));
+//        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
+//        $this->set(compact('user', 'roles'));
+        $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
 
