@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -114,19 +115,26 @@ class UsersController extends AppController
      */
     public function register()
     {
-        $user = $this->Users->newEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
-            if ($this->Users->save($user)) {
-                $this->Flash->success('The user has been saved.');
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error('The user could not be saved. Please, try again.');
+        if ($this->isLoggedIn()) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+        } else {
+            $user = $this->Users->newEntity();
+            if ($this->request->is('post')) {
+                $user = $this->Users->patchEntity($user, $this->request->data);
+                $user['role_id'] = 3; //Role = User
+                $user['created_at'] = $user['updated_at'] = Time::now();
+                if ($this->Users->save($user)) {
+                    $this->Flash->success('Bạn đã đăng ký tài khoản thành công!');
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng đăng ký lại! <br> Rất xin lỗi vì sự bất tiện này!');
+                }
             }
+//        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
+//        $this->set(compact('user', 'roles'));
+        $this->set(compact('user'));
+            $this->set('_serialize', ['user']);
         }
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $this->set(compact('user', 'roles'));
-        $this->set('_serialize', ['user']);
     }
 
     /**
