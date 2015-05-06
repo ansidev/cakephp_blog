@@ -12,4 +12,4 @@
     <?= $this->Form->end() ?>
 
 </div>
-<?= $this->Html->script('ckeditor/ckeditor'); ?>;
+<?= $this->Html->script('ckeditor/ckeditor'); ?>
