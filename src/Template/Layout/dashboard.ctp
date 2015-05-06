@@ -308,17 +308,7 @@ $cakeDescription = 'CakeBlog';
             <?= $this->fetch('content') ?>
         </div>
     </div>
-    <hr>
-    <!-- Footer -->
-    <footer>
-        <div class="row">
-            <div class="col-lg-12">
-                <p>Copyright &copy; CakePHP Blog Team 2015</p>
-            </div>
-            <!-- /.col-lg-12 -->
-        </div>
-        <!-- /.row -->
-    </footer>
 </div>
+<?= $this->element('footer'); ?>
 </body>
 </html>
