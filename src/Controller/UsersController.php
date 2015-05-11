@@ -209,4 +209,18 @@ class UsersController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    public function add() {
+    $user = $this->Users->newEntity($this->request->data);
+    if ($this->request->is('post')) {
+        if($this->request->data['avatar'])
+            $user->avatar = $this->Upload->finalFile;
+        if ($this->Users->save($user)) {
+            $this->Flash->success('The user has been saved.');
+            return $this->redirect(['action' => 'index']);
+        } else {
+            $this->Flash->error('The user could not be saved. Please, try again.');
+        }
+    }
+    $this->set(compact('user'));
+}
 }
