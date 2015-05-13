@@ -6,7 +6,7 @@
 
         <p class="lead">
             Đăng
-            bởi <?= $post->has('user') ? $this->Html->link($post->user->username, ['controller' => 'Users', 'action' => 'view', $post->user->id]) : '' ?>
+            bởi <?= $post->has('user') ? $this->Html->link($post->user->username, ['controller' => 'Users', 'action' => 'profile', $post->user->id]) : '' ?>
         </p>
 
         <p>
@@ -16,7 +16,7 @@
         <hr>
         <?= $this->Html->image('default.gif', ['class' => 'img-responsive', 'alt' => 'thumbnail-img-' . $post->id]); ?>
         <hr>
-        <p><?= $post->body ?></p>
+        <p><?php echo htmlspecialchars_decode($post->body) ?></p>
         <hr>
     </div>
 </div>
@@ -32,7 +32,4 @@
     </ul>
 </nav>
 <?php
-//    echo "<pre>";
-//    print_r($associated_post);
-//    echo "</pre>";
 ?>
