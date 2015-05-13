@@ -1,4 +1,5 @@
 <?= $this->Html->script('ckeditor/ckeditor'); ?>
+<?= $this->Html->script('blog/post') ?>
 <div class="posts form  large-10 medium-9 columns">
     <?= $this->Form->create($post); ?>
     <fieldset>
