@@ -1,8 +1,10 @@
 <li>
+    <?= $this->Html->link(__('<i class="fa fa-users fa-fw"></i> Dashboard<span class="fa arrow"></span>'), ['controller' => 'Home', 'action' => 'index'], ['escape' => false]) ?>
+</li>
+<li>
     <?= $this->Html->link(__('<i class="fa fa-users fa-fw"></i> Quản lý người dùng<span class="fa arrow"></span>'), ['controller' => 'Users', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
         <li><?= $this->Html->link(__('Danh sách người dùng'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('Thông tin tài khoản'), ['controller' => 'Users', 'action' => 'view']) ?> </li>
         <li><?= $this->Html->link(__('Thêm người dùng mới'), ['controller' => 'Users', 'action' => 'add']) ?></li>
     </ul>
     <!-- /.nav-second-level -->
@@ -24,7 +26,7 @@
     <!-- /.nav-second-level -->
 </li>
 <li>
-    <?= $this->Html->link(__('<i class="fa fa-book fa-fw"></i> Quản lý bài viết<span class="fa arrow"></span>'), ['controller' => 'Posts', 'action' => 'index'], ['escape' => false]) ?>
+    <?= $this->Html->link(__('<i class="fa fa-edit fa-fw"></i> Quản lý bài viết<span class="fa arrow"></span>'), ['controller' => 'Posts', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
         <li><?= $this->Html->link(__('Danh sách bài viết'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('Tạo bài viết mới'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
