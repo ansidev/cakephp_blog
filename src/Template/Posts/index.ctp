@@ -74,7 +74,11 @@
                                                     class="caret"></span></button>
                                             <ul class="dropdown-menu dropdown-menu-right" role="menu"
                                                 aria-labelledby="dLabel">
-                                                <li><?= $this->Html->link(__('Xem'), ['controller' => 'Posts', 'action' => 'view', $post->id]) ?></li>
+                                                <?php if ($post->status === 3) { ?>
+                                                    <li><?= $this->Html->link(__('Xem'), ['prefix' => false, 'controller' => 'Posts', 'action' => 'read', $post->id]) ?></li>
+                                                <?php } else { ?>
+                                                    <li><?= $this->Html->link(__('Xem'), ['prefix' => false, 'controller' => 'Posts', 'action' => 'view', $post->id]) ?></li>
+                                                <?php } ?>
                                                 <li><?= $this->Html->link(__('Sửa'), ['controller' => 'Posts', 'action' => 'edit', $post->id]) ?></li>
                                                 <?php if ($post->status !== 4) { ?>
                                                     <li><?= $this->Form->postLink(__('Chuyển vào thùng rác'), ['controller' => 'Posts', 'action' => 'delete', $post->id], ['confirm' => __('Bạn có muốn chuyển bài viết {0} vào thùng rác?', $post->title)]) ?></li>
