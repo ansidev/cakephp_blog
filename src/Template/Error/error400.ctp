@@ -1,6 +1,8 @@
 <?php
 use Cake\Core\Configure;
 
+$this->layout = 'front_page';
+
 if (Configure::read('debug')):
     $this->layout = 'dev_error';
 
@@ -30,9 +32,9 @@ endif;
 ?>
 <h2><?= h($message) ?></h2>
 <p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
+    <strong><?= __d('cake', 'Lỗi') ?>: </strong>
     <?= sprintf(
-        __d('cake', 'The requested address %s was not found on this server.'),
+        __d('cake', 'Địa chỉ %s không tồn tại hoặc truy cập không được cấp phép.'),
         "<strong>'{$url}'</strong>"
     ) ?>
 </p>
