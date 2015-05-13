@@ -25,7 +25,7 @@ class JsHelper extends Helper
 //    ];
 
     /**
-     * Initialize method
+     * Initialize DataTable method
      *
      * @param string CSS Selector
      * @param array DataTable options. Please read the DataTable Documentation.
