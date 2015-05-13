@@ -61,6 +61,9 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['display']);
+        if ($this->request->param('prefix') === 'admin') {
+            $this->layout = 'dashboard';
+        }
     }
 
     /**
