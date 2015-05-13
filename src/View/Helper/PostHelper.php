@@ -35,7 +35,8 @@ class PostHelper extends Helper
      * @param $str Chuỗi truyền vào
      * @return string Chuỗi slug trả về
      */
-    public function toSlug($str){
+    public function toSlug($str)
+    {
         $str = trim(mb_strtolower($str));
         $str = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $str);
         $str = preg_replace('/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/', 'e', $str);
@@ -49,7 +50,8 @@ class PostHelper extends Helper
         return $str;
     }
 
-    public function getTitle($post_id) {
+    public function getTitle($post_id)
+    {
         if ($post_id === null) {
             return '';
         }
@@ -62,7 +64,8 @@ class PostHelper extends Helper
         return $query[0];
     }
 
-    public function getPostStatus($post_id) {
+    public function getPostStatus($post_id)
+    {
         if ($post_id === null) {
             return '';
         }
@@ -149,7 +152,47 @@ class PostHelper extends Helper
                 'Comments.post_id' => $post_id,
                 'Comments.status' => 3,
             ])
-            ->all();
-        return $query->toArray();
+            ->all()
+            ->toArray();
+        return $query;
     }
+
+    public function getDraftPosts($user_id)
+    {
+        if ($user_id === null) {
+            return 'Người dùng không tồn tại';
+        }
+        $object = TableRegistry::get('Posts');
+        $query = $object->find()
+            ->select()
+            ->where([
+                'Posts.user_id' => $user_id,
+                'Posts.status' => 0 //Draft post status
+            ])
+            ->all()
+            ->toArray();
+        return $query;
+    }
+
+    public function echoShortBody($body, $length = 400) {
+        $body = h($body);
+        if (empty($body)) {
+            return '';
+        } else {
+            $body_length = strlen($body);
+            if ($body_length <= $length) {
+                return $body;
+            } else {
+                $result = trim(substr($body, 0, $length));
+                if (strlen($result) <= $length) {
+                    return $result;
+                } else {
+                    return h($result . '...');
+                }
+            }
+        }
+
+    }
+
+
 }
