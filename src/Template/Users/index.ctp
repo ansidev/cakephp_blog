@@ -24,59 +24,72 @@
         </div>
         <!-- /.col-md-6 -->
     </div>
-    <div class="row col">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>Hoạt động gần đây</strong>
-            </div>
-            <div class="panel-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-            </div>
-        </div>
-        <!-- /.col-md-6 -->
-    </div>
-    <div class="row col">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>Hoạt động gần đây</strong>
-            </div>
-            <div class="panel-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-            </div>
-        </div>
-        <!-- /.col-md-6 -->
-    </div>
-    <div class="row col">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>Hoạt động gần đây</strong>
-            </div>
-            <div class="panel-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices
-                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
-            </div>
-        </div>
-        <!-- /.col-md-6 -->
-    </div>
+<!--    <div class="row col">-->
+<!--        <div class="panel panel-default">-->
+<!--            <div class="panel-heading">-->
+<!--                <strong>Hoạt động gần đây</strong>-->
+<!--            </div>-->
+<!--            <div class="panel-body">-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices-->
+<!--                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <!-- /.col-md-6 -->
+<!--    </div>-->
+<!--    <div class="row col">-->
+<!--        <div class="panel panel-default">-->
+<!--            <div class="panel-heading">-->
+<!--                <strong>Hoạt động gần đây</strong>-->
+<!--            </div>-->
+<!--            <div class="panel-body">-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices-->
+<!--                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <!-- /.col-md-6 -->
+<!--    </div>-->
+<!--    <div class="row col">-->
+<!--        <div class="panel panel-default">-->
+<!--            <div class="panel-heading">-->
+<!--                <strong>Hoạt động gần đây</strong>-->
+<!--            </div>-->
+<!--            <div class="panel-body">-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices-->
+<!--                    accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <!-- /.col-md-6 -->
+<!--    </div>-->
 </div>
 <div class="col-md-6">
     <div class="row col">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>Đăng bài nhanh - <?= $this->Html->link('Đến trang đầy đủ', ['controller' => 'Posts', 'action' => 'write']) ?></strong>
+                <strong>Quick draft
+                    - <?= $this->Html->link('Đến trang đầy đủ', ['controller' => 'Posts', 'action' => 'write']) ?></strong>
             </div>
             <div class="panel-body">
                 <?php
                 echo $this->Form->create($post, [
-                    'url' => ['controller' => 'Posts', 'action' => 'quick_post']
+                    'url' => ['controller' => 'Posts', 'action' => 'quick_draft']
                 ]);
-                echo $this->Form->input('title');
-                echo $this->Form->input('body', ['class' => 'form-control']);
-                echo $this->Form->button(__('Đăng bài'), ['class' => 'pull-right btn btn-primary']);
+                echo $this->Form->input('title', ['label' => 'Tiêu đề']);
+                echo $this->Form->input('body', ['label' => 'Nội dung', 'class' => 'form-control']);
+                echo $this->Form->button(__('Lưu bản nháp'), ['class' => 'pull-right btn btn-primary']);
                 echo $this->Form->end();
                 ?>
+            </div>
+            <div class="list-group">
+                <?php
+//                $draft_posts = $this->Post->getDraftPosts($user->id);
+                if ($draft_posts !== 0) { ?>
+                    <?php foreach ($draft_posts as $draft_post): ?>
+                        <a href="<?= '/posts/edit/' . $draft_post->id ?>" class="list-group-item">
+                            <h4 class="list-group-item-heading"><?= h($draft_post->title) ?> | <i class="fa fa-comment-o"></i> <?= $this->Post->getCommentsCount($draft_post->id); ?> | <?= h($draft_post->created_at) ?></h4>
+                            <p class="list-group-item-text"><?= $this->Post->echoShortBody($draft_post->body) ?></p>
+                        </a>
+                    <?php endforeach; ?>
+                <?php } ?>
             </div>
         </div>
         <!-- /.col-md-6 -->
@@ -89,7 +102,7 @@
         </div>
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <?php if (!empty($user->posts)): ?>
+                <?php if ($user->posts !== 0): ?>
                     <table class="table table-striped table-bordered table-hover" id="post-table">
                         <thead>
                         <tr>
@@ -103,9 +116,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php $post_ids = []; ?>
                         <?php foreach ($user->posts as $post): ?>
-                            <?php $post_ids[] = $post->id; ?>
                             <tr>
                                 <td><?= $this->Number->format($post->id) ?></td>
                                 <td><?= h($post->title) ?></td>
@@ -133,7 +144,7 @@
         </div>
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <?php if (!empty($user->comments)): ?>
+                <?php if (!empty($user->comments)) { ?>
                     <table class="table table-striped table-bordered table-hover" id="your-comment-table">
                         <thead>
                         <tr>
@@ -156,7 +167,9 @@
                         <?php endforeach; ?>
                         </tbody>
                     </table>
-                <?php endif; ?>
+                    <?php } else {
+                echo 'Không có dữ liệu trong hệ thống.';
+                } ?>
             </div>
             <!-- /.table-responsive -->
         </div>
@@ -170,8 +183,9 @@
         </div>
         <div class="panel-body">
             <div class="dataTable_wrapper">
-                <?php if (!empty($user->posts)): ?>
-                    <table class="table table-striped table-bordered table-hover" id="post-table">
+                <?php
+                if ($published_posts->count() !== 0) { ?>
+                    <table class="table table-striped table-bordered table-hover" id="comment-table">
                         <thead>
                         <tr>
                             <th><?= __('ID') ?></th>
@@ -184,9 +198,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php $post_ids = []; ?>
-                        <?php foreach ($user->posts as $post): ?>
-                            <?php $post_ids[] = $post->id; ?>
+                        <?php foreach ($published_posts as $post): ?>
                             <tr>
                                 <td><?= $this->Number->format($post->id) ?></td>
                                 <td><?= h($post->title) ?></td>
@@ -196,11 +208,12 @@
                                 <td><?= $this->Post->statusToString($post->status); ?></td>
                                 <td><?= h($post->created_at) ?></td>
                             </tr>
-
                         <?php endforeach; ?>
                         </tbody>
                     </table>
-                <?php endif; ?>
+                <?php } else {
+                    echo 'Không có dữ liệu trong hệ thống.';
+                } ?>
             </div>
             <!-- /.table-responsive -->
         </div>
