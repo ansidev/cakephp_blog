@@ -16,7 +16,7 @@
         <hr>
         <?= $this->Html->image('default.gif', ['class' => 'img-responsive', 'alt' => 'thumbnail-img-' . $post->id]); ?>
         <hr>
-        <p><?= h($post->body) ?></p>
+        <p><?php echo htmlspecialchars_decode($post->body) ?></p>
         <hr>
     </div>
 </div>
