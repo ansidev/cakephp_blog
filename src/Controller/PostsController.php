@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
+use Cake\I18n\Time;
 
 /**
  * Posts Controller
@@ -10,7 +11,6 @@ use Cake\Event\Event;
  */
 class PostsController extends AppController
 {
-    public $helpers = ['Post'];
 
     public function beforeFilter(Event $event)
     {
@@ -105,14 +105,15 @@ class PostsController extends AppController
 //                'Posts.status' => 3
 //            ]
 //        ])->toArray();
-//        if (empty($post)) {
-//            return $this->redirect(['action' => 'display']);
+//        if (!$post) {
+////            return $this->redirect(['action' => 'display']);
+//        } else {
+            $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
+            $this->set(compact('categories'));
+            $this->set(compact('associated_post'));
+            $this->set('post', $post);
+            $this->set('_serialize', ['post']);
 //        }
-        $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
-        $this->set(compact('categories'));
-        $this->set(compact('associated_post'));
-        $this->set('post', $post);
-        $this->set('_serialize', ['post']);
     }
 
     /**
@@ -122,17 +123,26 @@ class PostsController extends AppController
      */
     public function write()
     {
+        $this->layout = 'dashboard';
         $post = $this->Posts->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data;
-            $data['slug'] = $this->Post->toSlug($data['title']);
             $data['user_id'] = $this->Auth->User('id');
+            $data['status'] = 1;
+            $data['created_at'] = $data['updated_at'] = Time::now();
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success('The post has been saved.');
+                $this->Flash->success('Bài viết đã được chuyển đến quản trị viên để duyệt đăng.');
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error('The post could not be saved. Please, try again.');
+                $data['slug'] = $this->autoSlug($data['title']);
+                $post = $this->Posts->patchEntity($post, $data);
+                if ($this->Posts->save($post)) {
+                    $this->Flash->success('Bài viết đã được chuyển đến quản trị viên để duyệt đăng.');
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error('Đã có lỗi xảy ra. Bạn vui lòng thử lại!');
+                }
             }
         }
         $parentPosts = $this->Posts->ParentPosts->find('list', ['limit' => 200]);
@@ -144,24 +154,27 @@ class PostsController extends AppController
     }
 
     /**
-     * Đăng bài nhanh
+     * Quick draft method
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function quick_post()
+    public function quick_draft()
     {
         $post = $this->Posts->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data;
-            $data['status'] = 1;
+            $data['body'] = h($data['body']);
+            $data['status'] = 0;
             $data['user_id'] = $this->Auth->user('id');
+            $data['slug'] = $this->autoSlug($data['title']);
+            $data['created_at'] = $data['updated_at'] = Time::now();
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success('Bài viết đã được chuyển đến quản trị viên để duyệt đăng!');
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success('Bản nháp đã được tạo!');
+                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
             } else {
-                $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thực hiện lại việc đăng bài!');
+                $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thực hiện lại!');
             }
         }
     }
@@ -180,7 +193,10 @@ class PostsController extends AppController
             'contain' => ['Categories', 'Tags']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $post = $this->Posts->patchEntity($post, $this->request->data);
+            $data = $this->request->data;
+            $data['updated_at'] = Time::now();
+
+            $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
                 $this->Flash->success('Bài viết đã được lưu lại.');
                 return $this->redirect(['action' => 'index']);
@@ -253,5 +269,81 @@ class PostsController extends AppController
             $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại!');
         }
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * Hàm tạo slug từ một string
+     * @param $str Chuỗi truyền vào
+     * @return string Chuỗi slug trả về
+     */
+    private function __toSlug($str)
+    {
+        $str = trim(mb_strtolower($str));
+        $str = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $str);
+        $str = preg_replace('/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/', 'e', $str);
+        $str = preg_replace('/(ì|í|ị|ỉ|ĩ)/', 'i', $str);
+        $str = preg_replace('/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/', 'o', $str);
+        $str = preg_replace('/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/', 'u', $str);
+        $str = preg_replace('/(ỳ|ý|ỵ|ỷ|ỹ)/', 'y', $str);
+        $str = preg_replace('/(đ)/', 'd', $str);
+        $str = preg_replace('/[^a-z0-9-\s]/', '', $str);
+        $str = preg_replace('/([\s]+)/', '-', $str);
+        return $str;
+    }
+
+    /**
+     * Auto generate slug method
+     *
+     * @return void Redirects on successful add, renders view otherwise.
+     */
+    public function autoSlug($title)
+    {
+        $this->request->allowMethod(['post', 'ajax']);
+        if (!empty($title)) {
+            $slug = $this->__toSlug($title);
+            if ($this->request->is('ajax')) {
+                $this->layout = 'ajax';
+            }
+            $slugs = $this->Posts->find('list', [
+                'valueField' => 'slug',
+                'conditions' => [
+                    'Posts.slug' => $slug
+                ]
+            ]);
+            if ($slugs->count() === 0) {
+                $rs = $slug;
+            } else {
+                $slugs = $this->Posts->find('list', [
+                    'valueField' => 'slug',
+                    'conditions' => [
+                        'Posts.slug LIKE' => $slug . '-%'
+                    ],
+                    'order' => [
+                        'Posts.slug' => 'ASC'
+                    ]
+                ]);
+                if ($slugs->count() === 0) {
+                    $rs = $slug . '-2';
+                } else {
+                    $slug_arr = array_values($slugs->toArray());
+                    $i = 3;
+                    while (true) {
+                        $str = $slug . '-' . $i;
+                        if (!in_array($str, $slug_arr)) {
+                            $rs = $str;
+                            break;
+                        } else {
+                            $i++;
+                        }
+                    }
+                }
+            }
+            if ($this->request->is('ajax')) {
+                $this->response->body(json_encode([0 => $rs]));
+                return $this->response;
+            } else {
+                return $rs;
+            }
+        }
     }
 }
