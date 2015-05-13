@@ -2,6 +2,8 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+
 /**
  * Admin Posts Controller
  *
@@ -9,7 +11,11 @@ use App\Controller\AppController;
  */
 class PostsController extends AppController
 {
-    public $helpers = ['Post'];
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->layout = 'dashboard';
+    }
 
     /**
      * Index method
@@ -23,7 +29,7 @@ class PostsController extends AppController
             'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments'],
             'conditions' => [
                 'Posts.parent_id' => 0,
-                'Posts.user_id' => $this->Auth->User('id'),
+                'Posts.status IN' => [1, 2, 3, 4]
             ]
         ];
         $this->set('posts', $this->paginate($this->Posts));
@@ -79,7 +85,7 @@ class PostsController extends AppController
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function write()
     {
         $post = $this->Posts->newEntity();
         if ($this->request->is('post')) {
@@ -103,23 +109,22 @@ class PostsController extends AppController
     }
 
     /**
-     * Quick post method
+     * Quick draft method
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
-    public function quick_post()
+    public function quick_draft()
     {
         $post = $this->Posts->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data;
-            $data['status'] = 1;
-            $data['user_id'] = $this->Auth->user('id');
+            $data['status'] = 0;
             $data['user_id'] = $this->Auth->user('id');
 
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success('Bài viết đã được chuyển đến quản trị viên để duyệt đăng!');
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success('Bản nháp đã được tạo!');
+                return $this->redirect(['controller' => 'Users', 'action' => 'index']);
             } else {
                 $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thực hiện lại việc đăng bài!');
             }
@@ -134,7 +139,8 @@ class PostsController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
-    {   $this->layout = 'dashboard';
+    {
+        $this->layout = 'dashboard';
         $post = $this->Posts->get($id, [
             'contain' => ['Categories', 'Tags']
         ]);

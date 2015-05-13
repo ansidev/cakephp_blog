@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 use Cake\Auth\DefaultPasswordHasher;
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -55,8 +56,9 @@ class UsersController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view()
     {
+        $id = $this->Auth->User('id');
         $user = $this->Users->get($id, [
             'contain' => ['Roles', 'Comments', 'Posts']
         ]);
@@ -74,6 +76,7 @@ class UsersController extends AppController
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
+            $user['created_at'] = $user['updated_at'] = Time::now();
             if ($this->Users->save($user)) {
                 $this->Flash->success('The user has been saved.');
                 return $this->redirect(['action' => 'index']);
