@@ -29,7 +29,7 @@ class UsersController extends AppController
         if (in_array($this->request->param('action'), ['register', 'login'])) {
             $this->layout = 'form';
         }
-        if (in_array($this->request->param('action'), ['index', 'update_info'])) {
+        if (in_array($this->request->param('action'), ['index', 'update_info', 'view'])) {
             $this->layout = 'dashboard';
         }
         if (strcmp($this->request->params['action'], 'login') === 0) {
@@ -44,7 +44,7 @@ class UsersController extends AppController
 //        debug($user); die;
 //        debug($this->isAdmin($user)); die;
         if ($this->isAdmin($user)) {
-            return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']);
+            return $this->redirect(['prefix' => 'admin', 'controller' => 'Home', 'action' => 'index']);
         } else {
             return $this->redirect($this->Auth->redirectUrl());
         }
@@ -69,7 +69,19 @@ class UsersController extends AppController
         $this->set('_serialize', ['users']);
         $this->loadModel('Posts');
         $post = $this->Posts->newEntity();
-        $this->set(compact('post'));
+        $draft_posts = $this->Users->Posts->find('all', [
+            'conditions' => [
+                'Posts.user_id' => $this->Auth->User('id'),
+                'Posts.status' => 0
+            ]
+        ]);
+        $published_posts = $this->Users->Posts->find('all', [
+            'conditions' => [
+                'Posts.user_id' => $this->Auth->User('id'),
+                'Posts.status' => 3
+            ]
+        ]);
+        $this->set(compact('post', 'draft_posts', 'published_posts'));
     }
 
     /**
@@ -82,7 +94,6 @@ class UsersController extends AppController
     public function view()
     {
         $id = $this->Auth->User('id');
-        $this->layout = 'front_view';
         $user = $this->Users->get($id, [
             'contain' => ['Roles', 'Comments', 'Posts']
         ]);
