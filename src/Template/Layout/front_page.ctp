@@ -32,7 +32,6 @@ $cakeDescription = 'CakeBlog';
     <?= $this->Html->css('data-tables.bootstrap.css') ?>
     <?= $this->Html->script('jquery.js') ?>
     <?= $this->Html->script('bootstrap.js') ?>
-    <?= $this->Html->script('sb-admin-2.js') ?>
     <?= $this->Html->script('jquery.data-tables.js') ?>
     <?= $this->Html->script('data-tables.bootstrap.js') ?>
 

@@ -75,9 +75,13 @@ $cakeDescription = 'CakeBlog';
         <?= $this->Flash->render() ?>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <?php if (isset($default_grid) && $default_grid !== false): ?>
+            <div class="col-md-12">
+        <?php endif; ?>
             <?= $this->fetch('content') ?>
-        </div>
+        <?php if (isset($default_grid) && $default_grid !== false): ?>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 <?= $this->element('footer'); ?>
