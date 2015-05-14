@@ -6,59 +6,54 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Danh sách tập tin
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table cellpadding="0" cellspacing="0"
-                               class="table table-striped table-bordered table-hover" id="media-table">
-                            <thead>
-                            <tr>
-                                <th><?= $this->Paginator->sort('id') ?></th>
-                                <th><?= $this->Paginator->sort('user_id') ?></th>
-                                <th><?= $this->Paginator->sort('title') ?></th>
-                                <th><?= $this->Paginator->sort('slug') ?></th>
-                                <th><?= $this->Paginator->sort('file_name') ?></th>
-                                <th><?= $this->Paginator->sort('relative_path') ?></th>
-                                <th><?= $this->Paginator->sort('media_type') ?></th>
-                                <th><?= $this->Paginator->sort('mime_type') ?></th>
-                                <th><?= $this->Paginator->sort('status') ?></th>
-                                <th class="actions"><?= __('Actions') ?></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($media as $media): ?>
-                                <tr>
-                                    <td><?= $this->Number->format($media->id) ?></td>
-                                    <td>
-                                        <?= $media->has('user') ? $this->Html->link($media->user->id, ['controller' => 'Users', 'action' => 'view', $media->user->id]) : '' ?>
-                                    </td>
-                                    <td><?= h($media->title) ?></td>
-                                    <td><?= h($media->slug) ?></td>
-                                    <td><?= h($media->file_name) ?></td>
-                                    <td><?= h($media->relative_path) ?></td>
-                                    <td><?= $this->Number->format($media->media_type) ?></td>
-                                    <td><?= h($media->mime_type) ?></td>
-                                    <td><?= $this->Number->format($media->status) ?></td>
-                                    <td class="actions">
-                                        <?= $this->Html->link(__('View'), ['action' => 'view', $media->id]) ?>
-                                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $media->id]) ?>
-                                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $media->id], ['confirm' => __('Are you sure you want to delete # {0}?', $media->id)]) ?>
-                                    </td>
-                                </tr>
-
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div class="row" id="container">
+        <div id="image-list">
+            <?php foreach ($media as $media): ?>
+                <a href="#<?= h($media->slug) ?>" id="<?= h($media->slug) ?>"
+                   class="item col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <img class="img-responsive"
+                         src="<?= $this->Media->url($media->relative_path) ?>"/>
+                </a>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>
-<?= $this->Js->dataTable('#media-table', ['responsive' => true]) ?>
+<style type="text/css">
+    #image-list {
+        width: 100%;
+        margin: auto;
+    }
+    #container {
+        padding: 0 15px;
+    }
+    .item {
+        background: #32373c;
+        width: 320px;
+        height: 320px;
+    }
+
+    .item .img-responsive {
+        min-height: 250px;
+        max-height: 350px;
+        width: 100%;
+        padding: 15px 0;
+    }
+</style>
+<?php echo $this->Html->script('freewall'); ?>
+<script>
+    $(document).ready(function () {
+        var wall = new freewall("#image-list");
+        wall.reset({
+            selector: '.item',
+            animate: true,
+            cellW: 20,
+            cellH: 200,
+            onResize: function() {
+                wall.fitWidth();
+            }
+        });
+        wall.fitWidth();
+        // for scroll bar appear;
+        $(window).trigger("resize");
+    });
+</script>
