@@ -18,13 +18,13 @@
                         <table class="table table-striped table-bordered table-hover" id="user-table">
                             <thead>
                             <tr>
-                                <th><?= $this->Paginator->sort('id') ?></th>
-                                <th><?= $this->Paginator->sort('username') ?></th>
-                                <th><?= $this->Paginator->sort('email') ?></th>
-                                <th><?= $this->Paginator->sort('full_name') ?></th>
-                                <th><?= $this->Paginator->sort('roles_id') ?></th>
-                                <th><?= $this->Paginator->sort('created_at') ?></th>
-                                <th class="actions"><?= __('Actions') ?></th>
+                                <th><?= __('ID') ?></th>
+                                <th><?= __('Người dùng') ?></th>
+                                <th><?= __('Email') ?></th>
+                                <th><?= __('Họ và tên') ?></th>
+                                <th><?= __('Quyền hạn') ?></th>
+                                <th><?= __('Ngày tạo') ?></th>
+                                <th class="actions"><?= __('Hành động') ?></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -39,12 +39,16 @@
                                     </td>
                                     <td><?= h($user->created_at) ?></td>
                                     <td class="actions">
-                                        <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                                        <div class="dropdown">
+                                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-haspopup="true" aria-expanded="false">Hành động <span class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
+                                                <li><?= $this->Html->link(__('Xem'), ['action' => 'view', $user->id]) ?></li>
+                                                <li><?= $this->Html->link(__('Cập nhật thông tin'), ['action' => 'update_info', $user->id]) ?></li>
+                                                <li><?= $this->Form->postLink(__('Xóa'), ['action' => 'delete', $user->id], ['confirm' => __('Bạn có muốn xóa người dùng {0}?', $user->username)]) ?></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
-
                             <?php endforeach; ?>
                             </tbody>
                         </table>

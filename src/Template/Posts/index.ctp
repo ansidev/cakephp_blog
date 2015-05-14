@@ -69,11 +69,23 @@
                                     <td><?= h($post->created_at) ?></td>
                                     <td class="actions">
                                         <div class="dropdown">
-                                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-haspopup="true" aria-expanded="false">Hành động <span class="caret"></span></button>
-                                            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dLabel">
-                                                <li><?= $this->Html->link(__('Xem'), ['action' => 'view', $post->id]) ?></li>
-                                                <li><?= $this->Html->link(__('Sửa'), ['action' => 'edit', $post->id]) ?></li>
-                                                <li><?= $this->Form->postLink(__('Xóa'), ['action' => 'delete', $post->id], ['confirm' => __('Bạn có muốn xóa bài viết {0}?', $post->title)]) ?></li>
+                                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"
+                                                    aria-haspopup="true" aria-expanded="false">Hành động <span
+                                                    class="caret"></span></button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu"
+                                                aria-labelledby="dLabel">
+                                                <?php if ($post->status === 3) { ?>
+                                                    <li><?= $this->Html->link(__('Xem'), ['prefix' => false, 'controller' => 'Posts', 'action' => 'read', $post->id]) ?></li>
+                                                <?php } else { ?>
+                                                    <li><?= $this->Html->link(__('Xem'), ['prefix' => false, 'controller' => 'Posts', 'action' => 'view', $post->id]) ?></li>
+                                                <?php } ?>
+                                                <li><?= $this->Html->link(__('Sửa'), ['controller' => 'Posts', 'action' => 'edit', $post->id]) ?></li>
+                                                <?php if ($post->status !== 4) { ?>
+                                                    <li><?= $this->Form->postLink(__('Chuyển vào thùng rác'), ['controller' => 'Posts', 'action' => 'delete', $post->id], ['confirm' => __('Bạn có muốn chuyển bài viết {0} vào thùng rác?', $post->title)]) ?></li>
+                                                <?php } else { ?>
+                                                    <li><?= $this->Form->postLink(__('Phục hồi'), ['controller' => 'Posts', 'action' => 'restore', $post->id], ['confirm' => __('Bạn có muốn phục hồi bài viết {0} không?', $post->title)]) ?></li>
+                                                    <li><?= $this->Form->postLink(__('Xóa vĩnh viễn'), ['controller' => 'Posts', 'action' => 'permanent_delete', $post->id], ['confirm' => __('Bạn có muốn xóa vĩnh viễn bài viết {0} không?', $post->title)]) ?></li>
+                                                <?php } ?>
                                             </ul>
                                         </div>
                                     </td>

@@ -1,4 +1,4 @@
-<div class="posts index large-10 medium-9 columns">
+<div class="posts">
     <div id="<?= 'post-' . $post->id ?>">
         <h2>
             <?= $this->Html->link(__($post->title), ['action' => 'view', $post->id]) ?>
@@ -9,13 +9,19 @@
             bởi <?= $post->has('user') ? $this->Html->link($post->user->username, ['controller' => 'Users', 'action' => 'view', $post->user->id]) : '' ?>
         </p>
 
-        <p><span class="glyphicon glyphicon-time"></span> Đăng vào <?= $this->Time->format($post->created_at) ?></p>
+        <p>
+            <span class="glyphicon glyphicon-time"></span> Đăng vào <?= $this->Time->format($post->created_at) ?>
+            | <span class="fa fa-comment"></span> <?= $this->Post->getCommentsCount($post->id) ?>
+        </p>
         <hr>
         <?= $this->Html->image('default.gif', ['class' => 'img-responsive', 'alt' => 'thumbnail-img-' . $post->id]); ?>
         <hr>
-        <p><?= h($post->body) ?></p>
+        <p><?php echo htmlspecialchars_decode($post->body) ?></p>
         <hr>
     </div>
+</div>
+<div class="comments">
+    <?= $this->element('comment_box'); ?>
 </div>
 <!-- Pagination -->
 <nav class="paginator">

@@ -4,7 +4,7 @@
     <?= $this->Form->create() ?>
     <fieldset>
         <legend><?= __('Login') ?></legend>
-        <?= $this->Flash->render('auth') ?>
+        <?= $this->Flash->render() ?>
         <?= $this->Form->input('username') ?>
         <?= $this->Form->input('password') ?>
     </fieldset>

@@ -424,7 +424,7 @@ class AuthComponent extends Component
             'flash' => [
                 'element' => 'default',
                 'key' => 'auth',
-                'params' => ['class' => 'error']
+                'params' => ['class' => 'alert alert-danger']
             ],
             'loginAction' => [
                 'controller' => 'Users',

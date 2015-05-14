@@ -58,7 +58,7 @@ class CategoriesController extends AppController
                 $this->Flash->error('The category could not be saved. Please, try again.');
             }
         }
-        $parentCategories = $this->Categories->ParentCategories->find('list', ['limit' => 200]);
+        $parentCategories = $this->Categories->find('list', ['limit' => 200]);
         $posts = $this->Categories->Posts->find('list', ['limit' => 200]);
         $this->set(compact('category', 'parentCategories', 'posts'));
         $this->set('_serialize', ['category']);

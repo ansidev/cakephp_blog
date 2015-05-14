@@ -9,7 +9,7 @@
         ?></li>
         <li><?= $this->Html->link(__('List Tags'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
     </ul>
 </div>
 <div class="tags form large-10 medium-9 columns">

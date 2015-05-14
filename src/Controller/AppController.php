@@ -45,14 +45,14 @@ class AppController extends Controller
                 'action' => 'index'
             ],
             'loginAction' => [
-                'controller' => 'Users',
-                'action' => 'login'
-            ],
-            'logoutRedirect' => [
+                'prefix' => false,
                 'controller' => 'Users',
                 'action' => 'login',
-                'admin' => false
-//                'home'
+            ],
+            'logoutRedirect' => [
+                'prefix' => false,
+                'controller' => 'Users',
+                'action' => 'login'
             ],
             'authError' => 'Đăng nhập để đến trang quản trị'
         ]);
@@ -61,15 +61,8 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['display']);
-        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
+        if ($this->request->param('prefix') === 'admin') {
             $this->layout = 'dashboard';
-            $user_id = $this->request->session()->read('User.id');
-            if (!empty($user_id)) {
-                if ($this->isAdmin($user_id)) {
-                    return $this->redirect('/admin/users');
-                }
-            }
-
         }
     }
 
@@ -77,26 +70,15 @@ class AppController extends Controller
      * Ham kiem tra co nguoi dung dang nhap hay chua.
      * @return bool true if user logged in, false if no logged in user.
      */
-    public function isLoggedIn() {
-        $user_id = $this->request->session()->read('User.id');
+    public function isLoggedIn()
+    {
+//        $user_id = $this->request->session()->read('User.id');
+        $user = $this->Auth->User();
         if (!empty($user)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
-    }
-
-    /**
-     * Ham kiem tra mot user co phai la administrator khong.
-     * @param $user User can kiem tra
-     * @return bool
-     */
-    public function isAdmin($user)
-    {
-        // Admin can access every action
-        if (!empty($user['roles_id']) && $user['roles_id'] === 1) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -120,11 +102,60 @@ class AppController extends Controller
         return false;
     }
 
+    /**
+     * Ham kiem tra mot user co phai la administrator khong.
+     * @param $user User can kiem tra
+     * @return bool
+     */
+    public function isAdmin($user)
+    {
+        // Admin can access every action
+        if (!empty($user['role_id']) && $user['role_id'] === 1) {
+            return true;
+        }
+        return false;
+    }
+
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
 //        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
 //            $this->layout = 'dashboard';
 //        }
+    }
+
+    /**
+     * Hàm tạo slug từ một string
+     * Original source: http://code.freetuts.net/tao-slug-tu-dong-bang-javascript-va-php-199.html
+     * @param $str Chuỗi truyền vào
+     * @return string Chuỗi slug trả về
+     */
+    protected function _toSlug($str)
+    {
+        $str = trim(mb_strtolower($str));
+        $str = preg_replace('/([\_|\+|\=|.|\s]+)/', '-', $str);
+        $str = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $str);
+        $str = preg_replace('/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/', 'e', $str);
+        $str = preg_replace('/(ì|í|ị|ỉ|ĩ)/', 'i', $str);
+        $str = preg_replace('/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/', 'o', $str);
+        $str = preg_replace('/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/', 'u', $str);
+        $str = preg_replace('/(ỳ|ý|ỵ|ỷ|ỹ)/', 'y', $str);
+        $str = preg_replace('/(đ)/', 'd', $str);
+        $str = preg_replace('/[^a-z0-9-\s]/', '', $str);
+        return $str;
+    }
+
+    protected function _toTitleCase($title)
+    {
+        if (!is_string($title)) {
+            $rs = '';
+        } else {
+            $rs = explode(' ', $title);
+            foreach ($rs as $i => $word) {
+                $rs[$i] = ucfirst($word);
+            }
+            $rs = implode(' ', $rs);
+        }
+        return $rs;
     }
 }

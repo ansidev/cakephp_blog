@@ -2,6 +2,8 @@
 use Cake\Core\Configure;
 use Cake\Error\Debugger;
 
+$this->layout = 'front_page';
+
 if (Configure::read('debug')):
     $this->layout = 'dev_error';
 
@@ -30,8 +32,8 @@ if (Configure::read('debug')):
     $this->end();
 endif;
 ?>
-<h2><?= __d('cake', 'An Internal Error Has Occurred') ?></h2>
+<h2><?= __d('cake', 'Đã xảy ra lỗi nội bộ') ?></h2>
 <p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
+    <strong><?= __d('cake', 'Lỗi') ?>: </strong>
     <?= h($message) ?>
 </p>

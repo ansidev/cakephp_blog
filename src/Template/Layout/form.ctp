@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'CakeBlog';
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,6 +27,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('bootstrap.css') ?>
+    <?= $this->Html->css('sb-admin-2.css') ?>
     <?= $this->Html->css('font-awesome.css') ?>
     <?= $this->Html->script('jquery.js') ?>
     <?= $this->Html->script('bootstrap.js') ?>
@@ -35,6 +36,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
+<?= $this->element('top_bar'); ?>
 <div class="container" style="padding-top: 70px">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -42,5 +44,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
     </div>
 </div>
+<hr>
+<!-- Footer -->
+<?= $this->element('footer'); ?>
 </body>
 </html>

@@ -18,7 +18,7 @@ class MyHtmlHelper extends Helper
 //    protected $_defaultConfig = [
 //        'templates' => [
 //            'listContainer' => '<div class="list-group"{{attrs}}>{{content}}</div>',
-//            'listItem' => '<a href="{{url}}" class="list-group-item"{{attrs}}>{{title}}</a>',
+//            'listItem' => '<li class="list-group-item"{{attrs}}>{{title}}</li>',
 //        ]
 //    ];
 
@@ -72,9 +72,7 @@ class MyHtmlHelper extends Helper
         }
         $options += ['class' => 'list-group-item', 'escape' => false];
         $title = $this->_parseUserInfo($info);
-        $url = (!empty($options['url'])) ? $options['url'] : '';
-        unset($options['url']);
-        return $this->Html->link($title, $url, $options);
+        return $this->Html->tag('li', $title, $options);
     }
 
     public function createUserInfo($info = [], $options = [])

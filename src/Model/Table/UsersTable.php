@@ -25,7 +25,7 @@ class UsersTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
         $this->belongsTo('Roles', [
-            'foreignKey' => 'roles_id',
+            'foreignKey' => 'role_id',
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Comments', [
@@ -49,7 +49,7 @@ class UsersTable extends Table
             ->allowEmpty('id', 'create')
             ->requirePresence('username', 'create')
             ->notEmpty('username')
-            ->add('email', 'valid', ['rule' => 'email'])
+            ->add('email', 'valid', ['rule' => 'email', 'message' => 'Email không hợp lệ'])
             ->requirePresence('email', 'create')
             ->notEmpty('email')
             ->allowEmpty('full_name')
@@ -74,9 +74,9 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['username']));
-        $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['roles_id'], 'Roles'));
+        $rules->add($rules->isUnique(['username'], 'Tài khoản đã được đăng ký'));
+        $rules->add($rules->isUnique(['email'], 'Email đã được đăng ký'));
+        $rules->add($rules->existsIn(['role_id'], 'Roles', 'Role không hợp lệ'));
         return $rules;
     }
 }
