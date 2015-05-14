@@ -33,6 +33,7 @@ class UploadComponent extends Component
     public function startup(Event $event)
     {
         $this->data = $event->subject->request->data;
+//        debug($this->data); die;
         $this->params = $event->subject->request->params;
         $this->uploadDetected =
             ($this->_multiArrayKeyExists("tmp_name", $this->data) || $this->_multiArrayKeyExists("tmp_name", $this->data));
@@ -71,9 +72,12 @@ class UploadComponent extends Component
             $target_path = $temp_path . "-" . $i . $this->_ext();
             $i++;
         }
-        if (!file_exists($target_path))
-            mkdir($up_dir, 0775, true);
-            chmod($up_dir, 0775);
+        if (!file_exists($target_path)) {
+            if (!file_exists($up_dir)) {
+                mkdir($up_dir, 0775, true);
+                chmod($up_dir, 0775);
+            }
+        }
         if (move_uploaded_file($this->uploadedFile['tmp_name'], $target_path)) {
 //            echo "Success"; die;
             //Final File Name
