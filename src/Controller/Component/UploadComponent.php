@@ -25,6 +25,7 @@ class UploadComponent extends Component
     private $data = [], $params = [];
     public $finalFile = null;
     public $fileVar = 'file';
+    public $errors = [];
 
     public function initialize(array $config)
     {
