@@ -1,5 +1,5 @@
 <li>
-    <?= $this->Html->link(__('<i class="fa fa-users fa-fw"></i> Dashboard<span class="fa arrow"></span>'), ['controller' => 'Home', 'action' => 'index'], ['escape' => false]) ?>
+    <?= $this->Html->link(__('<i class="fa fa-home fa-fw"></i> Dashboard<span class="fa arrow"></span>'), ['controller' => 'Home', 'action' => 'index'], ['escape' => false]) ?>
 </li>
 <li>
     <?= $this->Html->link(__('<i class="fa fa-users fa-fw"></i> Quản lý người dùng<span class="fa arrow"></span>'), ['controller' => 'Users', 'action' => 'index'], ['escape' => false]) ?>
