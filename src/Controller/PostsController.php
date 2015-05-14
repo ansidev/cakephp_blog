@@ -271,25 +271,6 @@ class PostsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    /**
-     * Hàm tạo slug từ một string
-     * @param $str Chuỗi truyền vào
-     * @return string Chuỗi slug trả về
-     */
-    private function __toSlug($str)
-    {
-        $str = trim(mb_strtolower($str));
-        $str = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $str);
-        $str = preg_replace('/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/', 'e', $str);
-        $str = preg_replace('/(ì|í|ị|ỉ|ĩ)/', 'i', $str);
-        $str = preg_replace('/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/', 'o', $str);
-        $str = preg_replace('/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/', 'u', $str);
-        $str = preg_replace('/(ỳ|ý|ỵ|ỷ|ỹ)/', 'y', $str);
-        $str = preg_replace('/(đ)/', 'd', $str);
-        $str = preg_replace('/[^a-z0-9-\s]/', '', $str);
-        $str = preg_replace('/([\s]+)/', '-', $str);
-        return $str;
-    }
 
     /**
      * Auto generate slug method
@@ -298,28 +279,29 @@ class PostsController extends AppController
      */
     public function autoSlug($title)
     {
+        $_model = $this->request->param('controller');
         $this->request->allowMethod(['post', 'ajax']);
         if (!empty($title)) {
-            $slug = $this->__toSlug($title);
+            $slug = $this->_toSlug($title);
             if ($this->request->is('ajax')) {
                 $this->layout = 'ajax';
             }
-            $slugs = $this->Posts->find('list', [
+            $slugs = $this->$_model->find('list', [
                 'valueField' => 'slug',
                 'conditions' => [
-                    'Posts.slug' => $slug
+                    $_model . '.slug' => $slug
                 ]
             ]);
             if ($slugs->count() === 0) {
                 $rs = $slug;
             } else {
-                $slugs = $this->Posts->find('list', [
+                $slugs = $this->$_model->find('list', [
                     'valueField' => 'slug',
                     'conditions' => [
-                        'Posts.slug LIKE' => $slug . '-%'
+                        $_model . '.slug LIKE' => $slug . '-%'
                     ],
                     'order' => [
-                        'Posts.slug' => 'ASC'
+                        $_model . '.slug' => 'ASC'
                     ]
                 ]);
                 if ($slugs->count() === 0) {
