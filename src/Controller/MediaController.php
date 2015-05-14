@@ -20,6 +20,7 @@ class MediaController extends AppController
         $this->layout = 'dashboard';
         $this->Upload->uploadDir .= DS . Time::now()->i18nFormat('YYYY/MM/dd');
         if (in_array($this->request->param('action'), ['upload']) && $this->request->is('post')) {
+//            debug($this->request->data); die;
             $data = $this->request->data;
             $name = $data['file']['name'];
             if (empty($data['title'])) {
@@ -69,6 +70,12 @@ class MediaController extends AppController
         $this->set('_serialize', ['media']);
     }
 
+
+    private function __url($relative_path)
+    {
+        return Configure::read('App.rootUrl') . $relative_path;
+    }
+
     /**
      * Upload method
      *
@@ -90,7 +97,7 @@ class MediaController extends AppController
                     'file_name' => $data['file_name'],
                     'mime_type' => $data['mime_type'],
                     'relative_path' => $data['relative_path'],
-                    'url' => Configure::read('App.rootUrl') . $data['relative_path'],
+                    'url' => $this->__url($data['relative_path']),
                     'description' => $data['description']
                 ];
                 $data['description'] = json_encode($description);
@@ -101,9 +108,13 @@ class MediaController extends AppController
                 if ($this->Media->save($media)) {
                     $this->Flash->success('Tập tin đã được upload thành công.');
                     return $this->redirect(['action' => 'index']);
-                } else {
-                    $this->Flash->error('Đã có lỗi trong quá trình upload.');
                 }
+            } else {
+                $this->Flash->error('Đã có lỗi trong quá trình upload.');
+                foreach ($this->Upload->errors as $error) {
+                    $this->Flash->error($error);
+                }
+                return $this->redirect(['action' => 'index']);
             }
         }
         $users = $this->Media->Users->find('list', ['limit' => 200]);
