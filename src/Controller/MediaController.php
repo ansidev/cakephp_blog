@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\I18n\Time;
 
@@ -17,8 +18,25 @@ class MediaController extends AppController
     {
         parent::beforeFilter($event);
         $this->layout = 'dashboard';
-//        $this->Upload->fileVar = 'file';
-        $this->Upload->uploadDir .= '/' . Time::now()->i18nFormat('YYYY/MM/dd');
+        $this->Upload->uploadDir .= DS . Time::now()->i18nFormat('YYYY/MM/dd');
+        if (in_array($this->request->param('action'), ['upload']) && $this->request->is('post')) {
+            $data = $this->request->data;
+            $name = $data['file']['name'];
+            if (empty($data['title'])) {
+                $data['title'] = str_replace('-', ' ', $this->_toSlug(pathinfo($name)['filename']));
+            }
+            $data['title'] = ucfirst($data['title']);
+            if (empty($data['slug'])) {
+                $data['slug'] = $this->autoSlug($data['title']);
+            }
+            $data['file']['name'] = $data['slug'] . '-' . Time::now()->i18nFormat('YYYY-MM-dd');
+            $img_size = getimagesize($data["file"]["tmp_name"]);
+            if ($img_size) {
+                $data['file']['name'] .= '-w' . $img_size[0] . '-h' . $img_size[1] . '-' . md5_file($data["file"]["tmp_name"]);
+            }
+            $data['file']['name'] .= '.' . pathinfo($name)['extension'];
+            $this->request->data = $data;
+        }
     }
 
     /**
@@ -60,26 +78,32 @@ class MediaController extends AppController
     {
         $media = $this->Media->newEntity();
         if ($this->request->is('post')) {
-            $now = Time::now();
             $data = $this->request->data;
-//            debug($this->request->data); die;
-            $data['user_id'] = $this->Auth->User('id');
-            if (empty($data['description'])) {
-                $data['description'] = $data['title'];
-            }
-            $data['url'] = $this->Upload->uploadDir . '/' . $data['file']['name'];
-//            $data['file_name'] = $data['file']['name'];
-            $data['file_name'] = $this->Upload->finalFile;
-            $data['media_type'] = 1;
-            $data['status'] = 1;
-            $data['created_at'] = $data['updated_at'] = $now;
-//            debug($data); die;
-            $media = $this->Media->patchEntity($media, $data);
-            if ($this->Media->save($media)) {
-                $this->Flash->success('The media has been saved.');
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error('The media could not be saved. Please, try again.');
+            // Neu file upload thanh cong thi luu thong tin vao database
+            if (!empty($this->Upload->finalFile)) {
+                $data['user_id'] = $this->Auth->User('id');
+                $data['relative_path'] = $this->Upload->finalFile;
+                $data['mime_type'] = $data['file']['type'];
+                $data['file_name'] = $data['file']['name'];
+                $description = [
+                    'title' => $data['title'],
+                    'file_name' => $data['file_name'],
+                    'mime_type' => $data['mime_type'],
+                    'relative_path' => $data['relative_path'],
+                    'url' => Configure::read('App.rootUrl') . $data['relative_path'],
+                    'description' => $data['description']
+                ];
+                $data['description'] = json_encode($description);
+                $data['media_type'] = 1;
+                $data['status'] = 1;
+                $data['created_at'] = $data['updated_at'] = Time::now();
+                $media = $this->Media->patchEntity($media, $data);
+                if ($this->Media->save($media)) {
+                    $this->Flash->success('Tập tin đã được upload thành công.');
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error('Đã có lỗi trong quá trình upload.');
+                }
             }
         }
         $users = $this->Media->Users->find('list', ['limit' => 200]);
@@ -102,10 +126,10 @@ class MediaController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $media = $this->Media->patchEntity($media, $this->request->data);
             if ($this->Media->save($media)) {
-                $this->Flash->success('The media has been saved.');
+                $this->Flash->success('Thông tin đã được cập nhật.');
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error('The media could not be saved. Please, try again.');
+                $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại');
             }
         }
         $users = $this->Media->Users->find('list', ['limit' => 200]);
@@ -125,9 +149,9 @@ class MediaController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $media = $this->Media->get($id);
         if ($this->Media->delete($media)) {
-            $this->Flash->success('The media has been deleted.');
+            $this->Flash->success('Thông tin về tập tin đã được xóa khỏi cơ sở dữ liệu.');
         } else {
-            $this->Flash->error('The media could not be deleted. Please, try again.');
+            $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại.');
         }
         return $this->redirect(['action' => 'index']);
     }

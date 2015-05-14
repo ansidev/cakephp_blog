@@ -1,7 +1,7 @@
 <div id="media">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Quản lý bài viết</h1>
+            <h1 class="page-header">Quản lý các tập tin media</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -10,7 +10,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Danh sách bài viết
+                    Danh sách tập tin
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -24,7 +24,9 @@
                                 <th><?= $this->Paginator->sort('title') ?></th>
                                 <th><?= $this->Paginator->sort('slug') ?></th>
                                 <th><?= $this->Paginator->sort('file_name') ?></th>
+                                <th><?= $this->Paginator->sort('relative_path') ?></th>
                                 <th><?= $this->Paginator->sort('media_type') ?></th>
+                                <th><?= $this->Paginator->sort('mime_type') ?></th>
                                 <th><?= $this->Paginator->sort('status') ?></th>
                                 <th class="actions"><?= __('Actions') ?></th>
                             </tr>
@@ -39,7 +41,9 @@
                                     <td><?= h($media->title) ?></td>
                                     <td><?= h($media->slug) ?></td>
                                     <td><?= h($media->file_name) ?></td>
+                                    <td><?= h($media->relative_path) ?></td>
                                     <td><?= $this->Number->format($media->media_type) ?></td>
+                                    <td><?= h($media->mime_type) ?></td>
                                     <td><?= $this->Number->format($media->status) ?></td>
                                     <td class="actions">
                                         <?= $this->Html->link(__('View'), ['action' => 'view', $media->id]) ?>
