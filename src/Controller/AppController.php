@@ -144,4 +144,18 @@ class AppController extends Controller
         $str = preg_replace('/[^a-z0-9-\s]/', '', $str);
         return $str;
     }
+
+    protected function _toTitleCase($title)
+    {
+        if (!is_string($title)) {
+            $rs = '';
+        } else {
+            $rs = explode(' ', $title);
+            foreach ($rs as $i => $word) {
+                $rs[$i] = ucfirst($word);
+            }
+            $rs = implode(' ', $rs);
+        }
+        return $rs;
+    }
 }
