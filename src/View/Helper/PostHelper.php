@@ -175,7 +175,7 @@ class PostHelper extends Helper
     }
 
     public function echoShortBody($body, $length = 400) {
-        $body = h($body);
+        $body = htmlspecialchars_decode($body);
         if (empty($body)) {
             return '';
         } else {
