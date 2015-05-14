@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * Original Author: anhtuank7c
+ * Homepage: http://crabstudio.info
+ * Email: anhtuank7c@gmail.com
+ * Date: 22/09/14
+ * Time: 6:59 PM
+ * Author: ansidev
+ * Email: ansidev@gmail.com
+ * Homepage: http://blog.ansidev.tk
+ * Date: 13/05/2015
+ * Time: 16:25 PM
+ */
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -15,14 +26,14 @@ class UploadComponent extends Component
     public $finalFile = null;
     public $fileVar = 'file';
 
-    public function initialize(Event $event)
+    public function initialize(array $config)
     {
-        $this->data = $event->subject->request->data;
-        $this->params = $event->subject->request->params;
     }
 
     public function startup(Event $event)
     {
+        $this->data = $event->subject->request->data;
+        $this->params = $event->subject->request->params;
         $this->uploadDetected =
             ($this->_multiArrayKeyExists("tmp_name", $this->data) || $this->_multiArrayKeyExists("tmp_name", $this->data));
         $this->uploadedFile = $this->_uploadedFileArray();
@@ -34,7 +45,6 @@ class UploadComponent extends Component
     public function removeFile($name = null)
     {
         if (!$name) return false;
-
         $up_dir = WWW_ROOT . $this->uploadDir;
         $target_path = $up_dir . DS . $name;
         if (unlink($target_path)) return true;
@@ -62,11 +72,12 @@ class UploadComponent extends Component
             $i++;
         }
         if (!file_exists($target_path))
-            mkdir($up_dir);
-
+            mkdir($up_dir, 0775, true);
+            chmod($up_dir, 0775);
         if (move_uploaded_file($this->uploadedFile['tmp_name'], $target_path)) {
+//            echo "Success"; die;
             //Final File Name
-            $this->finalFile = $this->uploadDir . '/webroot/img/uploads' . basename($target_path);
+            $this->finalFile = $this->uploadDir . '/' . basename($target_path);
         } else {
             $this->_error('FileUpload::processFile() - Unable to save temp file to file system.');
         }
@@ -103,7 +114,7 @@ class UploadComponent extends Component
 
     public function _uploadedFileArray()
     {
-        $retval = isset($this->data[$this->fileVar]) ? $this->data[$this->fileVar] : false;
+        $retval = !empty($this->data[$this->fileVar]) ? $this->data[$this->fileVar] : false;
         if ($this->uploadDetected && $retval === false) {
             $this->_error("FileUpload: A file was detected, but was unable to be processed due to a misconfiguration of FileUpload. Current config -- fileModel:'{$this->fileModel}' fileVar:'{$this->fileVar}'");
         }
@@ -127,9 +138,3 @@ class UploadComponent extends Component
         return false;
     }
 }
-
-
-
-
-
-
