@@ -1,5 +1,6 @@
-/webroot/js/npm.js
+/public/js/npm.js
 /tmp/*
 /logs/*
 /.idea/*
 /nbproject/private/
+/public/fonts/*
