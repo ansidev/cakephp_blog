@@ -45,11 +45,12 @@ class MediaController extends AppController
      *
      * @return void
      */
-    public function index()
+    public function index($display = true)
     {
         $this->paginate = [
             'contain' => ['Users']
         ];
+        $this->set('display', $display);
         $this->set('media', $this->paginate($this->Media));
         $this->set('_serialize', ['media']);
     }
@@ -107,7 +108,9 @@ class MediaController extends AppController
                 $media = $this->Media->patchEntity($media, $data);
                 if ($this->Media->save($media)) {
                     $this->Flash->success('Tập tin đã được upload thành công.');
-                    return $this->redirect(['action' => 'index']);
+//                    if (!$this->request->is('requested')) {
+                        return $this->redirect(['action' => 'upload']);
+//                    }
                 }
             } else {
                 $this->Flash->error('Đã có lỗi trong quá trình upload.');
@@ -117,8 +120,9 @@ class MediaController extends AppController
                 return $this->redirect(['action' => 'index']);
             }
         }
-        $users = $this->Media->Users->find('list', ['limit' => 200]);
-        $this->set(compact('media', 'users'));
+//        $users = $this->Media->Users->find('list', ['limit' => 200]);
+//        $this->set(compact('media', 'users'));
+        $this->set(compact('media'));
         $this->set('_serialize', ['media']);
     }
 
