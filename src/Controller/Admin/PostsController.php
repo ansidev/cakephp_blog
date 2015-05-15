@@ -179,4 +179,25 @@ class PostsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Permanent Delete method
+     *
+     * @param string|null $id Post id.
+     * @return void Redirects to index.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function permanent_delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $post = $this->Posts->get($id);
+        if ($this->Posts->delete($post)) {
+            $this->Flash->success('Bài đăng đã được xóa');
+        } else {
+            $this->Flash->error('Đã có lỗi xảy ra, bạn vui lòng thử lại!');
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+
+
 }
