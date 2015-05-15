@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    $('#title').change(function () {
-        autoSlug($('#title').val());
+    $('#post-title').change(function () {
+        autoSlug($('#post-title').val());
     });
 });
 
@@ -12,7 +12,7 @@ function autoSlug(title) {
         success: function (response) {
             var json = JSON.parse(response);
             var i = 0;
-            $('#slug').val(json[0]);
+            $('#post-slug').val(json[0]);
         },
         error: function (error) {
             console.log(error);
