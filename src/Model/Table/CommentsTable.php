@@ -1,8 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Comment;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -32,6 +30,14 @@ class CommentsTable extends Table
             'foreignKey' => 'post_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('ParentComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'parent_id'
+        ]);
+        $this->hasMany('ChildComments', [
+            'className' => 'Comments',
+            'foreignKey' => 'parent_id'
+        ]);
     }
 
     /**
@@ -47,6 +53,8 @@ class CommentsTable extends Table
             ->allowEmpty('id', 'create')
             ->requirePresence('body', 'create')
             ->notEmpty('body')
+            ->requirePresence('path', 'create')
+            ->notEmpty('path')
             ->add('status', 'valid', ['rule' => 'numeric'])
             ->requirePresence('status', 'create')
             ->notEmpty('status')
@@ -71,6 +79,7 @@ class CommentsTable extends Table
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['post_id'], 'Posts'));
+        $rules->add($rules->existsIn(['parent_id'], 'ParentComments'));
         return $rules;
     }
 }

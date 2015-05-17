@@ -18,6 +18,8 @@ class Comment extends Entity
         'body' => true,
         'user_id' => true,
         'post_id' => true,
+        'parent_id' => true,
+        'path' => true,
         'status' => true,
         'created_at' => true,
         'updated_at' => true,

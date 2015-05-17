@@ -21,6 +21,8 @@ class CommentsFixture extends TestFixture
         'body' => ['type' => 'string', 'length' => 100, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'user_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'post_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'parent_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'path' => ['type' => 'string', 'length' => 100, 'null' => false, 'default' => '1', 'comment' => '', 'precision' => null, 'fixed' => null],
         'status' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => '1', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created_at' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => '', 'precision' => null],
         'updated_at' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => '', 'precision' => null],
@@ -34,7 +36,7 @@ class CommentsFixture extends TestFixture
             'cm_user_key' => ['type' => 'foreign', 'columns' => ['user_id'], 'references' => ['users', 'id'], 'update' => 'noAction', 'delete' => 'noAction', 'length' => []],
         ],
         '_options' => [
-'engine' => 'InnoDB', 'collation' => 'utf8_general_ci'
+            'engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'
         ],
     ];
     // @codingStandardsIgnoreEnd
@@ -50,9 +52,11 @@ class CommentsFixture extends TestFixture
             'body' => 'Lorem ipsum dolor sit amet',
             'user_id' => 1,
             'post_id' => 1,
+            'parent_id' => 1,
+            'path' => 'Lorem ipsum dolor sit amet',
             'status' => 1,
-            'created_at' => '2015-04-21 03:04:52',
-            'updated_at' => '2015-04-21 03:04:52'
+            'created_at' => '2015-05-17 21:38:06',
+            'updated_at' => '2015-05-17 21:38:06'
         ],
     ];
 }
