@@ -22,7 +22,7 @@ class CommentsFixture extends TestFixture
         'user_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'post_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'parent_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'path' => ['type' => 'string', 'length' => 100, 'null' => false, 'default' => '1', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'path' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'fixed' => null],
         'status' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => '1', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created_at' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => '', 'precision' => null],
         'updated_at' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => '', 'precision' => null],
@@ -36,7 +36,7 @@ class CommentsFixture extends TestFixture
             'cm_user_key' => ['type' => 'foreign', 'columns' => ['user_id'], 'references' => ['users', 'id'], 'update' => 'noAction', 'delete' => 'noAction', 'length' => []],
         ],
         '_options' => [
-            'engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'
+'engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'
         ],
     ];
     // @codingStandardsIgnoreEnd
@@ -55,8 +55,8 @@ class CommentsFixture extends TestFixture
             'parent_id' => 1,
             'path' => 'Lorem ipsum dolor sit amet',
             'status' => 1,
-            'created_at' => '2015-05-17 21:38:06',
-            'updated_at' => '2015-05-17 21:38:06'
+            'created_at' => '2015-05-17 22:25:29',
+            'updated_at' => '2015-05-17 22:25:29'
         ],
     ];
 }

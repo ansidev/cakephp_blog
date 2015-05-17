@@ -25,5 +25,7 @@ class Comment extends Entity
         'updated_at' => true,
         'user' => true,
         'post' => true,
+        'parent_comment' => true,
+        'child_comments' => true,
     ];
 }
