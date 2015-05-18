@@ -8,6 +8,7 @@
 namespace App\View\Helper;
 
 
+use Cake\ORM\TableRegistry;
 use Cake\View\Helper;
 
 class UserInfoHelper extends Helper
@@ -36,5 +37,17 @@ class UserInfoHelper extends Helper
             $url .= ' />';
         }
         return $url;
+    }
+
+    public function getUserInfo($user_id, array $fields = [])
+    {
+        $object = TableRegistry::get('Users');
+        $query = $object->find()
+            ->select($fields)
+            ->where(['id' => $user_id])
+            ->limit(1)
+            ->toArray();
+        return $query[0];
+
     }
 }
