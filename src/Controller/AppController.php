@@ -82,6 +82,15 @@ class AppController extends Controller
     }
 
     /**
+     * Ham lay thong tin nguoi dung dang login
+     * @return array|null Mang chua thong tin nguoi dung
+     */
+    public function getUserId()
+    {
+        return $this->Auth->User('id');
+    }
+
+    /**
      * Ham kiem tra user co quyen truy cap action khong.
      * @param null $user
      * @return bool
