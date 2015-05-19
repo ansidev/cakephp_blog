@@ -30,6 +30,8 @@ $cakeDescription = 'CakeBlog';
     <?= $this->Html->css('font-awesome.css') ?>
     <?= $this->Html->css('sb-admin-2.css') ?>
     <?= $this->Html->css('data-tables.bootstrap.css') ?>
+    <?= $this->Html->css('blog/style'); ?>
+
     <?= $this->Html->script('jquery.js') ?>
     <?= $this->Html->script('bootstrap.js') ?>
     <?= $this->Html->script('jquery.data-tables.js') ?>
@@ -39,7 +41,7 @@ $cakeDescription = 'CakeBlog';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
+<body style="margin-top: 50px">
 <?= $this->element('top_bar') ?>
 <!-- Page Content -->
 <div class="container" style="padding-top: 20px;">
@@ -79,10 +81,25 @@ $cakeDescription = 'CakeBlog';
                 <!-- /.input-group -->
             </div>
 
-            <!-- Blog Categories Well -->
+            <div class="well">
+                <h4>Bài viết gần đây</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-unstyled">
+                            <?php foreach ($recent_posts as $post): ?>
+                                <li>
+                                    <?= $this->Html->link(__($post->title), $this->Url->build(['_name' => 'post-read', 'slug' => $post->slug, 'id' => $post->id])) ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+
             <div class="well">
                 <h4>Chủ đề</h4>
-
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="list-unstyled">
@@ -98,14 +115,22 @@ $cakeDescription = 'CakeBlog';
                 <!-- /.row -->
             </div>
 
-            <!-- Side Widget Well -->
             <div class="well">
-                <h4>Side Widget Well</h4>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus
-                    laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+                <h4>Tag</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-unstyled">
+                            <?php foreach ($tags as $tag): ?>
+                                <li>
+                                    <?= $this->Html->link(__($tag->name), ['controller' => 'Tags', 'action' => 'view', $tag->id]) ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
             </div>
-
         </div>
 
     </div>
