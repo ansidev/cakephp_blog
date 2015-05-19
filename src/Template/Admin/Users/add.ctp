@@ -1,4 +1,4 @@
-<div class="users form large-10 medium-9 columns">
+<div class="users col-md-4 col-md-offset-4">
     <?= $this->Form->create($user); ?>
     <fieldset>
         <legend><?= __('Thêm người dùng mới') ?></legend>
