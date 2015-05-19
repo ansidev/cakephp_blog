@@ -18,7 +18,7 @@ use Cake\View\View;
 class MenuHelper extends Helper
 {
     use ModelAwareTrait;
-    public $helpers = ['Form', 'UserInfo'];
+    public $helpers = ['Form', 'UserInfo', 'Time'];
 
     protected $_defaultConfig = [
         'parent_id' => 'parent_id',
@@ -108,7 +108,7 @@ class MenuHelper extends Helper
             $html .= '<div class="panel-body" id="comment-' . $node->get('id') . '">';
             $html .= '<header class="text-left">';
             $html .= '<time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ';
-            $html .= $node->get('created_at');
+            $html .= 'Đăng vào ' . $this->Time->format($node->get('created_at'), 'dd MMM, y H:m:s');
             $html .= '</time>';
             $html .= '</header>';
             $html .= '<div class="comment-post">';
@@ -116,7 +116,7 @@ class MenuHelper extends Helper
             $html .= '</div>';
             $html .= '<p class="text-right">';
             $html .= '<button class="btn btn-default btn-sm btn-reply">';
-            $html .= '<i class="fa fa-reply" id="<?= $cm->id ?>" path="' . $node->get('path') . '" post-id="<?= $post->id ?>"></i> Reply';
+            $html .= '<i class="fa fa-reply" id="' . $node->get('id') . '" path="' . $node->get('path') . '" post-id="' . $post_id . '"></i> Reply';
             $html .= '</button>';
             $html .= '</p>';
             $html .= '<div class="reply-box" style="display: none">';
@@ -134,7 +134,6 @@ class MenuHelper extends Helper
             $html .= '</div>';
             $html .= '</div>';
             $html .= '</article>';
-//            debug($node->get('id') .  ' - '. $this->childCount($node, true));
             if ($this->childCount($node, true) !== 0) {
                 $childNodes = $this->findChildren($node);
                 foreach ($childNodes as $child) {
