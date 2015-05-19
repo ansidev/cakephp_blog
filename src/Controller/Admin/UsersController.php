@@ -98,6 +98,10 @@ class UsersController extends AppController
      */
     public function update_info($id = null)
     {
+        if (empty($id))
+        {
+            $id = $this->getUserId();
+        }
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
