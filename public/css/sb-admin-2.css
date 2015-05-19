@@ -407,3 +407,9 @@ table.dataTable thead .sorting:after {
         z-index: 9999;
     }
 }
+
+@media (min-width: 768px) {
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+}
