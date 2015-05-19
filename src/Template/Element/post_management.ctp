@@ -10,7 +10,6 @@
     <?= $this->Html->link(__('<i class="fa fa-comments fa-fw"></i> Quản lý bình luận<span class="fa arrow"></span>'), ['controller' => 'Comments', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
         <li><?= $this->Html->link(__('Danh sách bình luận'), ['controller' => 'Comments', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('Tạo bình luận mới'), ['controller' => 'Comments', 'action' => 'add']) ?> </li>
     </ul>
     <!-- /.nav-second-level -->
 </li>
