@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class Cake\ORM\Behavior\ModernTreeBehavior</title>
+	<title>Class App\Model\Behavior\ModernTreeBehavior</title>
 
 	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
 
@@ -18,7 +18,7 @@
 		<div id="groups">
 				<h3>Namespaces</h3>
 			<ul>
-				<li>
+				<li class="active">
 					<a href="namespace-App.html">
 						App<span></span>
 					</a>
@@ -46,12 +46,17 @@
 
 						</li>
 							</ul></li>
-				<li>
+				<li class="active">
 					<a href="namespace-App.Model.html">
 						Model<span></span>
 					</a>
 
 						<ul>
+				<li class="active">
+					<a href="namespace-App.Model.Behavior.html">
+						Behavior					</a>
+
+						</li>
 				<li>
 					<a href="namespace-App.Model.Entity.html">
 						Entity					</a>
@@ -92,24 +97,6 @@
 
 						</li>
 							</ul></li></ul></li>
-				<li class="active">
-					<a href="namespace-Cake.html">
-						Cake<span></span>
-					</a>
-
-						<ul>
-				<li class="active">
-					<a href="namespace-Cake.ORM.html">
-						ORM<span></span>
-					</a>
-
-						<ul>
-				<li class="active">
-					<a href="namespace-Cake.ORM.Behavior.html">
-						Behavior					</a>
-
-						</li>
-							</ul></li></ul></li>
 			</ul>
 		</div>
 
@@ -119,7 +106,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li class="active"><a href="class-Cake.ORM.Behavior.ModernTreeBehavior.html">ModernTreeBehavior</a></li>
+				<li class="active"><a href="class-App.Model.Behavior.ModernTreeBehavior.html">ModernTreeBehavior</a></li>
 			</ul>
 
 
@@ -146,7 +133,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="namespace-Cake.ORM.Behavior.html" title="Summary of Cake\ORM\Behavior"><span>Namespace</span></a>
+				<a href="namespace-App.Model.Behavior.html" title="Summary of App\Model\Behavior"><span>Namespace</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -182,7 +169,7 @@ Cake\ORM\Behavior
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>Cake\ORM\Behavior\ModernTreeBehavior</span></b>			
+<b><span>App\Model\Behavior\ModernTreeBehavior</span></b>			
 			
 			
 		</dd>
@@ -198,10 +185,10 @@ Cake\ORM\Behavior
 	<div class="info">
 		
 		
-		<b>Namespace:</b> <a href="namespace-Cake.html">Cake</a>\<a href="namespace-Cake.ORM.html">ORM</a>\<a href="namespace-Cake.ORM.Behavior.html">Behavior</a><br>
+		<b>Namespace:</b> <a href="namespace-App.html">App</a>\<a href="namespace-App.Model.html">Model</a>\<a href="namespace-App.Model.Behavior.html">Behavior</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#26-909" title="Go to source code">Model/Behavior/ModernTreeBehavior.php</a>
+			<b>Located at</b> <a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#25-893" title="Go to source code">Model/Behavior/ModernTreeBehavior.php</a>
 		<br>
 	</div>
 
@@ -209,90 +196,6 @@ Cake\ORM\Behavior
 
 	<table class="summary methods" id="methods">
 	<caption>Methods summary</caption>
-	<tr data-order="beforeSave" id="_beforeSave">
-
-		<td class="attributes"><code>
-			 public 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_beforeSave">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#77-141" title="Go to source code">beforeSave</a>( <span>Cake\Event\Event <var>$event</var></span>, <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
-
-		<div class="description short">
-			<p>Before save listener.
-Transparently manages setting the lft and rght fields if the parent field is
-included in the parameters to be saved.</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Before save listener.
-Transparently manages setting the lft and rght fields if the parent field is
-included in the parameters to be saved.</p>
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$event</var></dt>
-					<dd>The beforeSave event that was fired</dd>
-					<dt><var>$entity</var></dt>
-					<dd>the entity that is going to be saved</dd>
-				</dl></div>
-
-
-				<h4>Throws</h4>
-				<div class="list">
-					RuntimeException<br>if the parent to set for the node is invalid
-				</div>
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="afterSave" id="_afterSave">
-
-		<td class="attributes"><code>
-			 public 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_afterSave">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#143-159" title="Go to source code">afterSave</a>( <span>Cake\Event\Event <var>$event</var></span>, <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
-
-		<div class="description short">
-			<p>After save listener.</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>After save listener.</p>
-
-<p>Manages updating level of descendents of currently saved entity.</p>
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$event</var></dt>
-					<dd>The beforeSave event that was fired</dd>
-					<dt><var>$entity</var></dt>
-					<dd>the entity that is going to be saved</dd>
-				</dl></div>
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="_setChildrenLevel" id="__setChildrenLevel">
 
 		<td class="attributes"><code>
@@ -305,7 +208,7 @@ included in the parameters to be saved.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__setChildrenLevel">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#161-195" title="Go to source code">_setChildrenLevel</a>( <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#146-180" title="Go to source code">_setChildrenLevel</a>( <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
 
 		<div class="description short">
 			<p>Set level for descendents.</p>
@@ -328,43 +231,6 @@ included in the parameters to be saved.</p>
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="beforeDelete" id="_beforeDelete">
-
-		<td class="attributes"><code>
-			 public 
-
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_beforeDelete">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#197-220" title="Go to source code">beforeDelete</a>( <span>Cake\Event\Event <var>$event</var></span>, <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
-
-		<div class="description short">
-			<p>Also deletes the nodes in the subtree of the entity to be delete</p>
-		</div>
-
-		<div class="description detailed hidden">
-			<p>Also deletes the nodes in the subtree of the entity to be delete</p>
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$event</var></dt>
-					<dd>The beforeDelete event that was fired</dd>
-					<dt><var>$entity</var></dt>
-					<dd>The entity that is going to be saved</dd>
-				</dl></div>
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="_setParent" id="__setParent">
 
 		<td class="attributes"><code>
@@ -377,7 +243,7 @@ included in the parameters to be saved.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__setParent">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#222-282" title="Go to source code">_setParent</a>( <span>Cake\ORM\Entity <var>$entity</var></span>, <span>mixed <var>$parent</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#207-267" title="Go to source code">_setParent</a>( <span>Cake\ORM\Entity <var>$entity</var></span>, <span>mixed <var>$parent</var></span> )</code>
 
 		<div class="description short">
 			<p>Sets the correct left and right values for the passed entity so it can be
@@ -422,7 +288,7 @@ move can be done without corrupting the structure.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__setAsRoot">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#284-316" title="Go to source code">_setAsRoot</a>( <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#269-285" title="Go to source code">_setAsRoot</a>( <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
 
 		<div class="description short">
 			<p>Updates the left and right column for the passed entity so it can be set as
@@ -461,7 +327,7 @@ so the structure remains valid</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__unmarkInternalTree">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#318-333" title="Go to source code">_unmarkInternalTree</a>( )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#287-302" title="Go to source code">_unmarkInternalTree</a>( )</code>
 
 		<div class="description short">
 			<p>Helper method used to invert the sign of the left and right columns that are
@@ -495,7 +361,7 @@ wouldn't change while performing other tree transformations.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_findPath">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#335-366" title="Go to source code">findPath</a>( <span>Cake\ORM\Query <var>$query</var></span>, <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#304-335" title="Go to source code">findPath</a>( <span>Cake\ORM\Query <var>$query</var></span>, <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			<p>Custom finder method which can be used to return the list of nodes from the root
@@ -544,7 +410,7 @@ is passed in the options containing the id of the node to get its path for.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_childCount">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#368-389" title="Go to source code">childCount</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>boolean <var>$direct</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#337-360" title="Go to source code">childCount</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>boolean <var>$direct</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			<p>Get the number of children nodes.</p>
@@ -586,7 +452,7 @@ direct children</p></dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_findChildren">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#391-437" title="Go to source code">findChildren</a>( <span>Cake\ORM\Query <var>$query</var></span>, <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#362-408" title="Go to source code">findChildren</a>( <span>Cake\ORM\Query <var>$query</var></span>, <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			<p>Get the children nodes of the current model</p>
@@ -640,7 +506,7 @@ direct children</p></dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_findTreeList">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#439-473" title="Go to source code">findTreeList</a>( <span>Cake\ORM\Query <var>$query</var></span>, <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#410-457" title="Go to source code">findTreeList</a>( <span>Cake\ORM\Query <var>$query</var></span>, <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			<p>Gets a representation of the elements in the tree as a flat list where the keys are
@@ -693,7 +559,7 @@ Values are prefixed to visually indicate relative depth in the tree.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_removeFromTree">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#475-492" title="Go to source code">removeFromTree</a>( <span>Cake\ORM\Entity <var>$node</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#459-476" title="Go to source code">removeFromTree</a>( <span>Cake\ORM\Entity <var>$node</var></span> )</code>
 
 		<div class="description short">
 			<p>Removes the current node from the tree, by positioning it as a new root
@@ -738,7 +604,7 @@ false on error</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__removeFromTree">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#494-532" title="Go to source code">_removeFromTree</a>( <span>Cake\ORM\Entity <var>$node</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#478-516" title="Go to source code">_removeFromTree</a>( <span>Cake\ORM\Entity <var>$node</var></span> )</code>
 
 		<div class="description short">
 			<p>Helper function containing the actual code for removeFromTree</p>
@@ -778,7 +644,7 @@ false on error</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_moveUp">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#534-555" title="Go to source code">moveUp</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var> = <span class="php-num">1</span></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#518-539" title="Go to source code">moveUp</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var> = <span class="php-num">1</span></span> )</code>
 
 		<div class="description short">
 			<p>Reorders the node without changing its parent.</p>
@@ -826,7 +692,7 @@ this method will return false</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__moveUp">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#557-613" title="Go to source code">_moveUp</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#541-597" title="Go to source code">_moveUp</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var></span> )</code>
 
 		<div class="description short">
 			<p>Helper function used with the actual code for moveUp</p>
@@ -871,7 +737,7 @@ this method will return false</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_moveDown">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#615-636" title="Go to source code">moveDown</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var> = <span class="php-num">1</span></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#599-620" title="Go to source code">moveDown</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var> = <span class="php-num">1</span></span> )</code>
 
 		<div class="description short">
 			<p>Reorders the node without changing the parent.</p>
@@ -919,7 +785,7 @@ this method will return false</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__moveDown">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#638-695" title="Go to source code">_moveDown</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#622-679" title="Go to source code">_moveDown</a>( <span>Cake\ORM\Entity <var>$node</var></span>, <span>integer|boolean <var>$number</var></span> )</code>
 
 		<div class="description short">
 			<p>Helper function used with the actual code for moveDown</p>
@@ -964,7 +830,7 @@ this method will return false</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__getNode">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#697-724" title="Go to source code">_getNode</a>( <span>mixed <var>$id</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#681-708" title="Go to source code">_getNode</a>( <span>mixed <var>$id</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns a single node from the tree from its primary key</p>
@@ -1007,7 +873,7 @@ this method will return false</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_recover">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#726-737" title="Go to source code">recover</a>( )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#710-721" title="Go to source code">recover</a>( )</code>
 
 		<div class="description short">
 			<p>Recovers the lft and right column values out of the hierarchy defined by the
@@ -1039,7 +905,7 @@ parent column.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__recoverTree">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#739-774" title="Go to source code">_recoverTree</a>( <span>integer <var>$counter</var> = <span class="php-num">0</span></span>, <span>mixed <var>$parentId</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#723-758" title="Go to source code">_recoverTree</a>( <span>integer <var>$counter</var> = <span class="php-num">0</span></span>, <span>mixed <var>$parentId</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>Recursive method used to recover a single level of the tree</p>
@@ -1080,7 +946,7 @@ parent column.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__getMax">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#776-796" title="Go to source code">_getMax</a>( )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#760-780" title="Go to source code">_getMax</a>( )</code>
 
 		<div class="description short">
 			<p>Returns the maximum index value in the table.</p>
@@ -1114,7 +980,7 @@ parent column.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__sync">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#798-824" title="Go to source code">_sync</a>( <span>integer <var>$shift</var></span>, <span>string <var>$dir</var></span>, <span>string <var>$conditions</var></span>, <span>boolean <var>$mark</var> = <span class="php-keyword1">false</span></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#782-808" title="Go to source code">_sync</a>( <span>integer <var>$shift</var></span>, <span>string <var>$dir</var></span>, <span>string <var>$conditions</var></span>, <span>boolean <var>$mark</var> = <span class="php-keyword1">false</span></span> )</code>
 
 		<div class="description short">
 			<p>Auxiliary function used to automatically alter the value of both the left and
@@ -1159,7 +1025,7 @@ modified by future calls to this function.</p></dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__scope">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#826-844" title="Go to source code">_scope</a>( <span>Cake\ORM\Query <var>$query</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#810-828" title="Go to source code">_scope</a>( <span>Cake\ORM\Query <var>$query</var></span> )</code>
 
 		<div class="description short">
 			<p>Alters the passed query so that it only returns scoped records as defined
@@ -1200,7 +1066,7 @@ in the tree configuration.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__ensureFields">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#846-868" title="Go to source code">_ensureFields</a>( <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#830-852" title="Go to source code">_ensureFields</a>( <span>Cake\ORM\Entity <var>$entity</var></span> )</code>
 
 		<div class="description short">
 			<p>Ensures that the provided entity contains non-empty values for the left and
@@ -1237,7 +1103,7 @@ right fields</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__getPrimaryKey">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#870-882" title="Go to source code">_getPrimaryKey</a>( )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#854-866" title="Go to source code">_getPrimaryKey</a>( )</code>
 
 		<div class="description short">
 			<p>Returns a single string value representing the primary key of the attached table</p>
@@ -1271,7 +1137,7 @@ right fields</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getLevel">#</a>
-		<code><a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#884-908" title="Go to source code">getLevel</a>( <span>integer|string|Cake\Datasource\EntityInterface <var>$entity</var></span> )</code>
+		<code><a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#868-892" title="Go to source code">getLevel</a>( <span>integer|string|Cake\Datasource\EntityInterface <var>$entity</var></span> )</code>
 
 		<div class="description short">
 			<p>Returns the depth level of a node in the tree.</p>
@@ -1320,7 +1186,7 @@ right fields</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#41-46" title="Go to source code"><var>$_primaryKey</var></a>
+				<a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#40-45" title="Go to source code"><var>$_primaryKey</var></a>
 
 			<div class="description short">
 				<p>Cached copy of the first column in a table's primary key.</p>
@@ -1345,7 +1211,7 @@ right fields</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Cake.ORM.Behavior.ModernTreeBehavior.html#48-75" title="Go to source code"><var>$_defaultConfig</var></a>
+				<a href="source-class-App.Model.Behavior.ModernTreeBehavior.html#47-73" title="Go to source code"><var>$_defaultConfig</var></a>
 
 			<div class="description short">
 				<p>Default config</p>
@@ -1375,10 +1241,9 @@ right fields</p>
         <span class="php-quote">'removeFromTree'</span> =&gt; <span class="php-quote">'removeFromTree'</span>,
         <span class="php-quote">'getLevel'</span> =&gt; <span class="php-quote">'getLevel'</span>
     ],
+    <span class="php-quote">'id'</span> =&gt; <span class="php-quote">'id'</span>,
     <span class="php-quote">'parent'</span> =&gt; <span class="php-quote">'parent_id'</span>,
-    <span class="php-quote">'left'</span> =&gt; <span class="php-quote">'lft'</span>,
-    <span class="php-quote">'right'</span> =&gt; <span class="php-quote">'rght'</span>,
-    <span class="php-quote">'pth'</span> =&gt; <span class="php-quote">'path'</span>,
+    <span class="php-quote">'path'</span> =&gt; <span class="php-quote">'path'</span>,
     <span class="php-quote">'scope'</span> =&gt; <span class="php-keyword1">null</span>,
     <span class="php-quote">'level'</span> =&gt; <span class="php-keyword1">null</span>
 ]</code>

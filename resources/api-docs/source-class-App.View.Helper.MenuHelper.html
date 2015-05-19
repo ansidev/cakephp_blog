@@ -54,6 +54,11 @@
 
 						<ul>
 				<li>
+					<a href="namespace-App.Model.Behavior.html">
+						Behavior					</a>
+
+						</li>
+				<li>
 					<a href="namespace-App.Model.Entity.html">
 						Entity					</a>
 
@@ -93,24 +98,6 @@
 
 						</li>
 							</ul></li></ul></li>
-				<li>
-					<a href="namespace-Cake.html">
-						Cake<span></span>
-					</a>
-
-						<ul>
-				<li>
-					<a href="namespace-Cake.ORM.html">
-						ORM<span></span>
-					</a>
-
-						<ul>
-				<li>
-					<a href="namespace-Cake.ORM.Behavior.html">
-						Behavior					</a>
-
-						</li>
-							</ul></li></ul></li>
 			</ul>
 		</div>
 
@@ -135,6 +122,7 @@
 				<li><a href="class-App.Controller.PostsController.html">App\Controller\PostsController</a></li>
 				<li><a href="class-App.Controller.TagsController.html">App\Controller\TagsController</a></li>
 				<li><a href="class-App.Controller.UsersController.html">App\Controller\UsersController</a></li>
+				<li><a href="class-App.Model.Behavior.ModernTreeBehavior.html">App\Model\Behavior\ModernTreeBehavior</a></li>
 				<li><a href="class-App.Model.Entity.Category.html">App\Model\Entity\Category</a></li>
 				<li><a href="class-App.Model.Entity.Comment.html">App\Model\Entity\Comment</a></li>
 				<li><a href="class-App.Model.Entity.Media.html">App\Model\Entity\Media</a></li>
@@ -167,7 +155,6 @@
 				<li><a href="class-App.View.Helper.PostHelper.html">App\View\Helper\PostHelper</a></li>
 				<li><a href="class-App.View.Helper.RouterHelper.html">App\View\Helper\RouterHelper</a></li>
 				<li><a href="class-App.View.Helper.UserInfoHelper.html">App\View\Helper\UserInfoHelper</a></li>
-				<li><a href="class-Cake.ORM.Behavior.ModernTreeBehavior.html">Cake\ORM\Behavior\ModernTreeBehavior</a></li>
 			</ul>
 
 
@@ -224,7 +211,7 @@
 </span><span id="18" class="l"><a href="#18"> 18: </a><span class="php-keyword1">class</span> MenuHelper <span class="php-keyword1">extends</span> Helper
 </span><span id="19" class="l"><a href="#19"> 19: </a>{
 </span><span id="20" class="l"><a href="#20"> 20: </a>    <span class="php-keyword1">use</span> ModelAwareTrait;
-</span><span id="21" class="l"><a href="#21"> 21: </a>    <span class="php-keyword1">public</span> <span class="php-var">$helpers</span> = [<span class="php-quote">'Form'</span>, <span class="php-quote">'UserInfo'</span>];
+</span><span id="21" class="l"><a href="#21"> 21: </a>    <span class="php-keyword1">public</span> <span class="php-var">$helpers</span> = [<span class="php-quote">'Form'</span>, <span class="php-quote">'UserInfo'</span>, <span class="php-quote">'Time'</span>];
 </span><span id="22" class="l"><a href="#22"> 22: </a>
 </span><span id="23" class="l"><a href="#23"> 23: </a>    <span class="php-keyword1">protected</span> <span class="php-var">$_defaultConfig</span> = [
 </span><span id="24" class="l"><a href="#24"> 24: </a>        <span class="php-quote">'parent_id'</span> =&gt; <span class="php-quote">'parent_id'</span>,
@@ -314,7 +301,7 @@
 </span><span id="108" class="l"><a href="#108">108: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;div class=&quot;panel-body&quot; id=&quot;comment-'</span> . <span class="php-var">$node</span>-&gt;get(<span class="php-quote">'id'</span>) . <span class="php-quote">'&quot;&gt;'</span>;
 </span><span id="109" class="l"><a href="#109">109: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;header class=&quot;text-left&quot;&gt;'</span>;
 </span><span id="110" class="l"><a href="#110">110: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;time class=&quot;comment-date&quot; datetime=&quot;16-12-2014 01:05&quot;&gt;&lt;i class=&quot;fa fa-clock-o&quot;&gt;&lt;/i&gt; '</span>;
-</span><span id="111" class="l"><a href="#111">111: </a>            <span class="php-var">$html</span> .= <span class="php-var">$node</span>-&gt;get(<span class="php-quote">'created_at'</span>);
+</span><span id="111" class="l"><a href="#111">111: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'Đăng vào '</span> . <span class="php-var">$this</span>-&gt;<span class="php-keyword2">Time</span>-&gt;format(<span class="php-var">$node</span>-&gt;get(<span class="php-quote">'created_at'</span>), <span class="php-quote">'dd MMM, y H:m:s'</span>);
 </span><span id="112" class="l"><a href="#112">112: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;/time&gt;'</span>;
 </span><span id="113" class="l"><a href="#113">113: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;/header&gt;'</span>;
 </span><span id="114" class="l"><a href="#114">114: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;div class=&quot;comment-post&quot;&gt;'</span>;
@@ -322,7 +309,7 @@
 </span><span id="116" class="l"><a href="#116">116: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;/div&gt;'</span>;
 </span><span id="117" class="l"><a href="#117">117: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;p class=&quot;text-right&quot;&gt;'</span>;
 </span><span id="118" class="l"><a href="#118">118: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;button class=&quot;btn btn-default btn-sm btn-reply&quot;&gt;'</span>;
-</span><span id="119" class="l"><a href="#119">119: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;i class=&quot;fa fa-reply&quot; id=&quot;&lt;?= $cm-&gt;id ?&gt;&quot; path=&quot;'</span> . <span class="php-var">$node</span>-&gt;get(<span class="php-quote">'path'</span>) . <span class="php-quote">'&quot; post-id=&quot;&lt;?= $post-&gt;id ?&gt;&quot;&gt;&lt;/i&gt; Reply'</span>;
+</span><span id="119" class="l"><a href="#119">119: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;i class=&quot;fa fa-reply&quot; id=&quot;'</span> . <span class="php-var">$node</span>-&gt;get(<span class="php-quote">'id'</span>) . <span class="php-quote">'&quot; path=&quot;'</span> . <span class="php-var">$node</span>-&gt;get(<span class="php-quote">'path'</span>) . <span class="php-quote">'&quot; post-id=&quot;'</span> . <span class="php-var">$post_id</span> . <span class="php-quote">'&quot;&gt;&lt;/i&gt; Reply'</span>;
 </span><span id="120" class="l"><a href="#120">120: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;/button&gt;'</span>;
 </span><span id="121" class="l"><a href="#121">121: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;/p&gt;'</span>;
 </span><span id="122" class="l"><a href="#122">122: </a>            <span class="php-var">$html</span> .= <span class="php-quote">'&lt;div class=&quot;reply-box&quot; style=&quot;display: none&quot;&gt;'</span>;
@@ -359,6 +346,6 @@
 </div>
 </div>
 <script src="resources/combined.js?cd021bc814832c24a7cec5319ea03335bfba1caf"></script>
-<script src="elementlist.js?84be2c63471711e031c92e22f1c6f96fde36bd58"></script>
+<script src="elementlist.js?1f2cb5b0536dc6e0e921b8e53e9661e3cf56233f"></script>
 </body>
 </html>
