@@ -75,9 +75,9 @@
                                             <ul class="dropdown-menu dropdown-menu-right" role="menu"
                                                 aria-labelledby="dLabel">
                                                 <?php if ($post->status === 3) { ?>
-                                                    <li><?= $this->Html->link(__('Xem'), ['prefix' => false, 'controller' => 'Posts', 'action' => 'read', $post->id]) ?></li>
+                                                    <li><?= $this->Html->link(__('Xem'), $this->Url->build(['_name' => 'post-read', 'slug' => $post->slug, 'id' => $post->id])) ?></li>
                                                 <?php } else { ?>
-                                                    <li><?= $this->Html->link(__('Xem'), ['prefix' => false, 'controller' => 'Posts', 'action' => 'view', $post->id]) ?></li>
+                                                    <li><?= $this->Html->link(__('Xem'), $this->Url->build(['_name' => 'post-read', 'slug' => $post->slug, 'id' => $post->id])) ?></li>
                                                 <?php } ?>
                                                 <li><?= $this->Html->link(__('Sửa'), ['controller' => 'Posts', 'action' => 'edit', $post->id]) ?></li>
                                                 <?php if ($post->status !== 4) { ?>
