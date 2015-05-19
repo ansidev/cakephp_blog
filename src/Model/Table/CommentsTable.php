@@ -3,6 +3,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\Comment;
 use Cake\ORM\Query;
+use Cake\ORM\Rule\ExistsIn;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -24,6 +25,7 @@ class CommentsTable extends Table
         $this->table('comments');
         $this->displayField('id');
         $this->primaryKey('id');
+        $this->addBehavior('ModernTree');
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
@@ -81,7 +83,14 @@ class CommentsTable extends Table
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['post_id'], 'Posts'));
-        $rules->add($rules->existsIn(['parent_id'], 'ParentComments'));
+//        $rules->add(new CustomExistIn(['parent_id'], 'ParentComments', ['parent_id' => 0]));
+        $rules->add(
+            function ($entity, $options) {
+                $rule = new ExistsIn(['parent_id'], 'ParentComments');
+                return $entity->parent_id === 0 || $rule($entity, $options);
+            },
+            ['errorField' => 'parent_id', 'message' => 'Wrong Parent']
+        );
         return $rules;
     }
 }
