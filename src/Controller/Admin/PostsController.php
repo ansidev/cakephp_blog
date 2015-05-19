@@ -90,7 +90,7 @@ class PostsController extends AppController
         $post = $this->Posts->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data;
-            $data['slug'] = $this->Post->toSlug($data['title']);
+            $data['slug'] = $this->_toSlug($data['title']);
             $data['user_id'] = $this->Auth->User('id');
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
