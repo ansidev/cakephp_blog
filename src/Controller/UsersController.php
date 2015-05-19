@@ -16,10 +16,12 @@ class UsersController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $user = $this->Auth->User();
-        if (!empty($user)) {
-            if ($this->isAdmin($user)) {
-                return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']);
+        if (!in_array($this->request->param('action'), ['login', 'logout', 'register'])) {
+            $user = $this->Auth->User();
+            if (!empty($user)) {
+                if ($this->isAdmin($user)) {
+                    return $this->redirect(['prefix' => 'admin', 'controller' => 'Users', 'action' => 'index']);
+                }
             }
         }
         // Allow users to register and logout.
@@ -43,11 +45,12 @@ class UsersController extends AppController
     {
 //        debug($user); die;
 //        debug($this->isAdmin($user)); die;
-        if ($this->isAdmin($user)) {
-            return $this->redirect(['prefix' => 'admin', 'controller' => 'Home', 'action' => 'index']);
-        } else {
-            return $this->redirect($this->Auth->redirectUrl());
-        }
+//        if ($this->isAdmin($user)) {
+//            return $this->redirect(['prefix' => 'admin', 'controller' => 'Home', 'action' => 'index']);
+//        } else {
+//            return $this->redirect($this->Auth->redirectUrl());
+//        }
+        return $this->redirect('/');
     }
 
     /**
@@ -220,18 +223,20 @@ class UsersController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
-    public function add() {
-    $user = $this->Users->newEntity($this->request->data);
-    if ($this->request->is('post')) {
-        if($this->request->data['avatar'])
-            $user->avatar = $this->Upload->finalFile;
-        if ($this->Users->save($user)) {
-            $this->Flash->success('The user has been saved.');
-            return $this->redirect(['action' => 'index']);
-        } else {
-            $this->Flash->error('The user could not be saved. Please, try again.');
-        }
-    }
-    $this->set(compact('user'));
-}
+
+//    public function add()
+//    {
+//        $user = $this->Users->newEntity($this->request->data);
+//        if ($this->request->is('post')) {
+//            if ($this->request->data['avatar'])
+//                $user->avatar = $this->Upload->finalFile;
+//            if ($this->Users->save($user)) {
+//                $this->Flash->success('The user has been saved.');
+//                return $this->redirect(['action' => 'index']);
+//            } else {
+//                $this->Flash->error('The user could not be saved. Please, try again.');
+//            }
+//        }
+//        $this->set(compact('user'));
+//    }
 }
