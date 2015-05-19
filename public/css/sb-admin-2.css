@@ -389,3 +389,21 @@ table.dataTable thead .sorting:after {
     padding-left: 0;
     padding-right: 0;
 }
+
+@media (max-width: 767px) {
+    .navbar-top-links {
+        display: none;
+        z-index: 10000;
+    }
+
+    .navbar-collapse {
+        position: fixed;
+        top: 50px;
+        background-color: #fff;
+        z-index: 9999;
+    }
+
+    .in {
+        z-index: 9999;
+    }
+}
