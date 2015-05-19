@@ -1,4 +1,4 @@
-<div class="users form large-10 medium-9 columns">
+<div class="users col-md-4 col-md-offset-4">
     <?= $this->Form->create($user); ?>
     <fieldset>
         <legend><?= __('Cập nhật thông tin tài khoản') ?></legend>
@@ -12,6 +12,6 @@
         ?>
     </fieldset>
     <?= $this->Form->button(__('Cập nhật thông tin'), ['class' => 'btn btn-primary']) ?>
-    <?= $this->Html->link(__('Hủy bỏ'), ['action' => 'index'], ['class' => 'btn btn-danger']) ?>
+    <?= $this->Html->link(__('Hủy bỏ'), $this->request->referer(), ['class' => 'btn btn-danger']) ?>
     <?= $this->Form->end() ?>
 </div>
