@@ -29,15 +29,17 @@ $cakeDescription = 'CakeBlog';
     <?= $this->Html->css('bootstrap.css') ?>
     <?= $this->Html->css('sb-admin-2.css') ?>
     <?= $this->Html->css('font-awesome.css') ?>
+    <?= $this->Html->css('blog/style'); ?>
+
     <?= $this->Html->script('jquery.js') ?>
     <?= $this->Html->script('bootstrap.js') ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
+<body style="margin-top: 50px">
 <?= $this->element('top_bar'); ?>
-<div class="container" style="padding-top: 70px">
+<div class="container" style="padding-top: 20px">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <?= $this->fetch('content') ?>

@@ -42,7 +42,7 @@ $cakeDescription = 'CakeBlog';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body class="container-fluid" style="padding-left: 0; padding-right: 0">
+<body class="container-fluid" style="margin-top: 50px; padding-left: 0; padding-right: 0">
 <?= $this->element('top_bar') ?>
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
