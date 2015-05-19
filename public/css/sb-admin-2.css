@@ -408,8 +408,12 @@ table.dataTable thead .sorting:after {
     }
 }
 
-@media (min-width: 768px) {
-    .dropdown:hover .dropdown-menu {
-        display: block;
-    }
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.open > .dropdown-menu {
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 1;
 }
