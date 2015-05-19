@@ -66,6 +66,22 @@ Router::scope('/', function ($routes) {
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
+    $routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+    $routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
+    $routes->connect('/register', ['controller' => 'Users', 'action' => 'register']);
+
+    $routes->connect(
+        '/posts/:slug-:id.html',
+        [
+            'prefix' => false,
+            'controller' => 'Posts',
+            'action' => 'read'
+        ],
+        [
+            'pass' => ['slug', 'id'],
+            '_name' => 'post-read'
+        ]
+    );
     /**
      * Connect catchall routes for all controllers.
      *
