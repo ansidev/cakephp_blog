@@ -20,6 +20,11 @@ class CommentHelper extends Helper
         5 => 'Lưu trữ',
     ];
 
+    public function getStatuses()
+    {
+        return $this->_status;
+    }
+
     public function statusToString($status = null)
     {
         if ($status === null) {
