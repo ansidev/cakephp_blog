@@ -1,6 +1,5 @@
 <?= $this->Html->script('ckeditor/ckeditor'); ?>
-<?= $this->Html->script('blog/post') ?>
-<?= $this->Html->script('blog/write') ?>
+<?= $this->Html->script(['blog/post', 'blog/write']) ?>
 <div class="posts form  large-10 medium-9 columns">
     <?= $this->Form->create($post); ?>
     <fieldset>

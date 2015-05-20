@@ -24,7 +24,11 @@
     <?= $this->Html->image('default.gif', ['class' => 'img-responsive', 'alt' => 'thumbnail-img-' . $post->id]); ?>
     <hr>
     <p><?= htmlspecialchars_decode($post->body) ?></p>
-    <?php if (!$no_display) {
+    <?php
+    if (empty($no_display)) {
+        $no_display = false;
+    }
+    if (!$no_display) {
         echo $this->Html->link(__('Xem thêm <span class="glyphicon glyphicon-chevron-right"></span>'), $this->Url->build(['_name' => 'post-read', 'slug' => $post->slug, 'id' => $post->id]), ['class' => 'btn btn-primary', 'escape' => false]);
     } ?>
     <hr>

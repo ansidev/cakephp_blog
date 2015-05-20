@@ -152,7 +152,7 @@
                             <th><?= __('Nội dung') ?></th>
                             <th><?= __('Bài viết') ?></th>
                             <th><?= __('Trạng thái') ?></th>
-                            <th><?= __('Ngày viết') ?></th>
+                            <th><?= __('Ngày đăng') ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -194,7 +194,7 @@
                             <th><?= __('Tag') ?></th>
                             <th><?= __('Bình luận') ?></th>
                             <th><?= __('Trạng thái') ?></th>
-                            <th><?= __('Ngày viết') ?></th>
+                            <th><?= __('Ngày đăng') ?></th>
                         </tr>
                         </thead>
                         <tbody>
