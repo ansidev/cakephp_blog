@@ -78,6 +78,8 @@ Router::scope('/', function ($routes) {
             'action' => 'read'
         ],
         [
+            'slug' => '[a-z0-9-]+',
+            'id' => '[0-9]+',
             'pass' => ['slug', 'id'],
             '_name' => 'post-read'
         ]
