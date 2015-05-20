@@ -167,4 +167,20 @@ class AppController extends Controller
         }
         return $rs;
     }
+
+    protected function _returnError($message = 'Không tìm thấy trang hoặc bạn không được phép truy cập.', $url)
+    {
+        $this->Flash->error(__($message));
+        if ($url !== false) {
+            return $this->redirect($url);
+        }
+    }
+
+    protected function _returnSuccess($message, $url)
+    {
+        $this->Flash->success(__($message));
+        if ($url !== false) {
+            return $this->redirect($url);
+        }
+    }
 }
