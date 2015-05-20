@@ -94,7 +94,7 @@ class MenuHelper extends Helper
         } else {
             $level = $this->getLevel($node);
             $user = $this->UserInfo->getUserInfo($node->get('user_id'));
-            $html .= '<article class="row">';
+            $html .= '<article class="row" style="margin-top:60px; margin-bottom:-60px;" id="comment-id-' . $node->get('id') . '">';
             $html .= '<div class="col-md-2 col-sm-2 col-md-offset-' . $level . ' hidden-xs">';
             $html .= '<figure class="thumbnail">';
             $html .= $this->UserInfo->get_gravatar($user['email'], 80, 'mm', 'g', true);
