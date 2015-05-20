@@ -69,68 +69,13 @@ $cakeDescription = 'CakeBlog';
             <!-- Blog Search Well -->
             <div class="well">
                 <h4>Blog Search</h4>
-
-                <div class="input-group">
-                    <input type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-                </div>
-                <!-- /.input-group -->
+                <?= $this->MyForm->searchForm(['controller' => 'Posts', 'action' => 'search']); ?>
             </div>
 
-            <div class="well">
-                <h4>Bài viết gần đây</h4>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul class="list-unstyled">
-                            <?php foreach ($recent_posts as $post): ?>
-                                <li>
-                                    <?= $this->Html->link(__($post->title), $this->Url->build(['_name' => 'post-read', 'slug' => $post->slug, 'id' => $post->id])) ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
-            </div>
+            <?= $this->cell('Posts::recent_posts'); ?>
+            <?= $this->cell('Categories'); ?>
+            <?= $this->cell('Tags'); ?>
 
-            <div class="well">
-                <h4>Chủ đề</h4>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul class="list-unstyled">
-                            <?php foreach ($categories as $category): ?>
-                                <li>
-                                    <?= $this->Html->link(__($category->name), ['controller' => 'Categories', 'action' => 'view', $category->id]) ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
-            </div>
-
-            <div class="well">
-                <h4>Tag</h4>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul class="list-unstyled">
-                            <?php foreach ($tags as $tag): ?>
-                                <li>
-                                    <?= $this->Html->link(__($tag->name), ['controller' => 'Tags', 'action' => 'view', $tag->id]) ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
-            </div>
         </div>
 
     </div>
