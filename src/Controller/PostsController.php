@@ -18,7 +18,7 @@ class PostsController extends AppController
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['read']);
+        $this->Auth->allow(['read', 'search']);
     }
 
     /**
@@ -54,16 +54,6 @@ class PostsController extends AppController
             'limit' => 2
         ];
         $this->set('posts', $this->paginate($this->Posts));
-        $recent_posts = $this->Posts->find('all', [
-            'conditions' => [
-                'Posts.status' => 3
-            ],
-            'limit' => 10,
-            'order' => ['created_at' => 'DESC']
-        ]);
-        $categories = $this->Posts->Categories->find('all', ['limit' => 10, 'order' => ['Categories.name' => 'ASC']]);
-        $tags = $this->Posts->Tags->find('all', ['limit' => 10, 'order' => ['Tags.name' => 'ASC']]);
-        $this->set(compact('recent_posts', 'categories', 'tags'));
         $this->set('_serialize', ['posts']);
     }
 
@@ -119,7 +109,7 @@ class PostsController extends AppController
             'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'ChildPosts'],
             'conditions' => $conditions
         ]);
-        if ($post['user_id'] !== $this->Auth->User('id')) {
+        if ($this->request->query('preview') && $post['user_id'] !== $this->Auth->User('id')) {
             $this->_returnError('Không tìm thấy trang hoặc bạn không được phép truy cập.', '/');
         }
         $this->loadModel('Comments');
@@ -134,15 +124,6 @@ class PostsController extends AppController
 //        if (!$post) {
 ////            return $this->redirect(['action' => 'display']);
 //        } else {
-        $categories = $this->Posts->Categories->find('all', ['limit' => 10, 'order' => ['Categories.name' => 'ASC']]);
-        $tags = $this->Posts->Tags->find('all', ['limit' => 10, 'order' => ['Tags.name' => 'ASC']]);
-        $recent_posts = $this->Posts->find('all', [
-            'conditions' => [
-                'Posts.status' => 3
-            ],
-            'limit' => 10,
-            'order' => ['created_at' => 'DESC']
-        ]);
         $published_comments = $this->Posts->Comments->find(
             'all',
             [
@@ -154,7 +135,7 @@ class PostsController extends AppController
                 'limit' => 10,
                 'order' => ['Comments.created_at' => 'DESC']
             ]);
-        $this->set(compact('recent_posts', 'categories', 'tags', 'comment', 'published_comments'));
+        $this->set(compact('comment', 'published_comments'));
 //        $this->set(compact('associated_post', 'level'));
         $this->set('post', $post);
         $this->set('_serialize', ['post']);
@@ -372,5 +353,73 @@ class PostsController extends AppController
                 return $rs;
             }
         }
+    }
+
+    /*
+     * Tìm kiếm bài viết trong cơ sỡ dữ liệu.
+     */
+    public function search($keyword = null)
+    {
+        $this->layout = 'front_page';
+        if ($this->request->is('get')) {
+            $keyword = $this->request->query('s');
+        }
+        if ($this->request->is('post')) {
+            $keyword = $this->request->data('s');
+        }
+        if (empty($keyword)) {
+            return $this->_returnError('Bạn cần nhập từ khóa để tìm kiếm', '/');
+        }
+        $slug = $this->_toSlug($keyword);
+        $post_by_title = $this->Posts->find('all', [
+            'contains' => ['Users'],
+            'conditions' => [
+                'Posts.status' => 3,
+                'OR' => [
+                    'Posts.slug LIKE' => '%' . $slug . '%'
+                ],
+            ]
+        ])->toArray();
+        $body = $this->Posts->find('list', [
+            'keyField' => 'id',
+            'valueField' => function ($body) {
+                $body = strip_tags(html_entity_decode($body));
+                $body = $this->jsonRemoveUnicodeSequences($body);
+                $json = json_decode($body, true);
+                return $json;
+            },
+        ])->toArray();
+//        debug($body);
+//        debug(!empty($body));
+        if (!empty($body)) {
+            $body_id = [];
+            foreach ($body as $p) {
+                if (empty($p['body'])) {
+                    continue;
+                } else {
+                    $sl = $this->_toSlug($p['body']);
+                    $pos = strpos($sl, $keyword);
+                    if ($pos) {
+                        $body_id[] = $p['id'];
+                    }
+                }
+            }
+        }
+
+        $post_by_body = $this->Posts->find('all', [
+            'contains' => ['Users'],
+            'conditions' => [
+                'Posts.id IN' => $body_id,
+                'Posts.status' => 3,
+            ]
+        ])->toArray();
+
+        $results = array_unique(array_merge($post_by_title, $post_by_body));
+        $this->set(compact('results', 'keyword'));
+//        $this->set('_serialize', ['']);
+
+//        debug($post_by_title);
+//        debug($post_by_body);
+//        debug($results);
     }
 }
