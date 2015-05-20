@@ -183,4 +183,15 @@ class AppController extends Controller
             return $this->redirect($url);
         }
     }
+
+    protected function jsonRemoveUnicodeSequences($str)
+    {
+        $result = preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($str));
+        $result = str_replace('\\n', '', $result);
+        $result = str_replace('\\r', '', $result);
+        $result = str_replace('\\', '', $result);
+        $result = str_replace('"{', '{', $result);
+        $result = str_replace('}"', '}', $result);
+        return $result;
+    }
 }
