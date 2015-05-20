@@ -1,7 +1,7 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Admin;
 
-use Cake\Event\Event;
+use App\Controller\AppController;
 use Cake\I18n\Time;
 
 /**
@@ -11,35 +11,17 @@ use Cake\I18n\Time;
  */
 class CommentsController extends AppController
 {
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        // Allow users to register and logout.
-        // You should not add the "login" action to allow list. Doing so would
-        // cause problems with normal functioning of AuthComponent.
-        $this->Auth->deny();
-        if (in_array($this->request->param('action'), ['index', 'edit'])) {
-            $this->layout = 'dashboard';
-        }
-    }
 
     /**
-     * Hiển thị các bình luận của người dùng hiện tại đang đăng nhập
+     * Index method
+     *
      * @return void
      */
     public function index()
     {
-        $this->layout = 'dashboard';
         $this->paginate = [
             'contain' => ['Users', 'Posts']
         ];
-        $comments_for_your_posts = $this->Comments->find('all', [
-            'conditions' => [
-                'Comments.user_id' => $this->Auth->User('id'),
-                'Comments.status' => 3
-            ]
-        ]);
-        $this->set(compact('comments_for_your_posts'));
         $this->set('comments', $this->paginate($this->Comments));
         $this->set('_serialize', ['comments']);
     }
@@ -169,7 +151,7 @@ class CommentsController extends AppController
     }
 
     /**
-     * Chuyển bình luận vào thùng rác
+     * Chuyen binh luan vao thung rac
      *
      * @param string|null $id Comment id.
      * @return void Redirects to index.
@@ -178,6 +160,18 @@ class CommentsController extends AppController
     public function move_to_trash($id = null)
     {
         return $this->__setStatus($id, 5);
+    }
+
+    /**
+     * Duyệt đăng bình luận
+     *
+     * @param string|null $id Comment id.
+     * @return void Redirects to index.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function publish($id = null)
+    {
+        return $this->__setStatus($id, 3);
     }
 
     /**
@@ -210,5 +204,4 @@ class CommentsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
-
 }

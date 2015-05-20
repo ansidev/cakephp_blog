@@ -38,7 +38,7 @@
                                     <td>
                                         <?= $comment->has('post') ? $this->Html->link($comment->post->title, $this->Url->build(['_name' => 'post-read', 'slug' => $comment->post->slug, 'id' => $comment->post->id])) : '' ?>
                                     </td>
-                                    <td><?= $this->Number->format($comment->status) ?></td>
+                                    <td><?= $this->Comment->statusToString($comment->status) ?></td>
                                     <td><?= h($comment->created_at) ?></td>
                                     <td><?= h($comment->updated_at) ?></td>
                                     <td class="actions">
@@ -49,14 +49,20 @@
                                             <ul class="dropdown-menu dropdown-menu-right" role="menu"
                                                 aria-labelledby="dLabel">
                                                 <?php if ($comment->status === 3) { ?>
-                                                <li><?= $this->Html->link(__('Xem trong bài viết'), $this->Url->build(['_name' => 'post-read', 'slug' => $comment->post->slug, 'id' => $comment->post->id, '#' => 'comment-id-' . $comment->id])) ?></li>
+                                                    <li><?= $this->Html->link(__('Xem trong bài viết'), $this->Url->build(['_name' => 'post-read', 'slug' => $comment->post->slug, 'id' => $comment->post->id, '#' => 'comment-id-' . $comment->id])) ?></li>
                                                 <?php } ?>
                                                 <li><?= $this->Html->link(__('Sửa'), ['controller' => 'Comments', 'action' => 'edit', $comment->id]) ?></li>
+                                                <?php if ($comment->status !== 3) { ?>
+                                                    <li><?= $this->Form->postLink(__('Duyệt đăng'), ['controller' => 'Comments', 'action' => 'publish', $comment->id]) ?></li>
+                                                <?php } ?>
                                                 <?php if ($comment->status !== 4) { ?>
-                                                    <li><?= $this->Form->postLink(__('Đánh dấu là spam'), ['controller' => 'Comments', 'action' => 'mark_as_spam', $comment->id], ['confirm' => __('Bạn có đánh dấu bình luận {0} là spam?', $comment->title)]) ?></li>
+                                                    <li><?= $this->Form->postLink(__('Đánh dấu là spam'), ['controller' => 'Comments', 'action' => 'mark_as_spam', $comment->id], ['confirm' => __('Bạn có muốn đánh dấu bình luận #{0} là spam?', $comment->id)]) ?></li>
+                                                <?php } ?>
+                                                <?php if ($comment->status !== 5) { ?>
+                                                    <li><?= $this->Form->postLink(__('Chuyển vào thùng rác'), ['controller' => 'Comments', 'action' => 'move_to_trash', $comment->id], ['confirm' => __('Bạn có muốn chuyển bình luận #{0} vào thùng rác?', $comment->id)]) ?></li>
                                                 <?php } else { ?>
-                                                    <li><?= $this->Form->postLink(__('Phục hồi'), ['controller' => 'Comments', 'action' => 'restore', $comment->id], ['confirm' => __('Bạn có muốn phục hồi bình luận {0} không?', $comment->title)]) ?></li>
-                                                    <li><?= $this->Form->postLink(__('Xóa vĩnh viễn'), ['controller' => 'Comments', 'action' => 'permanent_delete', $comment->id], ['confirm' => __('Bạn có muốn xóa vĩnh viễn bình luận {0} không?', $comment->title)]) ?></li>
+                                                    <li><?= $this->Form->postLink(__('Phục hồi'), ['controller' => 'Comments', 'action' => 'restore', $comment->id], ['confirm' => __('Bạn có muốn phục hồi bình luận #{0} không?', $comment->id)]) ?></li>
+                                                    <li><?= $this->Form->postLink(__('Xóa vĩnh viễn'), ['controller' => 'Comments', 'action' => 'permanent_delete', $comment->id], ['confirm' => __('Bạn có muốn xóa vĩnh viễn bình luận #{0} không?', $comment->id)]) ?></li>
                                                 <?php } ?>
                                             </ul>
                                         </div>

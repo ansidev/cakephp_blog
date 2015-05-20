@@ -17,7 +17,8 @@ class CommentHelper extends Helper
         2 => 'Đã duyệt',
         3 => 'Đã đăng',
         4 => 'Spam',
-        5 => 'Lưu trữ',
+        5 => 'Trong thùng rác',
+        6 => 'Lưu trữ'
     ];
 
     public function getStatuses()
