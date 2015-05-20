@@ -44,15 +44,26 @@ class PostsController extends AppController
     {
         $this->layout = 'front_page';
         $this->paginate = [
-            'contain' => ['ParentPosts', 'Users'],
+            'contain' => ['Users'],
+//            'contain' => ['ParentPosts', 'Users'],
             'conditions' => [
-                'Posts.parent_id' => 0,
+//                'Posts.parent_id' => 0,
                 'Posts.status' => 3,
-            ]
+            ],
+            'order' => ['Posts.created_at' => 'DESC'],
+            'limit' => 2
         ];
         $this->set('posts', $this->paginate($this->Posts));
-        $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
-        $this->set(compact('categories'));
+        $recent_posts = $this->Posts->find('all', [
+            'conditions' => [
+                'Posts.status' => 3
+            ],
+            'limit' => 10,
+            'order' => ['created_at' => 'DESC']
+        ]);
+        $categories = $this->Posts->Categories->find('all', ['limit' => 10, 'order' => ['Categories.name' => 'ASC']]);
+        $tags = $this->Posts->Tags->find('all', ['limit' => 10, 'order' => ['Tags.name' => 'ASC']]);
+        $this->set(compact('recent_posts', 'categories', 'tags'));
         $this->set('_serialize', ['posts']);
     }
 
@@ -91,13 +102,18 @@ class PostsController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function read($id = null)
+    public function read($slug = null, $id = null)
     {
         $this->layout = 'front_page';
         $post = $this->Posts->get($id, [
-            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
-            'conditions' => ['Posts.status' => 3]
+            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'ChildPosts'],
+            'conditions' => [
+                'Posts.status' => 3,
+                'Posts.slug' => $slug
+            ]
         ]);
+        $this->loadModel('Comments');
+        $comment = $this->Comments->newEntity();
 //        $post = $this->Posts->find('all', [
 //            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
 //            'conditions' => [
@@ -108,11 +124,30 @@ class PostsController extends AppController
 //        if (!$post) {
 ////            return $this->redirect(['action' => 'display']);
 //        } else {
-            $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
-            $this->set(compact('categories'));
-            $this->set(compact('associated_post'));
-            $this->set('post', $post);
-            $this->set('_serialize', ['post']);
+        $categories = $this->Posts->Categories->find('all', ['limit' => 10, 'order' => ['Categories.name' => 'ASC']]);
+        $tags = $this->Posts->Tags->find('all', ['limit' => 10, 'order' => ['Tags.name' => 'ASC']]);
+        $recent_posts = $this->Posts->find('all', [
+            'conditions' => [
+                'Posts.status' => 3
+            ],
+            'limit' => 10,
+            'order' => ['created_at' => 'DESC']
+        ]);
+        $published_comments = $this->Posts->Comments->find(
+            'all',
+            [
+                'conditions' => [
+                    'Comments.post_id' => $id,
+                    'Comments.status' => 3,
+                    'Comments.parent_id' => 0,
+                ],
+                'limit' => 10,
+                'order' => ['Comments.created_at' => 'DESC']
+            ]);
+        $this->set(compact('recent_posts', 'categories', 'tags', 'comment', 'published_comments'));
+//        $this->set(compact('associated_post', 'level'));
+        $this->set('post', $post);
+        $this->set('_serialize', ['post']);
 //        }
     }
 
