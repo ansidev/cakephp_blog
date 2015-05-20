@@ -408,6 +408,7 @@ table.dataTable thead .sorting:after {
     }
 }
 
+/*
 .dropdown:hover .dropdown-menu {
     display: block;
 }
@@ -417,3 +418,4 @@ table.dataTable thead .sorting:after {
     transform: scale(1, 1);
     opacity: 1;
 }
+*/
