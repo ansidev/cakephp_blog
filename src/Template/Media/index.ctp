@@ -10,13 +10,11 @@
     <!-- /.row -->
     <div id="freewall" class="row free-wall">
         <?php foreach ($media as $media): ?>
-            <a href="#<?= h($media->slug) ?>" id="<?= h($media->slug) ?>">
+            <a href="#" id="<?= h($media->slug) ?>">
                 <div class="brick">
-                    <?php if ($this->request->params['controller'] !== 'Media'): ?>
-                        <div class="info">
-                            <input class="checkbox" type="checkbox" id="cb-<?= h($media->slug) ?>">
-                        </div>
-                    <?php endif; ?>
+                    <div class="info">
+                        <input class="checkbox" type="checkbox" id="cb-<?= h($media->slug) ?>">
+                    </div>
 
                     <img class="img-responsive"
                          src="<?= $this->Media->url($media->relative_path) ?>" width="100%"
