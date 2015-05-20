@@ -92,8 +92,6 @@ class MenuHelper extends Helper
         if ($root) {
             $level = 1;
         } else {
-//            $this->loadModel('Comment');
-//            $object = $this->$model->newEntity();
             $level = $this->getLevel($node);
             $user = $this->UserInfo->getUserInfo($node->get('user_id'));
             $html .= '<article class="row">';
@@ -120,7 +118,7 @@ class MenuHelper extends Helper
             $html .= '</button>';
             $html .= '</p>';
             $html .= '<div class="reply-box" style="display: none">';
-            $html .= '<form method="post" accept-charset="utf-8" action="/comments/write"><div style="display:none;"><input class="form-control" type="hidden" name="_method" value="POST"></div>';
+            $html .= $this->Form->create(null, ['url' => ['controller' => 'Comments', 'action' => 'write']]);
             $html .= $this->Form->input('body', ['type' => 'textarea', 'class' => 'form-control', 'rows' => 7, 'label' => 'Phản hồi']);
             $html .= $this->Form->hidden('post_id', ['value' => h($post_id)]);
             $html .= $this->Form->hidden('parent_id', ['value' => h($node->get('id'))]);
