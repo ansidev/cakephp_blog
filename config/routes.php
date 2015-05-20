@@ -69,6 +69,7 @@ Router::scope('/', function ($routes) {
     $routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
     $routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
     $routes->connect('/register', ['controller' => 'Users', 'action' => 'register']);
+    $routes->connect('/search', ['controller' => 'Posts', 'action' => 'search']);
 
     $routes->connect(
         '/posts/:slug-:id.html',
