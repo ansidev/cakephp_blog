@@ -67,20 +67,20 @@ class PostsController extends AppController
         $this->set('_serialize', ['posts']);
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Post id.
-     * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $this->layout = 'front_page';
-        $post = $this->Posts->get($id, [
-            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
+//    /**
+//     * View method
+//     *
+//     * @param string|null $id Post id.
+//     * @return void
+//     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+//     */
+//    public function view($id = null)
+//    {
+//        $this->layout = 'front_page';
+//        $post = $this->Posts->get($id, [
+//            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
 //            'conditions' => ['Posts.status' => 3]
-        ]);
+//        ]);
 //        $associated_post = $this->Posts->find('threaded', [
 //            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
 //            'conditions' => ['Posts.id' => $id]
@@ -88,12 +88,12 @@ class PostsController extends AppController
 //        if (empty($post)) {
 //            return $this->redirect(['action' => 'display']);
 //        }
-        $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
-        $this->set(compact('categories'));
-        $this->set(compact('associated_post'));
-        $this->set('post', $post);
-        $this->set('_serialize', ['post']);
-    }
+//        $categories = $this->Posts->Categories->find('all', ['limit' => 10]);
+//        $this->set(compact('categories'));
+//        $this->set(compact('associated_post'));
+//        $this->set('post', $post);
+//        $this->set('_serialize', ['post']);
+//    }
 
     /**
      * Read method
@@ -104,14 +104,24 @@ class PostsController extends AppController
      */
     public function read($slug = null, $id = null)
     {
+        $conditions = [
+            'Posts.slug' => $slug
+        ];
+        $conditions['Posts.status'] = 3;
+        if ($this->request->query('preview') && $this->isLoggedIn()) {
+            unset($conditions['Posts.status']);
+        }
+        if ($this->request->query('preview') && !$this->isLoggedIn()) {
+            $this->_returnError('Không tìm thấy trang hoặc bạn không được phép truy cập.', '/');
+        }
         $this->layout = 'front_page';
         $post = $this->Posts->get($id, [
             'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'ChildPosts'],
-            'conditions' => [
-                'Posts.status' => 3,
-                'Posts.slug' => $slug
-            ]
+            'conditions' => $conditions
         ]);
+        if ($post['user_id'] !== $this->Auth->User('id')) {
+            $this->_returnError('Không tìm thấy trang hoặc bạn không được phép truy cập.', '/');
+        }
         $this->loadModel('Comments');
         $comment = $this->Comments->newEntity();
 //        $post = $this->Posts->find('all', [
