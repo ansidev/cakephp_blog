@@ -1,32 +1,12 @@
-<div class="actions columns large-2 medium-3">
-    <h3><?= __('Actions') ?></h3>
-    <ul class="side-nav">
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $comment->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $comment->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Comments'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
-    </ul>
-</div>
-<div class="comments form large-10 medium-9 columns">
+<div id="comments">
     <?= $this->Form->create($comment); ?>
     <fieldset>
-        <legend><?= __('Edit Comment') ?></legend>
+        <legend><?= __('Sửa bình luận') ?></legend>
         <?php
-            echo $this->Form->input('body');
-            echo $this->Form->input('user_id', ['options' => $users]);
-            echo $this->Form->input('post_id', ['options' => $posts]);
-            echo $this->Form->input('status');
-            echo $this->Form->input('created_at');
-            echo $this->Form->input('updated_at');
+            echo $this->Form->input('body', ['type' => 'textarea', 'class' => 'form-control', 'rows' => '10', 'cols' => '30']);
+            echo $this->Form->input('status', ['label' => 'Trạng thái', 'options' => $this->Comment->getStatuses(), 'value' => $comment->status]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Cập nhật'), ['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
 </div>
