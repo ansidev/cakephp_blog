@@ -7,10 +7,21 @@
         <?= $this->Flash->render() ?>
     </div>
     <?= $this->fetch('slider') ?>
-    <?php echo $this->element('Slider/carousel') ?>
-<!--    --><?php //echo $this->element('Slider/slidesjs') ?>
-<!--    --><?php //echo $this->element('Slider/nivo-slider') ?>
+    <!--    --><?php //echo $this->element('Slider/carousel') ?>
+    <?php echo $this->element('Slider/slidesjs') ?>
+    <!--    --><?php //echo $this->element('Slider/nivo-slider') ?>
     <div class="row">
+        <?php
+        echo $this->fetch('breadcrumb');
+        echo $this->Html->getCrumbList(
+            [
+                'firstClass' => false,
+                'lastClass' => 'active',
+                'class' => 'breadcrumb'
+            ],
+            'Home'
+        );
+        ?>
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
