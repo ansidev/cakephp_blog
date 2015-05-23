@@ -1,4 +1,4 @@
-<ul class="nav navbar-top-links navbar-right">
+<ul class="nav navbar-top-links navbar-nav navbar-right">
     <?php if ($this->request->session()->read('Auth.User') === null) {
         echo '<li>' . $this->Html->link(__('<i class="fa fa-sign-in fa-fw"></i> Đăng nhập'), ['controller' => 'Users', 'action' => 'login'], ['escape' => false]) . '</li>';
         echo '<li>' . $this->Html->link(__('<i class="fa fa-user fa-fw"></i> Đăng ký'), ['controller' => 'Users', 'action' => 'register'], ['escape' => false]) . '</li>';
@@ -201,8 +201,8 @@
             <!-- /.dropdown-alerts -->
         </li>
         <!-- /.dropdown -->
-
-        <?php echo $this->element('user_menu');
-    } ?>
+        <?php echo $this->element('user_menu'); ?>
+        <!-- /.dropdown -->
+    <?php } ?>
 </ul>
 <!-- /.navbar-top-links -->
