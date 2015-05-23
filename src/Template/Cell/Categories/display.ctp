@@ -3,13 +3,10 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <ul class="list-unstyled">
-                <?php foreach ($categories as $category): ?>
-                    <li>
-                        <?= $this->Html->link(__($category->name), ['controller' => 'Categories', 'action' => 'view', $category->id]) ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?php
+            $list = $this->Menu->createCategoriesList($categories);
+            echo $this->Html->nestedList($list, ['style' => 'padding-left: 15px']);
+            ?>
         </div>
         <!-- /.col-lg-12 -->
     </div>

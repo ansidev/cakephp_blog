@@ -30,6 +30,9 @@ class CategoriesCell extends Cell
         $categories = $this->$_model->find(
             'all',
             [
+                'conditions' => [
+                    'Categories.parent_id' => 0,
+                ],
                 'limit' => 10,
                 'order' => [
                     $_model . '.name' => 'ASC'

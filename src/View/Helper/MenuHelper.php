@@ -18,7 +18,7 @@ use Cake\View\View;
 class MenuHelper extends Helper
 {
     use ModelAwareTrait;
-    public $helpers = ['Form', 'UserInfo', 'Time'];
+    public $helpers = ['Form', 'UserInfo', 'Time', 'Url', 'Html'];
 
     protected $_defaultConfig = [
         'parent_id' => 'parent_id',
@@ -64,11 +64,16 @@ class MenuHelper extends Helper
         $model = $this->__getModel(get_class($object));
         $id = $object->get('id');
         $object = TableRegistry::get($model);
-        $children = $object
-            ->find('children', ['for' => $id])
-            ->find('threaded')
-            ->where([$model . '.status' => 3])
-            ->toArray();
+        if (!in_array($model, ['Categories', 'Tags'])) {
+            $children = $object->find('children', ['for' => $id])
+                ->find('threaded')
+                ->where([$model . '.status' => 3])
+                ->toArray();
+        } else {
+            $children = $object->find('children', ['for' => $id])
+                ->find('threaded')
+                ->toArray();
+        }
         return $children;
     }
 
@@ -106,7 +111,7 @@ class MenuHelper extends Helper
             $html .= '<div class="panel-body" id="comment-' . $node->get('id') . '">';
             $html .= '<header class="text-left">';
             $html .= '<time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> ';
-            $html .= 'Đăng vào ' . $this->Time->format($node->get('created_at'), 'dd MMM, y H:m:s');
+            $html .= 'Đăng vào ' . $this->Time->format($node->get('created_at'), 'dd MMM, y HH:mm:ss');
             $html .= '</time>';
             $html .= '</header>';
             $html .= '<div class="comment-post">';
@@ -140,5 +145,42 @@ class MenuHelper extends Helper
             }
         }
         return $html;
+    }
+
+    public function createCategoriesList($node, $level = 0)
+    {
+        $list = [];
+        $root = false;
+        if ($node instanceof Query) {
+            $model = 'Query';
+            $root = true;
+        }
+
+        if ($node instanceof Entity) {
+            $model = $this->__getModel(get_class($node));
+        }
+//        if (!($node instanceof Category)) {
+//            return '';
+//        } else {
+//            $model = 'Category';
+//        }
+
+        if ($root) {
+            $level = 1;
+            foreach ($node as $item) {
+                $list = array_merge($list, $this->createCategoriesList($item));
+            }
+        } else {
+            $parent_name = $node->get('name');
+            $key = $this->Html->link(__($parent_name), $this->Url->build(['_name' => 'cat-view', 'slug' => $node->get('slug'), 'id' => $node->get('id')]));
+            $list[$key] = [];
+            if ($this->childCount($node, true) !== 0) {
+                $childNodes = $this->findChildren($node);
+                foreach ($childNodes as $child) {
+                    $list[$key] = $this->createCategoriesList($child, $this->getLevel($child));
+                }
+            }
+        }
+        return $list;
     }
 }
