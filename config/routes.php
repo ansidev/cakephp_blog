@@ -72,7 +72,7 @@ Router::scope('/', function ($routes) {
     $routes->connect('/search', ['controller' => 'Posts', 'action' => 'search']);
 
     $routes->connect(
-        '/posts/:slug-:id.html',
+        '/post/:slug-:id.html',
         [
             'prefix' => false,
             'controller' => 'Posts',
@@ -83,6 +83,21 @@ Router::scope('/', function ($routes) {
             'id' => '[0-9]+',
             'pass' => ['slug', 'id'],
             '_name' => 'post-read'
+        ]
+    );
+
+    $routes->connect(
+        '/category/:slug-:id.html',
+        [
+            'prefix' => false,
+            'controller' => 'Categories',
+            'action' => 'view'
+        ],
+        [
+            'slug' => '[a-z0-9-]+',
+            'id' => '[0-9]+',
+            'pass' => ['slug', 'id'],
+            '_name' => 'cat-view'
         ]
     );
     /**
