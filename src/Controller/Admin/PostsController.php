@@ -92,9 +92,10 @@ class PostsController extends AppController
             $data = $this->request->data;
             $data['slug'] = $this->_toSlug($data['title']);
             $data['user_id'] = $this->Auth->User('id');
+            $data['status'] = 3;
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
-                $this->Flash->success('The post has been saved.');
+                $this->Flash->success('Bài viết đã được đăng');
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error('The post could not be saved. Please, try again.');
