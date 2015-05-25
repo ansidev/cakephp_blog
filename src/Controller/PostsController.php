@@ -15,10 +15,15 @@ class PostsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        // Allow users to register and logout.
-        // You should not add the "login" action to allow list. Doing so would
-        // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['read', 'search']);
+        if (!in_array($this->request->param('action'), ['read', 'search', 'display'])) {
+            $user = $this->Auth->User();
+            if (!empty($user)) {
+                if ($this->isAdmin($user)) {
+                    return $this->redirect(['prefix' => 'admin', 'controller' => 'Posts', 'action' => 'index']);
+                }
+            }
+        }
+        $this->Auth->allow(['read', 'search', 'display']);
     }
 
     /**
@@ -299,7 +304,7 @@ class PostsController extends AppController
 
 
     /**
-     * Auto generate slug method
+     * Tự động tạo slug
      *
      * @return void Redirects on successful add, renders view otherwise.
      */
