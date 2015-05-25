@@ -30,7 +30,7 @@
     <!-- /.nav-second-level -->
 </li>
 <li>
-    <?= $this->Html->link(__('<i class="fa fa-film fa-fw"></i> Quản lý media<span class="fa arrow"></span>'), ['controller' => 'Tags', 'action' => 'index'], ['escape' => false]) ?>
+    <?= $this->Html->link(__('<i class="fa fa-film fa-fw"></i> Quản lý media<span class="fa arrow"></span>'), ['controller' => 'Media', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
         <li><?= $this->Html->link(__('Danh sách media'), ['prefix' => false, 'controller' => 'Media', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('Upload media'), ['prefix' => false, 'controller' => 'Media', 'action' => 'upload']) ?> </li>
