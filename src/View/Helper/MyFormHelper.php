@@ -42,7 +42,7 @@ class MyFormHelper extends Helper
     function searchForm($url)
     {
         $form = $this->Html->tag('span', null, ['class' => 'glyphicon glyphicon-search']);
-        $form = $this->Form->button($form, ['type' => 'submit', 'class' => 'btn btn-primary']);
+        $form = $this->Form->button($form, ['type' => 'submit', 'class' => 'btn btn-danger']);
         $form = $this->Html->tag('span', $form, ['class' => 'input-group-btn']);
         $form = $this->Html->tag('input', $form, ['type' => 'text', 'class' => 'form-control', 'name' => 's', 'id' => 'search-form']);
         $form = $this->Html->div('input-group', $form);
