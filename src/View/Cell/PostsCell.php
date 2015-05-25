@@ -39,7 +39,7 @@ class PostsCell extends Cell
         $this->loadModel($_model);
         $recent_posts = $this->$_model->find('all', [
             'conditions' => [
-                'Posts.status' => 3
+                $_model.'.status' => 3
             ],
             'limit' => 10,
             'order' => ['created_at' => 'DESC']
