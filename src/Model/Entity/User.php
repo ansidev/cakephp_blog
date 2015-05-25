@@ -25,6 +25,7 @@ class User extends Entity
         'updated_at' => true,
         'role' => true,
         'comments' => true,
+        'media' => true,
         'posts' => true,
     ];
 

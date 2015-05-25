@@ -19,8 +19,15 @@ class UsersTableTest extends TestCase
     public $fixtures = [
         'Users' => 'app.users',
         'Roles' => 'app.roles',
+        'Permissions' => 'app.permissions',
+        'RolesPermissions' => 'app.roles_permissions',
         'Comments' => 'app.comments',
-        'Posts' => 'app.posts'
+        'Posts' => 'app.posts',
+        'Categories' => 'app.categories',
+        'PostsCategories' => 'app.posts_categories',
+        'Tags' => 'app.tags',
+        'PostsTags' => 'app.posts_tags',
+        'Media' => 'app.media'
     ];
 
     /**

@@ -31,6 +31,9 @@ class UsersTable extends Table
         $this->hasMany('Comments', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Media', [
+            'foreignKey' => 'user_id'
+        ]);
         $this->hasMany('Posts', [
             'foreignKey' => 'user_id'
         ]);
