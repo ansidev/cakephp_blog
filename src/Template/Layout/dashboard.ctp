@@ -1,7 +1,6 @@
 <?= $this->element('head'); ?>
 <?php echo $this->Html->css('metis-menu.css') ?>
 <?php echo $this->Html->script('metis-menu.js') ?>
-<?php echo $this->Html->css('sb-admin-2.css') ?>
 <?php echo $this->Html->script('sb-admin-2.js') ?>
 <script type="text/javascript">
 </script>
