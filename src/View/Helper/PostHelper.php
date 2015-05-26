@@ -178,26 +178,4 @@ class PostHelper extends Helper
             ->toArray();
         return $query;
     }
-
-    public function echoShortBody($body, $length = 400) {
-        $body = htmlspecialchars_decode($body);
-        if (empty($body)) {
-            return '';
-        } else {
-            $body_length = strlen($body);
-            if ($body_length <= $length) {
-                return $body;
-            } else {
-                $result = trim(substr($body, 0, $length));
-                if (strlen($result) <= $length) {
-                    return $result;
-                } else {
-                    return h($result . '...');
-                }
-            }
-        }
-
-    }
-
-
 }
