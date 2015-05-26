@@ -52,8 +52,8 @@ class UsersFixture extends TestFixture
             'full_name' => 'Lorem ipsum dolor sit amet',
             'password' => 'Lorem ipsum dolor sit amet',
             'role_id' => 1,
-            'created_at' => '2015-05-25 23:17:34',
-            'updated_at' => '2015-05-25 23:17:34'
+            'created_at' => '2015-05-26 23:58:45',
+            'updated_at' => '2015-05-26 23:58:45'
         ],
     ];
 }

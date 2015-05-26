@@ -37,6 +37,9 @@ class UsersTable extends Table
         $this->hasMany('Posts', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Queries', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     /**

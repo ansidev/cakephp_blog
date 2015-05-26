@@ -24,6 +24,8 @@ class CategoriesTableTest extends TestCase
         'Permissions' => 'app.permissions',
         'RolesPermissions' => 'app.roles_permissions',
         'Comments' => 'app.comments',
+        'Media' => 'app.media',
+        'Queries' => 'app.queries',
         'PostsCategories' => 'app.posts_categories',
         'Tags' => 'app.tags',
         'PostsTags' => 'app.posts_tags'

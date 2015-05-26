@@ -21,7 +21,7 @@ class CommentsFixture extends TestFixture
         'body' => ['type' => 'string', 'length' => 100, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'user_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'post_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'parent_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'parent_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'path' => ['type' => 'string', 'length' => 255, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'fixed' => null],
         'status' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => '1', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created_at' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => '', 'precision' => null],
@@ -55,8 +55,8 @@ class CommentsFixture extends TestFixture
             'parent_id' => 1,
             'path' => 'Lorem ipsum dolor sit amet',
             'status' => 1,
-            'created_at' => '2015-05-17 22:25:29',
-            'updated_at' => '2015-05-17 22:25:29'
+            'created_at' => '2015-05-26 23:58:53',
+            'updated_at' => '2015-05-26 23:58:53'
         ],
     ];
 }

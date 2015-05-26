@@ -1,7 +1,8 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Rule\ExistsIn;
+use App\Model\Entity\Category;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -73,12 +74,7 @@ class CategoriesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add(
-            function ($entity, $options) {
-                $rule = new ExistsIn(['parent_id'], 'ParentCategories');
-                return $entity->parent_id === 0 || $rule($entity, $options);
-            },
-            ['errorField' => 'parent_id', 'message' => 'Wrong Parent']);
+        $rules->add($rules->existsIn(['parent_id'], 'ParentCategories'));
         return $rules;
     }
 }

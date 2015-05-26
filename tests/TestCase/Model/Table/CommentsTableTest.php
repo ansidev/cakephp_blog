@@ -22,11 +22,13 @@ class CommentsTableTest extends TestCase
         'Roles' => 'app.roles',
         'Permissions' => 'app.permissions',
         'RolesPermissions' => 'app.roles_permissions',
+        'Media' => 'app.media',
         'Posts' => 'app.posts',
         'Categories' => 'app.categories',
         'PostsCategories' => 'app.posts_categories',
         'Tags' => 'app.tags',
-        'PostsTags' => 'app.posts_tags'
+        'PostsTags' => 'app.posts_tags',
+        'Queries' => 'app.queries'
     ];
 
     /**
