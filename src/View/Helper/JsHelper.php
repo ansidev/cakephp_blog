@@ -9,10 +9,10 @@ namespace App\View\Helper;
 
 
 use Cake\View\Helper;
-use Cake\View\StringTemplateTrait;
 
 class JsHelper extends Helper
 {
+    public $helpers = ['Html'];
 //    use StringTemplateTrait;
 //    protected $_defaultConfig = [
 //        'templates' => [
@@ -33,9 +33,29 @@ class JsHelper extends Helper
      */
     function dataTable($selector, $options = [])
     {
+        $default_options = ['responsive' => true, 'table_tools' => true];
+        $options = array_merge($default_options, $options);
+        $json = '{
+    "dom": "\'T<\"clear\">lfrtip\'",
+    "tableTools": {
+        "sRowSelect": "os",
+        "aButtons": [
+            "select_all",
+            "select_none"
+        ]
+    }
+}';
+        $table_tools = json_decode($json, true);
+
         $template = '';
+        if ($options['table_tools'] == true) {
+            unset($options['table_tools']);
+            $options = array_merge($table_tools, $options);
+            $template .= $this->Html->script('data-tables.table-tools.js');
+            $template .= $this->Html->css('data-tables.table-tools.css');
+        }
         if (!empty($selector)) {
-            $template = "<script>
+            $template .= "<script>
             $(document).ready(function () {
                 $('" . $selector . "').DataTable(" . json_encode($options) . ");
             });
