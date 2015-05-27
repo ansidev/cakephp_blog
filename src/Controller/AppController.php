@@ -168,16 +168,22 @@ class AppController extends Controller
         return $rs;
     }
 
-    protected function _returnError($message = 'Không tìm thấy trang hoặc bạn không được phép truy cập.', $url)
+    protected function _returnError($message = '', $url = false)
     {
+        if (empty($message)) {
+            $message = 'Không tìm thấy trang hoặc bạn không được phép truy cập.';
+        }
         $this->Flash->error(__($message));
         if ($url !== false) {
             return $this->redirect($url);
         }
     }
 
-    protected function _returnSuccess($message, $url)
+    protected function _returnSuccess($message = '', $url = false)
     {
+        if (empty($message)) {
+            $message = 'Không tìm thấy trang hoặc bạn không được phép truy cập.';
+        }
         $this->Flash->success(__($message));
         if ($url !== false) {
             return $this->redirect($url);
