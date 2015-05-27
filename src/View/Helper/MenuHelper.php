@@ -99,7 +99,7 @@ class MenuHelper extends Helper
         } else {
             $level = $this->getLevel($node);
             $user = $this->UserInfo->getUserInfo($node->get('user_id'));
-            $html .= '<article class="row" style="margin-top:60px; margin-bottom:-60px;" id="comment-id-' . $node->get('id') . '">';
+            $html .= '<article class="row" id="comment-id-' . $node->get('id') . '">';
             $html .= '<div class="col-md-2 col-sm-2 col-md-offset-' . $level . ' hidden-xs">';
             $html .= '<figure class="thumbnail">';
             $html .= $this->UserInfo->get_gravatar($user['email'], 80, 'mm', 'g', true);
@@ -147,7 +147,16 @@ class MenuHelper extends Helper
         return $html;
     }
 
-    public function createCategoriesList($node, $level = 0)
+    /**
+     * @param mixed $node Phần tử gốc trong danh sách
+     * @param int $level Cấp của phần tử đang xét trong danh sách so với phần tử gốc
+     * @param int $output Mã xuất ra cho phần tử đang xét
+     * Các giá trị: <br>
+     * <p>1: Link </p>
+     * <p>2: Plain Text có phân cấp</p>
+     * @return array Mảng chứa cấu trúc danh sách
+     */
+    public function createMultiLevelList($node, $level = 1, $output = 1)
     {
         $list = [];
         $root = false;
@@ -166,18 +175,26 @@ class MenuHelper extends Helper
 //        }
 
         if ($root) {
-            $level = 1;
+            $level = 0;
             foreach ($node as $item) {
-                $list = array_merge($list, $this->createCategoriesList($item));
+                $list = array_merge($list, $this->createMultiLevelList($item, $level, $output));
             }
         } else {
             $parent_name = $node->get('name');
-            $key = $this->Html->link(__($parent_name), $this->Url->build(['_name' => 'cat-view', 'slug' => $node->get('slug'), 'id' => $node->get('id')]));
+            switch ($output) {
+                case 1:
+                default:
+                    $key = $this->Html->link(__($parent_name), $this->Url->build(['_name' => 'cat-view', 'slug' => $node->get('slug'), 'id' => $node->get('id')]));
+                    break;
+                case 2:
+                    $key = $parent_name;
+                    break;
+            }
             $list[$key] = [];
             if ($this->childCount($node, true) !== 0) {
                 $childNodes = $this->findChildren($node);
                 foreach ($childNodes as $child) {
-                    $list[$key] = $this->createCategoriesList($child, $this->getLevel($child));
+                    $list[$key] = $this->createMultiLevelList($child, $this->getLevel($child), $output);
                 }
             }
         }
