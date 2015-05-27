@@ -86,7 +86,7 @@
                     <?php foreach ($draft_posts as $draft_post): ?>
                         <a href="<?= '/posts/edit/' . $draft_post->id ?>" class="list-group-item">
                             <h4 class="list-group-item-heading"><?= h($draft_post->title) ?> | <i class="fa fa-comment-o"></i> <?= $this->Post->getCommentsCount($draft_post->id); ?> | <?= h($draft_post->created_at) ?></h4>
-                            <p class="list-group-item-text"><?= $this->Post->echoShortBody($draft_post->body) ?></p>
+                            <p class="list-group-item-text"><?= $this->Content->echoShortText($draft_post->body) ?></p>
                         </a>
                     <?php endforeach; ?>
                 <?php } ?>
@@ -220,6 +220,6 @@
     </div>
     <!-- /.col-md-12 -->
 </div>
-<?= $this->Js->dataTable('#post-table', ['responsive' => true]) ?>
-<?= $this->Js->dataTable('#your-comment-table', ['responsive' => true]) ?>
-<?= $this->Js->dataTable('#comment-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#post-table', ['table_tools' => false]) ?>
+<?= $this->Js->dataTable('#your-comment-table', ['table_tools' => false]) ?>
+<?= $this->Js->dataTable('#comment-table', ['table_tools' => false]) ?>
