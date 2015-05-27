@@ -29,11 +29,32 @@ class PostsCell extends Cell
     }
 
     /**
-     * Display recent post method.
+     * Display popular posts method.
+     * Default: 10 recent posts.
      *
      * @return void
      */
-    public function recent_posts()
+    public function popular_posts($limit = 10)
+    {
+        $_model = $this->_name;
+        $this->loadModel($_model);
+        $popular_posts = $this->$_model->find('all', [
+            'conditions' => [
+                $_model.'.status' => 3
+            ],
+            'limit' => $limit,
+            'order' => ['clicked' => 'DESC']
+        ]);
+        $this->set('popular_posts', $popular_posts);
+    }
+
+    /**
+     * Display popular posts method.
+     * Default: 10 recent posts.
+     *
+     * @return void
+     */
+    public function recent_posts($limit = 10)
     {
         $_model = $this->_name;
         $this->loadModel($_model);
@@ -41,7 +62,7 @@ class PostsCell extends Cell
             'conditions' => [
                 $_model.'.status' => 3
             ],
-            'limit' => 10,
+            'limit' => $limit,
             'order' => ['created_at' => 'DESC']
         ]);
         $this->set('recent_posts', $recent_posts);
