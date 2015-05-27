@@ -3,4 +3,9 @@
 /logs/*
 /.idea/*
 /nbproject/private/
-/public/fonts/*
+/public/fonts/FontAwesome.otf
+/public/fonts/fontawesome-webfont.eot
+/public/fonts/fontawesome-webfont.svg
+/public/fonts/fontawesome-webfont.ttf
+/public/fonts/fontawesome-webfont.woff
+/public/fonts/fontawesome-webfont.woff2
