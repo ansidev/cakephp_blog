@@ -55,6 +55,20 @@ class PostHelper extends Helper
         return $str;
     }
 
+    public function get($post_id)
+    {
+        if ($post_id === null) {
+            return '';
+        }
+        $object = TableRegistry::get('Posts');
+        $query = $object->find('all')
+            ->select()
+            ->where(['Posts.id' => $post_id])
+            ->limit(1)
+            ->toArray();
+        return $query[0];
+    }
+
     public function getTitle($post_id)
     {
         if ($post_id === null) {
