@@ -29,11 +29,12 @@ class CommentsCell extends Cell
     }
 
     /**
-     * Display recent post method.
+     * Display recent comments method.
+     * Default: 10 recent comments.
      *
      * @return void
      */
-    public function recent_comments()
+    public function recent_comments($limit = 10)
     {
         $_model = $this->_name;
         $this->loadModel($_model);
@@ -41,7 +42,7 @@ class CommentsCell extends Cell
             'conditions' => [
                 $_model.'.status' => 3
             ],
-            'limit' => 10,
+            'limit' => $limit,
             'order' => ['created_at' => 'DESC']
         ]);
         $this->set('recent_comments', $recent_comments);
