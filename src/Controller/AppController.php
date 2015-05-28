@@ -64,6 +64,36 @@ class AppController extends Controller
         if ($this->request->param('prefix') === 'admin') {
             $this->layout = 'dashboard';
         }
+        if (in_array($this->request->param('_ext'), ['json', 'rss'])) {
+            $allowed_actions = [
+                'Posts' => [
+                    'feed' => ['rss'],
+                    'autoSlug' => ['json']
+                ],
+                'Media' => [
+                    'index' => ['json']
+                ]
+            ];
+            $controller = $this->request->param('controller');
+            $action = $this->request->param('action');
+            $ext = $this->request->param('_ext');
+            if (!array_key_exists($controller, $allowed_actions)) {
+                $this->_returnError('', '/');
+            } else if (!array_key_exists($action, $allowed_actions[$controller])) {
+                $this->_returnError('', '/');
+            } else if (!in_array($ext, $allowed_actions[$controller][$action])) {
+                $this->_returnError('', '/');
+            }
+        }
+    }
+
+
+    public function beforeRender(Event $event)
+    {
+        parent::beforeRender($event);
+//        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
+//            $this->layout = 'dashboard';
+//        }
     }
 
     /**
@@ -123,14 +153,6 @@ class AppController extends Controller
             return true;
         }
         return false;
-    }
-
-    public function beforeRender(Event $event)
-    {
-        parent::beforeRender($event);
-//        if (!empty($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') {
-//            $this->layout = 'dashboard';
-//        }
     }
 
     /**
