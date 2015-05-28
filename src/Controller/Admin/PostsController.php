@@ -93,6 +93,7 @@ class PostsController extends AppController
             $data['slug'] = $this->_toSlug($data['title']);
             $data['user_id'] = $this->Auth->User('id');
             $data['status'] = 3;
+            $data['parent_id'] = 0;
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
                 $this->Flash->success('Bài viết đã được đăng');
