@@ -5,7 +5,7 @@ if (!empty($url)) {
     $option['url'] = $url;
 }
 ?>
-<div class="media form large-10 medium-9 columns">
+<div class="media">
     <?= $this->Form->create($media, $option); ?>
     <fieldset>
         <legend><?= __('Upload Media') ?></legend>
@@ -20,3 +20,4 @@ if (!empty($url)) {
     <?= $this->Form->button(__('Upload'), ['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
 </div>
+<?php echo $this->Js->fileInput('#file'); ?>
