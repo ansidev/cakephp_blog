@@ -184,7 +184,7 @@ class MenuHelper extends Helper
             switch ($output) {
                 case 1:
                 default:
-                    $key = $this->Html->link(__($parent_name), $this->Url->build(['_name' => 'cat-view', 'slug' => $node->get('slug'), 'id' => $node->get('id')]));
+                    $key = $this->Html->link(__($parent_name), $this->Url->build(['_name' => 'cat-display', 'slug' => $node->get('slug'), 'id' => $node->get('id')]));
                     break;
                 case 2:
                     $key = $parent_name;
