@@ -204,5 +204,6 @@
         <?php echo $this->element('user_menu'); ?>
         <!-- /.dropdown -->
     <?php } ?>
+    <li><a href="/posts/feed.rss" class="navbar-link"><i class="fa fa-rss"></i></a></li>
 </ul>
 <!-- /.navbar-top-links -->
