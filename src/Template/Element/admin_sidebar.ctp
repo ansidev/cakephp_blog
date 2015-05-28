@@ -11,18 +11,18 @@
 </li>
 <?= $this->element('post_management'); ?>
 <li>
-    <?= $this->Html->link(__('<i class="fa fa-cogs fa-fw"></i> Quản lý role<span class="fa arrow"></span>'), ['controller' => 'Roles', 'action' => 'index'], ['escape' => false]) ?>
+    <?php //echo $this->Html->link(__('<i class="fa fa-cogs fa-fw"></i> Quản lý role<span class="fa arrow"></span>'), ['controller' => 'Roles', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
-        <li><?= $this->Html->link(__('Danh sách role'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('Thêm role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
+        <li><?php //echo $this->Html->link(__('Danh sách role'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
+        <li><?php //echo $this->Html->link(__('Thêm role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
     </ul>
     <!-- /.nav-second-level -->
 </li>
 <li>
-    <?= $this->Html->link(__('<i class="fa fa-cogs fa-fw"></i> Quản lý permission<span class="fa arrow"></span>'), ['controller' => 'Permissions', 'action' => 'index'], ['escape' => false]) ?>
+    <?php //echo $this->Html->link(__('<i class="fa fa-cogs fa-fw"></i> Quản lý permission<span class="fa arrow"></span>'), ['controller' => 'Permissions', 'action' => 'index'], ['escape' => false]) ?>
     <ul class="nav nav-second-level">
-        <li><?= $this->Html->link(__('Danh sách permission'), ['controller' => 'Permissions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('Thêm permission'), ['controller' => 'Permissions', 'action' => 'add']) ?></li>
+        <li><?php //echo $this->Html->link(__('Danh sách permission'), ['controller' => 'Permissions', 'action' => 'index']) ?></li>
+        <li><?php //echo $this->Html->link(__('Thêm permission'), ['controller' => 'Permissions', 'action' => 'add']) ?></li>
     </ul>
     <!-- /.nav-second-level -->
 </li>
