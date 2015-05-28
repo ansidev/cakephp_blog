@@ -79,9 +79,9 @@ Router::scope('/', function ($routes) {
             'action' => 'read'
         ],
         [
-            'slug' => '[a-z0-9-]+',
             'id' => '[0-9]+',
-            'pass' => ['slug', 'id'],
+            'slug' => '[a-z0-9-]+',
+            'pass' => ['id', 'slug'],
             '_name' => 'post-read'
         ]
     );
@@ -91,15 +91,31 @@ Router::scope('/', function ($routes) {
         [
             'prefix' => false,
             'controller' => 'Categories',
-            'action' => 'view'
+            'action' => 'display'
         ],
         [
-            'slug' => '[a-z0-9-]+',
             'id' => '[0-9]+',
-            'pass' => ['slug', 'id'],
-            '_name' => 'cat-view'
+            'slug' => '[a-z0-9-]+',
+            'pass' => ['id', 'slug'],
+            '_name' => 'cat-display'
         ]
     );
+    $routes->connect(
+        '/tag/:slug-:id.html',
+        [
+            'prefix' => false,
+            'controller' => 'Tags',
+            'action' => 'display'
+        ],
+        [
+            'id' => '[0-9]+',
+            'slug' => '[a-z0-9-]+',
+            'pass' => ['id', 'slug'],
+            '_name' => 'tag-display'
+        ]
+    );
+    $routes->extensions(['json', 'rss']);
+    $routes->resources('Posts', ['only' => ['feed']]);
     /**
      * Connect catchall routes for all controllers.
      *
