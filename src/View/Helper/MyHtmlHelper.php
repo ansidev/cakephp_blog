@@ -33,6 +33,14 @@ class MyHtmlHelper extends Helper
         parent::__construct($View, $config);
     }
 
+    public function script($url, array $options = []) {
+        $default_options = [
+            'block' => 'script'
+        ];
+        $options = array_merge($default_options, $options);
+        return $this->Html->script($url, $options);
+    }
+
     public function listItem($title, $options = [])
     {
         if ($title === null) {
