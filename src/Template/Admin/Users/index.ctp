@@ -64,4 +64,4 @@
     <!-- /.row -->
 </div>
 <!-- /#users -->
-<?= $this->Js->dataTable('#user-table', ['responsive' => true])?>
+<?= $this->Js->dataTable('#user-table')?>

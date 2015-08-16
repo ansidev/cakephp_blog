@@ -19,10 +19,13 @@ class MediaController extends AppController
         parent::beforeFilter($event);
         $this->layout = 'dashboard';
         $this->Upload->uploadDir .= DS . Time::now()->i18nFormat('YYYY/MM/dd');
+        $this->Upload->fileVar = 'file';
         if (in_array($this->request->param('action'), ['upload']) && $this->request->is('post')) {
-//            debug($this->request->data); die;
             $data = $this->request->data;
-            $name = $data['file']['name'];
+            if (empty($data['file'])) {
+                $this->Upload->fileVar = 'thumbnail_url';
+            }
+            $name = $data[$this->Upload->fileVar]['name'];
             if (empty($data['title'])) {
                 $data['title'] = str_replace('-', ' ', $this->_toSlug(pathinfo($name)['filename']));
             }
@@ -30,12 +33,13 @@ class MediaController extends AppController
             if (empty($data['slug'])) {
                 $data['slug'] = $this->autoSlug($data['title']);
             }
-            $data['file']['name'] = $data['slug'] . '-' . Time::now()->i18nFormat('YYYY-MM-dd');
-            $img_size = getimagesize($data["file"]["tmp_name"]);
-            if ($img_size) {
-                $data['file']['name'] .= '-w' . $img_size[0] . '-h' . $img_size[1] . '-' . md5_file($data["file"]["tmp_name"]);
-            }
-            $data['file']['name'] .= '.' . pathinfo($name)['extension'];
+            $data[$this->Upload->fileVar]['name'] = $this->__processFileName($data[$this->Upload->fileVar]['name']);
+            $data[$this->Upload->fileVar]['name'] = $data['slug'] . '-' . Time::now()->i18nFormat('YYYY-MM-dd');
+//            $img_size = getimagesize($data[$this->Upload->fileVar]['tmp_name']);
+//            if ($img_size) {
+//                $data[$this->Upload->fileVar]['name'] .= '-w' . $img_size[0] . '-h' . $img_size[1] . '-' . md5_file($data["file"]["tmp_name"]);
+//            }
+            $data[$this->Upload->fileVar]['name'] .= '.' . pathinfo($name)['extension'];
             $this->request->data = $data;
         }
     }
@@ -87,12 +91,14 @@ class MediaController extends AppController
         $media = $this->Media->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data;
-            // Neu file upload thanh cong thi luu thong tin vao database
             if (!empty($this->Upload->finalFile)) {
                 $data['user_id'] = $this->Auth->User('id');
                 $data['relative_path'] = $this->Upload->finalFile;
-                $data['mime_type'] = $data['file']['type'];
-                $data['file_name'] = $data['file']['name'];
+                $data['mime_type'] = $data[$this->Upload->fileVar]['type'];
+                $data['file_name'] = $data[$this->Upload->fileVar]['name'];
+                if (empty($data['description'])) {
+                    $data['description'] = $data['title'];
+                }
                 $description = [
                     'title' => $data['title'],
                     'file_name' => $data['file_name'],
@@ -106,10 +112,16 @@ class MediaController extends AppController
                 $data['status'] = 1;
                 $data['created_at'] = $data['updated_at'] = Time::now();
                 $media = $this->Media->patchEntity($media, $data);
+                // Neu file upload thanh cong thi luu thong tin vao database
                 if ($this->Media->save($media)) {
+                    if ($this->request->is('ajax')) {
+                        $this->response->body(json_encode(['url' => $this->__url($data['relative_path'])]));
+                        return $this->response;
+                    }
+
                     $this->Flash->success('Tập tin đã được upload thành công.');
 //                    if (!$this->request->is('requested')) {
-                        return $this->redirect(['action' => 'upload']);
+                    return $this->redirect(['action' => 'index']);
 //                    }
                 }
             } else {
@@ -226,5 +238,12 @@ class MediaController extends AppController
                 return $rs;
             }
         }
+    }
+
+    private function __processFileName($filename) {
+        $result = str_replace('[', '', $filename);
+        $result = str_replace('"', '', $filename);
+        $result = str_replace(']', '', $filename);
+        return $result;
     }
 }

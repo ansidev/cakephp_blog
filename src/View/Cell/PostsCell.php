@@ -67,4 +67,17 @@ class PostsCell extends Cell
         ]);
         $this->set('recent_posts', $recent_posts);
     }
+    public function sticked_posts()
+    {
+        $_model = $this->_name;
+        $this->loadModel($_model);
+        $sticked_posts = $this->$_model->find('all', [
+            'conditions' => [
+                $_model.'.status' => 3,
+                $_model.'.pinned' => true,
+            ],
+            'order' => ['created_at' => 'DESC']
+        ])->toArray();
+        $this->set('posts', $sticked_posts);
+    }
 }

@@ -13,9 +13,9 @@
     <div class="row">
         <div class="col-md-12">
             <?= $this->fetch('slider') ?>
-            <?php echo $this->element('Slider/carousel') ?>
-            <!--    --><?php //echo $this->element('Slider/slidesjs') ?>
-            <!--    --><?php //echo $this->element('Slider/nivo-slider') ?>
+            <?= $this->cell('Posts::sticked_posts'); ?>
+            <?php //echo $this->element('Slider/slidesjs') ?>
+            <?php //echo $this->element('Slider/nivo-slider') ?>
         </div>
     </div>
     <!-- Site Header -->
@@ -51,13 +51,15 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- Post(s) -->
-                    <?= $this->fetch('posts') ?>
+                    <?php echo $this->fetch('posts') ?>
                     <!-- Comments -->
-                    <?= $this->fetch('comments') ?>
-                    <?= $this->fetch('content') ?>
+                    <?php echo $this->fetch('comments') ?>
+                    <?php echo $this->fetch('content') ?>
+                    <!-- End Content-->
                 </div>
             </div>
         </div>
+        <!-- End Blog entries-->
 
         <!-- Blog Sidebar Widgets Column -->
         <div class="col-lg-3 col-md-3 col-sm-12">

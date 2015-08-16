@@ -82,19 +82,20 @@ CKEDITOR.stylesSet.add( 'default', [
 	{
 		name: 'Styled image (left)',
 		element: 'img',
-		attributes: { 'class': 'left' }
+		attributes: { 'class': 'img-responsive left' }
 	},
 
 	{
 		name: 'Styled image (right)',
 		element: 'img',
-		attributes: { 'class': 'right' }
+		attributes: { 'class': 'img-responsive right' }
 	},
 
 	{
 		name: 'Compact table',
 		element: 'table',
 		attributes: {
+            'class': 'table',
 			cellpadding: '5',
 			cellspacing: '0',
 			border: '1',

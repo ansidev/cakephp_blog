@@ -1,4 +1,4 @@
-<div class="well" style="border-radius: 0">
+<div class="well">
 <!--    <h4>Bài viết xem nhiều</h4>-->
 
     <div class="row">

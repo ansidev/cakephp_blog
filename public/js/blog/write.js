@@ -24,7 +24,7 @@ $(document).ready(function () {
     });
     var i = 0;
     $('#image-box').on('show.bs.modal', function () {
-        //console.log('started');
+        loadMedia();
         initFreeWall();
         if (i === 0) {
             fullScreen();
@@ -52,4 +52,27 @@ function normalScreen() {
     if (typeof request != "undefined" && request) {
         request.call(docElement);
     }
+}
+
+function loadMedia() {
+    var url = '/media';
+    $.ajax({
+        type: "post",  // Request method: post, get
+        url: url, // URL to request
+        success: function (response) {
+            var json = JSON.parse(response);
+            var i = 0;
+            $('#post-slug').val(json[0]);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    return false;
+    //var post = $.post(url);
+    //post.done(function (response) {
+    //    console.log(response);
+    //    //$('#post-slug').val(response.slug);
+    //});
+
 }

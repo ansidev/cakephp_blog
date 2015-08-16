@@ -83,4 +83,4 @@
     </div>
     <!-- /.row -->
 </div>
-<?= $this->Js->dataTable('#comment-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#comment-table') ?>

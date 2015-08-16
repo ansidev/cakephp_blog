@@ -1,9 +1,9 @@
 <div class="well">
-    <h4>Bài viết gần đây</h4>
+<!--    <h4>Bài viết gần đây</h4>-->
 
     <div class="row">
         <div class="col-lg-12">
-            <ul class="list-unstyled">
+            <ul style="padding-top: 5px; padding-left: 20px">
                 <?php foreach ($recent_posts as $post): ?>
                     <li>
                         <?= $this->Html->link(__($post->title), $this->Url->build(['_name' => 'post-read', 'slug' => $post->slug, 'id' => $post->id])) ?>

@@ -1,22 +1,14 @@
-<div class="actions columns large-2 medium-3">
-    <h3><?= __('Actions') ?></h3>
-    <ul class="side-nav">
-        <li><?= $this->Html->link(__('List Categories'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'write']) ?> </li>
-    </ul>
-</div>
-<div class="categories form large-10 medium-9 columns">
+<div class="categories form">
     <?= $this->Form->create($category); ?>
     <fieldset>
-        <legend><?= __('Add Category') ?></legend>
+        <legend><?= __('Thêm chủ đề mới') ?></legend>
         <?php
-            echo $this->Form->input('name');
-            echo $this->Form->input('slug');
-            echo $this->Form->input('parent_id', ['options' => $parentCategories]);
-            echo $this->Form->input('path');
+        echo $this->Form->input('name', ['label' => 'Chủ đề']);
+        echo $this->Form->input('slug');
+        echo $this->Form->input('parent_id', ['options' => $categories, 'empty' => '(none)']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
 </div>
+<?= $this->Html->script('blog/category'); ?>

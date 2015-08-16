@@ -1,3 +1,4 @@
+<?= $this->Html->script('blog/write') ?>
 <div class="modal fade" id="<?= $id ?>" tabindex="-1">
     <div class="modal-dialog modal-lg" style="width: 100%">
         <div class="modal-content">

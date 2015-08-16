@@ -9,26 +9,18 @@
     <?php endif; ?>
     <!-- /.row -->
     <div id="freewall" class="row free-wall">
-        <?php foreach ($media as $media): ?>
-            <a href="#" id="<?= h($media->slug) ?>">
-                <div class="brick">
-                    <div class="info">
-                        <input class="checkbox" type="checkbox" id="cb-<?= h($media->slug) ?>">
-                    </div>
-
-                    <img class="img-responsive"
-                         src="<?= $this->Media->url($media->relative_path) ?>" width="100%"
-                         id="img-<?= h($media->slug) ?>">
-
-                    <div class="info">
-                        <h3><?= h($media->title) ?></h3>
-                        <h5><?php echo json_decode($media->description, true)['description'] ?></h5>
-                    </div>
-                </div>
-            </a>
-        <?php endforeach; ?>
+        <?php foreach ($media as $media) {
+            echo $this->element('Media/media_item', ['media' => $media]);
+        } ?>
     </div>
 </div>
+<nav class="paginator">
+    <ul class="pagination">
+        <?= $this->Paginator->prev('< ' . __('Trước')) ?>
+        <?= $this->Paginator->numbers() ?>
+        <?= $this->Paginator->next(__('Sau') . ' >') ?>
+    </ul>
+</nav>
 <style type="text/css">
     .free-wall {
         margin: 15px;
@@ -67,7 +59,7 @@
         text-shadow: none;
     }
 </style>
-<?php echo $this->Html->script('/js/freewall'); ?>
+<?php echo $this->Html->script('http://cakephp.dev/js/freewall.js'); ?>
 <script type="text/javascript">
     <?php if ($this->request->params['controller'] === 'Media'): ?>
     $(document).ready(function () {
@@ -89,7 +81,6 @@
         wall.container.find('.brick img').load(function () {
             wall.fitWidth();
         });
-        console.log('fit width');
         wall.fitWidth();
     }
 </script>

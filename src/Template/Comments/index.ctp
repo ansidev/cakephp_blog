@@ -106,5 +106,5 @@
     </div>
     <!-- /.col-md-12 -->
 </div>
-<?= $this->Js->dataTable('#your-comment-table', ['responsive' => true]) ?>
-<?= $this->Js->dataTable('#comment-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#your-comment-table') ?>
+<?= $this->Js->dataTable('#comment-table') ?>

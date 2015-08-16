@@ -1,13 +1,13 @@
 <div id="posts">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
             <h1 class="page-header">Quản lý bài viết</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Danh sách bài viết
@@ -106,4 +106,4 @@
     <!-- /.row -->
 </div>
 <!-- /#users -->
-<?= $this->Js->dataTable('#post-table', ['responsive' => true]) ?>
+<?= $this->Js->dataTable('#post-table') ?>

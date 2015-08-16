@@ -13,6 +13,7 @@ use Cake\View\Helper;
 
 class PostHelper extends Helper
 {
+    public $helpers = ['Text', 'Html', 'Url', 'Content'];
     protected $_status = [
         0 => 'Bản nháp',
         1 => 'Chờ duyệt',
@@ -104,7 +105,7 @@ class PostHelper extends Helper
         }
         $object = TableRegistry::get('PostsCategories');
         $query = $object->find()
-            ->select(['Categories.name'])
+            ->select(['Categories.name', 'Categories.id', 'Categories.slug'])
             ->innerJoin(
                 ['Categories' => 'categories'],
                 [
@@ -115,9 +116,9 @@ class PostHelper extends Helper
             ->toArray();
         $result = [];
         foreach ($query as $row) {
-            $result[] = $row->Categories['name'];
+            $result[] = $this->Html->link(__($row->Categories['name']), $this->Url->build(['_name' => 'cat-display', 'slug' => $row->Categories['slug'], 'id' => $row->Categories['id']]), ['class' => 'btn btn-xs btn-primary']);
         };
-        return implode(', ', $result);
+        return implode(' ', $result);
     }
 
     public function getTags($id)
@@ -127,7 +128,7 @@ class PostHelper extends Helper
         }
         $object = TableRegistry::get('PostsTags');
         $query = $object->find()
-            ->select(['Tags.name'])
+            ->select(['Tags.name', 'Tags.id', 'Tags.slug'])
             ->innerJoin(
                 ['Tags' => 'tags'],
                 [
@@ -138,9 +139,10 @@ class PostHelper extends Helper
             ->toArray();
         $result = [];
         foreach ($query as $row) {
-            $result[] = $row->Tags['name'];
+            $result[] = $this->Html->link(__($row->Tags['name']), $this->Url->build(['_name' => 'tag-display', 'slug' => $row->Tags['slug'], 'id' => $row->Tags['id']]), ['class' => 'btn btn-xs btn-danger']);
+
         };
-        return implode(', ', $result);
+        return implode(' ', $result);
     }
 
     public function getCommentsCount($post_id)
@@ -191,5 +193,39 @@ class PostHelper extends Helper
             ->all()
             ->toArray();
         return $query;
+    }
+
+    public function getThumbnailImage($id, $url = null)
+    {
+        $link = empty($url) ? h('/img/default.gif') : h($url);
+        $html = '<img src="' . $link . '" class="img-responsive" alt="thumbnail-img-' . $id . '"/>';
+        return $html;
+    }
+
+    public function getThumbnailImageUrl($url = null)
+    {
+        $link = empty($url) ? h('/img/default.gif') : h($url);
+        return $link;
+    }
+
+    public function getCarouselItem($post, $active = false)
+    {
+        $options = [
+            'thumbnail_url' => $this->getThumbnailImageUrl($post['thumbnail_url']),
+            'title' => $post['title'],
+            'body' => $this->Content->echoShortText($post['body'], 200),
+            'post_url' => $this->Url->build(['_name' => 'post-read', 'slug' => $post['slug'], 'id' => $post['id']]),
+            'active' => $active
+        ];
+//        $html = '';
+//        $html .= '<div class="item active">';
+//        $html .= '<img src="' . $options['thumbnail_url'] . '" style="width:100%" class="img-responsive"/>';
+//        $html .= '<div class="container">';
+//        $html .= '<div class="carousel-caption">';
+//        $html .= '<h1>' . $options['title'] . '</h1>';
+//        $html .= '<p>' . $options['body'] . '</p>';
+//        $html .= '<p><a class="btn btn-lg btn-primary" href="' . $options['post_url'] . '">Xem thêm</a ></p >';
+//        $html .= '</div></div></div>';
+        return $options;
     }
 }

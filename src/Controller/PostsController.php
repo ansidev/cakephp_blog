@@ -12,10 +12,16 @@ use Cake\I18n\Time;
 class PostsController extends AppController
 {
 
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+    }
+
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        if (!in_array($this->request->param('action'), ['read', 'search', 'display'])) {
+        if (!in_array($this->request->param('action'), ['read', 'search', 'display', 'feed', 'autoSlug'])) {
             $user = $this->Auth->User();
             if (!empty($user)) {
                 if ($this->isAdmin($user)) {
@@ -23,7 +29,7 @@ class PostsController extends AppController
                 }
             }
         }
-        $this->Auth->allow(['read', 'search', 'display']);
+        $this->Auth->allow(['read', 'search', 'display', 'feed']);
     }
 
     /**
@@ -54,10 +60,19 @@ class PostsController extends AppController
             'conditions' => [
 //                'Posts.parent_id' => 0,
                 'Posts.status' => 3,
+                'Posts.pinned' => false,
             ],
-            'order' => ['Posts.created_at' => 'DESC'],
-            'limit' => 2
+            'order' => ['Posts.created_at' => 'DESC']
+//            'limit' => 100
         ];
+//        $sticky_post = $this->Posts->find('all', [
+//            'contain' => ['Users'],
+//            'conditions' => [
+//                'Posts.status' => 3,
+//                'Posts.pinned' => true,
+//            ]
+//        ]);
+//        $this->set(compact('sticky_post'));
         $this->set('posts', $this->paginate($this->Posts));
         $this->set('_serialize', ['posts']);
     }
@@ -97,12 +112,17 @@ class PostsController extends AppController
      * @return void
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function read($slug = null, $id = null)
+    public function read($id = null, $slug = null)
     {
+        $post = $this->Posts->get($id, [
+            'contain' => ['Categories', 'Tags']
+        ]);
+        $post->clicked += 1;
+        $this->Posts->save($post);
         $conditions = [
-            'Posts.slug' => $slug
+            'Posts.slug' => $slug,
+            'Posts.status' => 3
         ];
-        $conditions['Posts.status'] = 3;
         if ($this->request->query('preview') && $this->isLoggedIn()) {
             unset($conditions['Posts.status']);
         }
@@ -118,7 +138,7 @@ class PostsController extends AppController
             $this->_returnError('Không tìm thấy trang hoặc bạn không được phép truy cập.', '/');
         }
         $this->loadModel('Comments');
-        $comment = $this->Comments->newEntity();
+//        $comment = $this->Comments->newEntity();
 //        $post = $this->Posts->find('all', [
 //            'contain' => ['ParentPosts', 'Users', 'Categories', 'Tags', 'Comments', 'ChildPosts'],
 //            'conditions' => [
@@ -140,7 +160,8 @@ class PostsController extends AppController
                 'limit' => 10,
                 'order' => ['Comments.created_at' => 'DESC']
             ]);
-        $this->set(compact('comment', 'published_comments'));
+        $this->set(compact('published_comments'));
+//        $this->set(compact('comment'));
 //        $this->set(compact('associated_post', 'level'));
         $this->set('post', $post);
         $this->set('_serialize', ['post']);
@@ -160,6 +181,7 @@ class PostsController extends AppController
             $data = $this->request->data;
             $data['user_id'] = $this->Auth->User('id');
             $data['status'] = 1;
+            $data['parent_id'] = 0;
             $data['created_at'] = $data['updated_at'] = Time::now();
             $post = $this->Posts->patchEntity($post, $data);
             if ($this->Posts->save($post)) {
@@ -311,7 +333,7 @@ class PostsController extends AppController
     public function autoSlug($title)
     {
         $_model = $this->request->param('controller');
-        $this->request->allowMethod(['post', 'ajax']);
+        $this->request->allowMethod(['post']);
         if (!empty($title)) {
             $slug = $this->_toSlug($title);
             if ($this->request->is('ajax')) {
@@ -352,11 +374,20 @@ class PostsController extends AppController
                 }
             }
             if ($this->request->is('ajax')) {
-                $this->response->body(json_encode([0 => $rs]));
+                $this->response->body(json_encode(['slug' => $rs]));
                 return $this->response;
             } else {
+//                $this->set(
+//                    [
+//                        'slug' => $rs,
+//                        '_serialize' => [
+//                            'slug'
+//                        ]
+//                    ]
+//                );
                 return $rs;
             }
+
         }
     }
 
@@ -421,10 +452,24 @@ class PostsController extends AppController
 
         $results = array_unique(array_merge($post_by_title, $post_by_body));
         $this->set(compact('results', 'keyword'));
-//        $this->set('_serialize', ['']);
+        $this->set('_serialize', ['results', 'keyword']);
 
 //        debug($post_by_title);
 //        debug($post_by_body);
 //        debug($results);
+    }
+
+    public function feed()
+    {
+//        $this->layout = 'front_page';
+        if ($this->RequestHandler->isRss()) {
+            $posts = $this->Posts
+                ->find()
+//                ->limit(20)
+                ->order(['created_at' => 'DESC']);
+            $this->set(compact('posts'));
+        } else {
+            return $this->redirect('/');
+        }
     }
 }
